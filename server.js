@@ -6,16 +6,16 @@ const app = express();
 const port = 4096;
 
 // 设置静态文件目录
-app.use(express.static('tools'));
+app.use(express.static('public'));
 app.use(express.static('funcjs'));
 
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/tools/index.html');
+    res.sendFile(__dirname + '/public/index.html');
 });
 
 app.get('/index', (req, res) => {
-    res.sendFile(__dirname + '/tools/index.html');
+    res.sendFile(__dirname + '/public/index.html');
   });
 
 app.get('/txt2m3u', async (req, res) => {
