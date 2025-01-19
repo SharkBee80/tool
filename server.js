@@ -15,7 +15,6 @@ app.get('/txt2m3u.html', async (req, res) => {
   } else {
     txt2m3uPage(res, txtUrl)
   }
-
 });
 
 //
