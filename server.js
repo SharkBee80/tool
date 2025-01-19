@@ -7,11 +7,10 @@ const app = express();
 const port = 4096;
 
 //先定义动态路由
-app.get('/txt2m3u.html', async (req, res) => {
+app.get('/txt2m3u', async (req, res) => {
   const txtUrl = req.query.url;
   if (!txtUrl) {
-    res.sendFile(__dirname + '/public/txt2m3u.html');
-    //return res.status(400).send('缺少必要的 url 参数');
+    return res.status(400).send('缺少必要的 url 参数');
   } else {
     txt2m3uPage(res, txtUrl)
   }

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>在线M3U转TXT格式</title>
+  <meta name="description" content="一个简单的在线M3U转TXT格式工具，纯前端处理，无需上传文件，安全可靠。">
+  <meta name="keywords" content="m3u转txt,m3u转换,txt生成;txt转m3u,txt转换,m3u生成">
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    h2 {
+      color: #333;
+    }
+    #inputContainer {
+      margin-top: 10px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #666;
+    }
+    textarea, #txtOutput {
+      width: 800px;
+      height: 300px;
+      box-sizing: border-box;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 10px;
+      font-size: 14px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #txt,#m3u {
+      margin-top: 5px;
+      background-color: #fff;
+      color: #333;
+    }
+
+    #copyright {
+      margin-top: 20px;
+      color: #666;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h2>在线TXT-M3U格式</h2>
+  <h3>TXT格式:</h3>
+  <div id="inputContainer"> 
+    <textarea id="txt" rows="10" cols="80"></textarea>
+  </div>
+  <button onclick="convertToM3U()">生成M3U</button>  
+  <button onclick="copyM3U()">拷贝M3U</button>
+  <button onclick="saveAsM3U()">保存M3U</button>
+
+  <button onclick="clearScreen()">清除屏幕</button>
+
+  <button onclick="convertToTXT()">生成TXT</button>
+  <button onclick="copyTXT()">拷贝TXT</button>
+  <button onclick="saveAsTXT()">保存TXT</button>
+
+
+
+
+  <h3>M3U格式:</h3>
+  <div id="inputContainer">
+    <textarea id="m3u" rows="10" cols="80"></textarea>
+  </div>
+  <div id="copyright">
+    <p>© SharkBee80.</p>
+  </div>
+  <script>
+    function convertToM3U() {
+      const txtInput = document.getElementById('txt').value;
+      const lines = txtInput.split('\n');
+      let m3uOutput = '#EXTM3U x-tvg-url="https://live.fanmingming.cn/e.xml"\n';
+      let currentGroup = null;
+      for (const line of lines) {
+        const trimmedLine = line.trim();
+        if (trimmedLine !== '') {
+          if (trimmedLine.includes('#genre#')) {
+            currentGroup = trimmedLine.replace(/,#genre#/, '').trim();
+          } else {
+            const [originalChannelName, channelLink] = trimmedLine.split(',').map(item => item.trim());
+            const processedChannelName = originalChannelName.replace(/(CCTV|CETV)-(\d+).*/, '$1$2');
+            m3uOutput += `#EXTINF:-1 tvg-name="${processedChannelName}" tvg-logo="https://live.fanmingming.cn/tv/${processedChannelName}.png"`;
+            if (currentGroup) {
+              m3uOutput += ` group-title="${currentGroup}"`;
+            }
+            m3uOutput += `,${originalChannelName}\n${channelLink}\n`;
+          }
+        }
+      }
+      document.getElementById('m3u').value = m3uOutput;
+    }
+    function convertToTXT() {
+      const m3uInput = document.getElementById('m3u').value;
+      const lines = m3uInput.split('\n');
+      let txtOutput = '';
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (line.startsWith('#EXTINF:')) {
+          const channelInfo = line.split(',', 2)[1];
+          const channelLink = lines[i + 1] ? lines[i + 1].trim() : '';
+          txtOutput += `${channelInfo},${channelLink}\n`;
+        }
+      }
+      document.getElementById('txt').value = txtOutput;
+    }
+
+    function clearScreen() {
+      document.getElementById('m3u').value = '';
+      document.getElementById('txt').value = '';
+    }
+
+    function copyM3U() {
+      const m3u = document.getElementById('m3u');
+      m3u.select();
+      document.execCommand('copy');
+      alert('M3U已复制到剪贴板！');
+    }
+    function copyTXT() {
+      const txt = document.getElementById('txt');
+      txt.select();
+      document.execCommand('copy');
+      alert('TXT已复制到剪贴板！');
+    }
+
+    function saveAsM3U() {
+      const m3uContent = document.getElementById('m3u').value;
+      const blob = new Blob([m3uContent], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'playlist.m3u';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+    function saveAsTXT() {
+      const txtContent = document.getElementById('txt').value;
+      const blob = new Blob([txtContent], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'playlist.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  </script>
+</body>
+</html>

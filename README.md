@@ -5,8 +5,7 @@
 
 ## 在线转换
 
-m3u-to-txt<br>
-txt-to-m3u
+txt↹m3u
 
 
 ## LICENSE
