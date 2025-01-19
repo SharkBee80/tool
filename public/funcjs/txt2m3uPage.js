@@ -31,7 +31,14 @@ async function fetchTextFile(res, url) {
         if (!response.ok) {
             throw new Error(`请求失败，状态码：${response.status}`);
         }
+
+        const contentType = response.headers.get('Content-Type'); // 判断是否text
+        if (contentType && contentType.includes('text/plain')) {} else{
+            throw new Error('Web is not a text');
+        }
+
         const txtInput = await response.text();
+
         if (typeof txtInput !== 'string') {
             throw new Error('Response is not a string');
         }
@@ -40,12 +47,11 @@ async function fetchTextFile(res, url) {
     } catch (error) {
         console.error('获取文件时出错：', error);
         res.send('获取文件时出错：' + error)
-        return
     }
 }
 
 function txt2m3uPage(res, url) {
-    txtInput = fetchTextFile(res, url)
+    fetchTextFile(res, url)
 }
 
 module.exports = txt2m3uPage;
