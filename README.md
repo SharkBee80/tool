@@ -5,8 +5,8 @@
 
 ## 在线转换
 
-txt↹m3u
-
+TXT↔M3U
+IMG-TO-ICO
 
 ## LICENSE
 

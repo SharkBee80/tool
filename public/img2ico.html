@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>图片转ICO</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        div {
+            padding: 0 1rem;
+        }
+
+        .main {
+            display: block;
+            padding: 5px;
+            margin: auto;
+            max-width: 36%;
+            position: absolute;
+            left: 0;
+            right: 0;
+        }
+
+        h2 {
+            text-align: left;
+            font-size: 18px;
+        }
+
+        .mbox {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sbox {
+            margin: auto auto auto 2rem;
+        }
+
+        .radio {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .bg {
+            background-color: aqua;
+            cursor: auto;
+            border-radius: 36px;
+        }
+
+        .btn {
+            background-color: black;
+            color: aliceblue;
+            border-radius: 9px;
+        }
+
+        .t {
+            color: red;
+        }
+
+        .input {
+            border: solid 1px;
+            border-radius: 3px;
+            border-color: #0000004b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main bg">
+        <h1>ICO 图标在线转换</h1>
+
+        <div class="mbox">
+            <h2>上传图片</h2>
+            <input type="file" class="input sbox" id="fileInput" accept="image/*" />
+        </div>
+
+        <div class="mbox">
+            <h2>选择尺寸：</h2>
+            <div class="radio sbox">
+                <label class="flex items-center">
+                    <input type="radio" name="size" value="16" class="mr-2" />
+                    <span>16×16</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="size" value="32" class="mr-2" />
+                    <span>32×32</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="size" value="48" class="mr-2" />
+                    <span>48×48</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="size" value="64" class="mr-2" checked />
+                    <span>64×64</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="size" value="128" class="mr-2" />
+                    <span>128×128</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="size" value="256" class="mr-2" />
+                    <span>256×256</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="size" value="512" class="mr-2" />
+                    <span>512×512</span>
+                </label>
+            </div>
+        </div>
+        <div>
+            <p class="t">需要注意：图片格式为 JPG、GIF、PNG 格式，建议长宽比 1:1</p>
+        </div>
+        <button class="btn" id="convertButton">生成ICO图标</button>
+
+        <a id="downloadLink" style="display:none;"></a>
+
+    </div>
+
+    <script>
+        document.getElementById('convertButton').addEventListener('click', async function () {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length === 0) {
+                alert('请先选择一个图片文件');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+            formData.append('size', document.querySelector('input[name="size"]:checked').value)
+
+            try {
+                const response = await fetch('/img2ico', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    throw new Error('转换失败');
+                }
+
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const downloadLink = document.getElementById('downloadLink');
+                downloadLink.href = url;
+                downloadLink.download = 'converted.ico';
+                downloadLink.click();
+            } catch (error) {
+                alert('发生错误：' + error.message);
+            }
+        });
+    </script>
+</body>
+
+</html>

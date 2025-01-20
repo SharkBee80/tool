@@ -1,10 +1,33 @@
+const port = 4096;
+
 const express = require('express');
 const path = require('path');
+const multer = require('multer');
+const fs = require('fs');
 
 const txt2m3uPage = require('./public/funcjs/txt2m3uPage');
+const img2ico = require('./public/funcjs/img2ico')
 
 const app = express();
-const port = 4096;
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir); // 如果没有该目录，创建它
+}
+const outputDir = path.join(__dirname, 'outputs');
+if (!fs.existsSync(outputDir)) {
+  fs.mkdirSync(outputDir); // 如果没有该目录，创建它
+}
+
+// 配置文件上传存储
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // 时间戳 + 原始扩展名
+  }
+});
+const upload = multer({ storage });
 
 //先定义动态路由
 app.get('/txt2m3u', async (req, res) => {
@@ -14,6 +37,10 @@ app.get('/txt2m3u', async (req, res) => {
   } else {
     txt2m3uPage(res, txtUrl)
   }
+});
+
+app.post('/img2ico', upload.single('image'), async (req, res) => {
+  img2ico(req, res)
 });
 
 //
