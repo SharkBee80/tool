@@ -27,8 +27,8 @@ async function img2ico(req, res) {
         const inputFilePath = path.join(__dirname, input, req.file.path);
         const outputFilePath = path.join(__dirname, output, 'output.ico');
         const size = Number(req.body.size)
-        console.log(size)
-        console.log('上传的文件:', inputFilePath);
+        //console.log(size)
+        //console.log('上传的文件:', inputFilePath);
         // 确保文件存在
         if (!fs.existsSync(inputFilePath)) {
             return res.status(400).send('上传的文件丢失');
@@ -38,7 +38,7 @@ async function img2ico(req, res) {
             .resize(size, size) // 可选：根据需要调整大小
             .toFile(outputFilePath);
 
-        console.log('文件转换成功:', outputFilePath);
+        //console.log('文件转换成功:', outputFilePath);
 
         // 返回转换后的文件
         res.sendFile(outputFilePath, () => {
