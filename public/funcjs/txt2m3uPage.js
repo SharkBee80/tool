@@ -26,6 +26,10 @@ function convertToM3U(res, txtInput) {
 }
 
 async function fetchTextFile(res, url) {
+    // 检查 URL 是否以 http:// 或 https:// 开头，如果没有，则自动添加 http://
+    if (!/^https?:\/\//i.test(url)) {
+        url = 'http://' + url;  // 默认添加 http://
+    }
     try {
         const response = await fetch(url);
         if (!response.ok) {

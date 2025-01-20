@@ -1,4 +1,10 @@
-function redirect(targetUrl,res) {
+function redirect(targetUrl, res) {
+    const target = targetUrl
+    // 检查 URL 是否以 http:// 或 https:// 开头，如果没有，则自动添加 http://
+    if (!/^https?:\/\//i.test(targetUrl)) {
+        targetUrl = 'http://' + targetUrl;  // 默认添加 http://
+    }
+
     res.send(`
         <!DOCTYPE html>
         <html lang="zh-CN">
@@ -29,7 +35,7 @@ function redirect(targetUrl,res) {
             <div style=" text-align: center;display: block;padding: 5px;margin: 50px auto;max-width: 36%;position: absolute;left: 0;right: 0;background-color: beige;border-radius: 15px;">
                 <h2>页面即将跳转...</h2>
                 <p>如果没有自动跳转，<a href="${targetUrl}">点击这里</a>。</p>
-                <p>您将会在 <span id="countdown">5</span> 秒后被转到 <a style="color: red;">${targetUrl}</a>。</p>
+                <p>您将会在 <span id="countdown">5</span> 秒后被转到 <a style="color: red;">${target}</a>。</p>
             </div>
         </body>
 
