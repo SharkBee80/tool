@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JSON转TREE</title>
+    <meta name="keywords" content="JSON,JSON解析,JSON格式化,JSON编辑">
+    <meta name="description" content="在线JSON格式化工具,JSON解析,JSON格式化,JSON编辑">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="static/css/font-awesome/5.10.0-11/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="static/css/jsoneditor/6.1.0/json2tree.css">
+    <style>
+        .container {
+            max-width: 100%;
+        }
+        #area_tree, pre {
+            overflow: auto;
+        }
+
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <h1>JSON转TREE</h1>
+            <div class="flex mt1">
+                <div class="editarea" onpaste="setTimeout(toTree, 1)">
+                    <label>Json</label>
+                    <pre id="area_json" class="textarea fullHeight fixed-size" contenteditable="true">
+[
+    {
+        "id": 1234334,
+        "name": "Makabreli",
+        "cadence": "high",
+        "recognition": {
+            "red": "red",
+            "green": {
+                "hue1": "#508D69",
+                "hue2": "#D0F288",
+                "hue3": "#D0F288",
+                "hue4": "#DCFFB7"
+            },
+            "blue": "blue",
+            "purple": "purple",
+            "yellow": {
+                "hue1": "#FFBB64",
+                "hue2": "#FFCF81",
+                "hue3": "#F8E559"
+            },
+            "pink": "pink"
+        }
+    },
+    {
+        "id": 1234335,
+        "name": "Norello",
+        "cadence": "low",
+        "recognition": {
+            "orange": "orange",
+            "yellow": "yellow"
+        }
+    },
+    {
+        "id": 1234336,
+        "name": "Martinelli",
+        "cadence": "medium",
+        "recognition": {
+            "deep pink": "deep pink",
+            "lime": "lime",
+            "orange": "orange",
+            "blue": {
+                "hue1": "#4942E4",
+                "hue2": "#525CEB",
+                "hue3": "#7BD3EA",
+                "hue4": "#AED2FF"
+            },
+            "purple": "purple"
+        }
+    },
+    {
+        "id": 1234337,
+        "name": "Fiorestini",
+        "cadence": "medium",
+        "recognition": {
+            "red": "red",
+            "green": {
+                "hue1": "#1F8A70",
+                "hue2": "#6CC4A1",
+                "hue3": "#ADE792"
+            },
+            "blue": {
+                "hue1": "#0B60B0",
+                "hue2": "#40A2D8",
+                "hue3": "#B4D4FF"
+            },
+            "aqua": "aqua",
+            "orange": "orange",
+            "aquamarine": "aquamarine"
+        }
+    }
+]
+
+                    </pre>
+                </div>
+                <div class="mid-menus">
+                    <div>
+                        <button class="button" onclick="toTree()">
+                            <i class="fa fa-arrow-right"></i>
+                        </button>
+                        <button class="button" onclick="toJson()" style="display: none;">
+                            <i class="fa fa-arrow-left"></i>
+                        </button>
+                        <button class="button" onclick="cleanup()">清空</button>
+                        <div style="text-align: center; margin-top: 16px;"><a target="_blank" href="https://github.com/tpreisig/json-reader" style="color: black;">© tpreisig.</a></div>
+                    </div>
+                </div>
+                <div class="editarea" onpaste="setTimeout(toJson, 1)">
+                    <label>Tree</label>
+                    <div id="area_tree" class="textarea fullHeight fixed-size"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="static/js/json2tree.js"></script>
+
+</body>
+
+</html>

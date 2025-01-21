@@ -1,0 +1,50 @@
+.collapsible {
+    cursor: pointer;
+    position: relative;
+    padding-left: 20px;
+}
+
+.collapsible::before {
+    content: "▶";
+    color: #555;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 14px;
+    line-height: 1;
+    padding-right: 5px;
+}
+
+.collapsible.collapsed::before {
+    content: "▼";
+}
+
+.hidden {
+    display: block;
+}
+
+.key {
+    color: rgb(11, 83, 83);
+    font-weight: bold;
+}
+
+.string {
+    color: rgb(2, 188, 188);
+}
+
+.number {
+    color: deeppink;
+}
+
+.object {
+    margin-left: 15px;
+}
+
+.array {
+    margin-left: 15px;
+}
+
+.unknown {
+    color: #555;
+}
