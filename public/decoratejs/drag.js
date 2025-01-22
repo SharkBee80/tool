@@ -70,8 +70,6 @@
         document.addEventListener("touchmove", onMove);
         //document.addEventListener("touchstart", Touch);
         document.addEventListener("mouseleave", onLeave);
-        document.addEventListener("touchend", onLeave);
-
     }
 
     // 渲染元素
