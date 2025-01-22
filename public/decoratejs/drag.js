@@ -1,6 +1,7 @@
 (function () {
     // 颜色和元素的定义
-    var color = "#000000";
+    var color = "rgba(0, 0, 0, 0.5)";
+    var scolor = "rgba(0, 0, 0, 0.4)";
     var elementGroup = [];
     var lifeSpan = 10;
     // 全局变量记录上一次鼠标位置
@@ -27,7 +28,7 @@
                 borderRadius: "50%",  // 使元素变成圆形
                 "will-change": "transform",
                 backgroundColor: color,  // 初始颜色，后续会被覆盖
-                "box-shadow": "0 0 " + size/2 + "px black",
+                "box-shadow": "0 0 " + size/2 + "px "+ scolor,
 
             };
         }
