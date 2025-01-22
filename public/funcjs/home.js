@@ -10,10 +10,10 @@ children.forEach((child) => {
     if (aCount % 2 !== 0) {
         // 创建一个新的 a 标签
         const newa = document.createElement('a');
-        newa.href = ""; // 可以设置为需要的链接
-        newa.target = "_self";
+        //newa.href = ""; // 可以设置为需要的链接
+        //newa.target = "_self";
         newa.textContent = ""; // 设置 a 标签的文本
-        newa.style = "background: none;box-shadow: none;border: none;";
+        newa.style = "background: none;box-shadow: none;border: none;"; //pointer-events:none;
 
         // 将新的 a 标签添加到 child 中
         child.appendChild(newa);
