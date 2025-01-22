@@ -1,15 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>gitpull</title>
-</head>
-<body>
-    <h1>拉取git，更新服务器</h1>
-    <button id="Button">开始</button>
-    <p id="result">结果</p>
+    <style>
+        * {
+            padding: 5px;
+        }
 
+        div {
+            padding: 1rem;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 50%;
+            border: solid darkgray;
+        }
+
+        button {
+            width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>拉取git，更新服务器</h1>
+        <button id="Button">开始</button>
+        <p id="result">结果</p>
+    </div>
     <script>
         document.getElementById('Button').addEventListener('click', async () => {
             const url = '/gitpull'; // 替换为你的目标地址
@@ -24,15 +48,16 @@
                     body: JSON.stringify({ message: 'Test connection' }),
                 });
                 const data = await response.json(); // 如果服务器返回 JSON 数据
-                if (response.ok) {        
+                if (response.ok) {
                     resultElement.textContent = `连接成功: ${JSON.stringify(data)}`;
-                } else {                
+                } else {
                     resultElement.textContent = `服务器返回错误: ${response.status}\n${JSON.stringify(data)}`;
                 }
             } catch (error) {
-                resultElement.textContent = `连接失败: 404 Not Found`;//${error.message}
+                resultElement.innerHTML = `连接失败: 404 Not Found<br><a style="color: red;">代表服务器正在重启</a>`;//${error.message}
             }
         });
     </script>
 </body>
+
 </html>
