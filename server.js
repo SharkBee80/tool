@@ -98,7 +98,7 @@ app.post('/img2ico', upload.single('image'), async (req, res) => {
 });
 
 app.post('/regitpull', (req, res) => {
-  // 执行系统命令
+  // 执行系统命令-在服务器运行~/tool-重新拉取github
   const command = "~/tool"
   exec(command, (error, stdout, stderr) => {
     if (error) {
