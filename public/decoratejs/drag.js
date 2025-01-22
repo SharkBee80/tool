@@ -67,8 +67,8 @@
     // 监听事件
     function AddListener() {
         document.addEventListener("mousemove", onMouseMove);
-        document.addEventListener("touchmove", Touch);
-        document.addEventListener("touchstart", Touch);
+        document.addEventListener("touchmove", onMouseMove);
+        //document.addEventListener("touchstart", Touch);
         document.addEventListener("mouseleave", onMouseLeave);
     }
 
