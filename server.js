@@ -4,6 +4,8 @@ const express = require('express');
 const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
+const { exec } = require('child_process');
+
 
 const txt2m3uPage = require('./public/funcjs/txt2m3uPage');
 const img2ico = require('./public/funcjs/img2ico')
@@ -84,7 +86,7 @@ app.get('/redirect', (req, res) => {
   const targetUrl = req.query.url;  // 从URL查询参数中获取用户输入的URL
   if (!targetUrl) {
     //return res.status(400).send("缺少跳转URL");
-    redirect(host+'/redirect?url=', res, 'here')
+    redirect(host + '/redirect?url=', res, 'here')
     return
   }
   // 返回包含倒计时的HTML页面
@@ -95,13 +97,28 @@ app.post('/img2ico', upload.single('image'), async (req, res) => {
   img2ico(req, res)
 });
 
+app.post('/regitpull', (req, res) => {
+  // 执行系统命令
+  const command = "~/tool"
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      return res.status(500).json({ error: `执行错误: ${error.message}` });
+    }
+    if (stderr) {
+      return res.status(500).json({ error: `命令错误: ${stderr}` });
+    }
+    // 返回命令输出
+    res.json({ output: stdout });
+  });
+});
+
 //
 
 //再定义静态文件处理
 app.use(express.static(path.join(__dirname, 'public')));// 设置静态文件目录
 
 app.get('/', (req, res) => {
-  res.redirect('/Home.html');
+  res.redirect('/home.html');
 });
 
 // 示例路由：动态生成的页面
