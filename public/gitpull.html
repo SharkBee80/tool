@@ -32,7 +32,7 @@
                     resultElement.textContent = `服务器返回错误: ${response.status}\n${JSON.stringify(data)}`;
                 }
             } catch (error) {
-                resultElement.textContent = `连接失败: ${error.message}`;
+                resultElement.textContent = `连接失败: 404 Not Found`;//${error.message}
             }
         });
     </script>
