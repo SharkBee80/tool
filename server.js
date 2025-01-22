@@ -93,13 +93,10 @@ app.get('/redirect', (req, res) => {
   redirect(targetUrl, res)
 });
 
-app.post('/img2ico', upload.single('image'), async (req, res) => {
-  img2ico(req, res)
-});
-
-app.post('/regitpull', (req, res) => {
+app.get('/regitpull', (req, res) => {
   // 执行系统命令-在服务器运行~/tool-重新拉取github
   const command = "~/tool"
+  alert("即将运行"+command+"命令")
   exec(command, (error, stdout, stderr) => {
     if (error) {
       return res.status(500).json({ error: `执行错误: ${error.message}` });
@@ -110,6 +107,10 @@ app.post('/regitpull', (req, res) => {
     // 返回命令输出
     res.json({ output: stdout });
   });
+});
+
+app.post('/img2ico', upload.single('image'), async (req, res) => {
+  img2ico(req, res)
 });
 
 //
