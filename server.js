@@ -93,7 +93,7 @@ app.get('/redirect', (req, res) => {
   redirect(targetUrl, res)
 });
 
-app.get('/regitpull', (req, res) => {
+app.post('/gitpull', (req, res) => {
   // 执行系统命令-在服务器运行~/tool-重新拉取github
   const command = "~/tool"
   //("即将运行"+command+"命令")

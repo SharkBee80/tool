@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gitpull</title>
+</head>
+<body>
+    <h1>拉取git，更新服务器</h1>
+    <button id="Button">开始</button>
+    <p id="result">结果</p>
+
+    <script>
+        document.getElementById('Button').addEventListener('click', async () => {
+            const url = '/gitpull'; // 替换为你的目标地址
+            const resultElement = document.getElementById('result');
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: 'Test connection' }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json(); // 如果服务器返回 JSON 数据
+                    resultElement.textContent = `连接成功: ${JSON.stringify(data)}`;
+                } else {
+                    const data = await response.json(); // 如果服务器返回 JSON 数据
+                    resultElement.textContent = `服务器返回错误: ${response.status}\n${JSON.stringify(data)}`;
+                }
+            } catch (error) {
+                resultElement.textContent = `连接失败: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
