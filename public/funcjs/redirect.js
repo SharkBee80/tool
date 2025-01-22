@@ -1,5 +1,8 @@
-function redirect(targetUrl, res) {
-    const target = targetUrl
+function redirect(targetUrl, res, target) {
+    if (target === undefined) {
+        target = targetUrl
+    }
+    
     // 检查 URL 是否以 http:// 或 https:// 开头，如果没有，则自动添加 http://
     if (!/^https?:\/\//i.test(targetUrl)) {
         targetUrl = 'http://' + targetUrl;  // 默认添加 http://
