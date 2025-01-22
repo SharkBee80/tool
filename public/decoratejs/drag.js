@@ -66,10 +66,12 @@
 
     // 监听事件
     function AddListener() {
-        document.addEventListener("mousemove", onMouseMove);
-        document.addEventListener("touchmove", onMouseMove);
+        document.addEventListener("mousemove", onMove);
+        document.addEventListener("touchmove", onMove);
         //document.addEventListener("touchstart", Touch);
-        document.addEventListener("mouseleave", onMouseLeave);
+        document.addEventListener("mouseleave", onLeave);
+        document.addEventListener("touchend", onLeave);
+
     }
 
     // 渲染元素
@@ -84,7 +86,7 @@
     }
 
     // 鼠标移动事件
-    function onMouseMove(e) {
+    function onMove(e) {
         if (lastX === null || lastY === null) {
             // 如果是第一次移动，直接生成元素
             CreateElement(e.clientX, e.clientY, color);
@@ -140,7 +142,7 @@
     }
 
     // 当鼠标移出屏幕时，重置位置
-    function onMouseLeave() {
+    function onLeave() {
         lastX = null;
         lastY = null;
     }
