@@ -5,8 +5,9 @@
 
 body {
     background: #f1f2f3;
-    position: relative;
+    /*position: relative;*/
     /*min-width: 1300px;*/
+    position: absolute;
 }
 
 .nav_content {

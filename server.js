@@ -30,6 +30,45 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+//
+
+// 你的JavaScript脚本地址
+const scriptUrl = 'decoratejs/drag.js';
+
+// 中间件：拦截所有请求，插入 <script> 标签
+// 中间件：拦截对 HTML 文件的请求，插入 <script> 标签
+app.use((req, res, next) => {
+  if (req.path.endsWith('.html')) {
+    const filePath = path.join(__dirname, 'public', req.path);
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+        return next(); // 如果读取文件出错，继续处理下一个中间件
+      }
+      // 在 <head> 标签前插入 <script> 标签
+      const modifiedData = data.replace(
+        /<\/head>/i,
+        `<script src="${scriptUrl}"></script></head>`
+      );
+      res.send(modifiedData);
+    });
+  } else {
+    const originalSend = res.send;
+    res.send = function (body) {
+      if (typeof body === 'string') {
+        // 在 </body> 标签前插入 <script> 标签
+        body = body.replace(
+          /<\/body>/i,
+          `<script src="${scriptUrl}"></script></body>`
+        );
+      }
+      originalSend.call(res, body);
+    };
+    next();
+  }
+});
+
+//
+
 //先定义动态路由
 app.get('/txt2m3u', async (req, res) => {
   const txtUrl = req.query.url;
@@ -41,12 +80,15 @@ app.get('/txt2m3u', async (req, res) => {
 });
 
 app.get('/redirect', (req, res) => {
+  const host = req.get('Host'); // 获取主机名和端口号
   const targetUrl = req.query.url;  // 从URL查询参数中获取用户输入的URL
   if (!targetUrl) {
-    return res.status(400).send("缺少跳转URL");
+    //return res.status(400).send("缺少跳转URL");
+    redirect(host+'/redirect?url=', res, 'here')
+    return
   }
   // 返回包含倒计时的HTML页面
-  redirect(targetUrl,res)
+  redirect(targetUrl, res)
 });
 
 app.post('/img2ico', upload.single('image'), async (req, res) => {
@@ -59,13 +101,25 @@ app.post('/img2ico', upload.single('image'), async (req, res) => {
 app.use(express.static(path.join(__dirname, 'public')));// 设置静态文件目录
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+  res.redirect('/Home.html');
 });
 
-app.get('/index', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+// 示例路由：动态生成的页面
+app.get('/o', (req, res) => {
+  const dynamicContent = '<h1>动态生成的页面</h1>';
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>动态页面</title>
+      </head>
+      <body>
+        ${dynamicContent}
+        </body>
+    </html>
+  `;
+  res.send(html);
 });
-
 
 // 404 页面处理
 app.use((req, res, next) => {
