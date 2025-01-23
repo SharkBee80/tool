@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>电子时钟</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+        body {
+            margin: 0 auto;
+            padding: 5px;
+            font-size: 1em;
+            line-height: 1.3;
+            font-family: sans-serif;
+            background-color: darkgoldenrod;
+        }
+
+        .main {
+            border-width: 0;
+            overflow: visible;
+            overflow-x: hidden;
+            padding: 1em;
+            border: solid darkgoldenrod 12px;
+            border-radius: 25px;
+            background-color: white;
+        }
+
+        .box {
+            margin: 5% auto;
+            align-content: center;
+            justify-content: center;
+            white-space: nowrap;
+        }
+
+        .c {
+            top: 0;
+            bottom: 0;
+            position: absolute;
+            left: 0;
+            right: 0;
+        }
+
+        #time,
+        #date {
+            text-align: center;
+            font-size: 30px;
+        }
+
+        #time {
+            font-size: 10vw;
+        }
+
+        #date {
+            font-size: 4vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main c">
+        <div class="box c">
+            <br>
+            <div id="time">00:00:00</div>
+            <br>
+            <div id="date">◻◻◻ 2000-00-00</div>
+            <br>
+        </div>
+    </div>
+    </div>
+    <script>
+        window.onload(setInterval(function () { getDateTime() }, 1000));
+        function getDateTime() {
+            //var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            //var days = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六']
+            var days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+            var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            var now = new Date();
+            var year = now.getFullYear();
+            //var wmonth = months[now.getMonth()];
+            var month = now.getMonth() + 1;
+            var day = now.getDate();
+
+            var wday = days[now.getDay()];
+
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var second = now.getSeconds();
+            if (month.toString().length == 1) {
+                var month = '0' + month;
+            }
+            if (day.toString().length == 1) {
+                var day = '0' + day;
+            }
+            if (hour.toString().length == 1) {
+                var hour = '0' + hour;
+            }
+            if (minute.toString().length == 1) {
+                var minute = '0' + minute;
+            }
+            if (second.toString().length == 1) {
+                var second = '0' + second;
+            }
+            var dateTime = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second;
+
+            var time = hour + ':' + minute + ':' + second
+            var date = wday + ' ' + year + '-' + month + '-' + day
+            //document.title = time;
+            document.getElementById('time').textContent = time;
+            document.getElementById('date').textContent = date;
+            return dateTime;
+        }
+    </script>
+</body>
+
+</html>
