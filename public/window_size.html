@@ -47,7 +47,7 @@
 			border-color: #ccc;
 			border-style: solid;
 			line-height: 20px;
-			max-width: 32rem;
+			max-width: 34rem;
 		}
 	</style>
 </head>
@@ -61,6 +61,16 @@
 		<p>浏览器当前窗口大小。</p>
 		<h2>您的窗口大小是</h2>
 		<form name="calcform" autocomplete="off">
+			<p>屏幕分辨率：</p>
+			<table class="dtable">
+				<tbody>
+					<tr>
+						<td style="font-size:48px; border:1px solid">
+							<input type="text" name="td0" style="font-size:48px; border:0px solid; width:300px">
+						</td>
+					</tr>
+				</tbody>
+			</table>
 			<p>外窗尺寸：</p>
 			<table class="dtable">
 				<tbody>
@@ -94,12 +104,14 @@
 		</form>
 		<p><input type="button" value="Refresh" onclick="GetWinSize()" style="font-size:16px"></p>
 		<h2>使用Javascript进行屏幕分辨率检测</h2>
+		<p>您可以使用<i>screen.width</i>和<i>screen.height</i>属性获取屏幕尺寸。</p>
+		<p>您可以使用<i>screen.availWidth</i>和<i>screen.availHeight</i>属性获取可用的屏幕尺寸。</p>
 		<p>您可以使用<i>window.outerWidth</i>和<i>window.outerHeight</i>获得外部窗口的大小。</p>
 		<p>您可以使用<i>window.innerWidth</i>和<i>window.innerHeight</i>获得内部窗口的大小。</p>
 		<p>您可以使用<i>window.screenLeft</i>和<i>window.screenTop</i>获取屏幕窗口的位置。</p>
 		<p>例如：</p>
 		<p class="code">&lt;script/<br>
-			alert(window.outerWidth+' x '+window.outerHeight);<br>
+			alert(screen.availWidth + ' x ' + screen.availHeight);<br>
 			&lt;/script/</p>
 		<p><input type="button" value="Run example" onclick="RunExample()" style="font-size:14px"></p>
 		<p>&nbsp;</p>
@@ -112,10 +124,12 @@
 				GetWinSize();
 			}
 			function GetWinSize() {
+				td0 = document.calcform.td0;
 				td1 = document.calcform.td1;
 				td2 = document.calcform.td2;
 				td3 = document.calcform.td3;
 				//if( window.navigator.appName=="Microsoft Internet Explorer" )
+				td0.value = screen.width+" x "+screen.height;
 				if (window.innerWidth == undefined) {
 					td1.style.fontSize = "16";
 					td1.value = "N/A in this browser";
@@ -128,7 +142,7 @@
 				td3.value = window.screenLeft + " , " + window.screenTop;
 			}
 			function RunExample() {
-				alert(window.outerWidth + ' x ' + window.outerHeight);
+				alert(screen.availWidth + ' x ' + screen.availHeight);
 			}
 		</script>
 		<!-- #EndEditable -->
