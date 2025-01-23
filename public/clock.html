@@ -17,12 +17,14 @@
             font-family: sans-serif;
             background-color: darkgoldenrod;
             overflow: hidden;
-            height: 100vh; /* 让 body 充满整个视口 */
+            height: 100vh;
+            /* 让 body 充满整个视口 */
+            /*transform: rotate(90deg);*/
         }
 
         .main {
-            overflow: visible;
-            overflow-x: hidden;
+            overflow: hidden;
+            /*overflow-x: hidden;*/
             border-width: 0;
             padding: 1em;
             border: solid darkgoldenrod 12px;
@@ -35,6 +37,8 @@
             align-content: center;
             justify-content: center;
             white-space: nowrap;
+            display: flex;
+            flex-direction: column;
         }
 
         .c {
@@ -70,7 +74,6 @@
             <div id="date">◻◻◻ 2000-00-00</div>
             <br>
         </div>
-    </div>
     </div>
     <script>
         window.onload(setInterval(function () { getDateTime() }, 1000));
