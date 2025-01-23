@@ -7,6 +7,8 @@
     // 全局变量记录上一次鼠标位置
     let lastX = null;
     let lastY = null;
+    // 存储上一次的触摸位置，支持多个触摸点
+    let touchPositions = {}; // {touchId: {lastX, lastY}}
     // 最大圆点数量
     const MAX_ELEMENTS = 120;
     var o = 2; // 每隔 o个 像素插一个点
@@ -23,12 +25,12 @@
                 display: "block",
                 pointerEvents: "none",
                 "z-index": "1",
-                width: size+"px",  // 圆点的大小
-                height: size+"px",
+                width: size + "px",  // 圆点的大小
+                height: size + "px",
                 borderRadius: "50%",  // 使元素变成圆形
                 "will-change": "transform",
                 backgroundColor: color,  // 初始颜色，后续会被覆盖
-                "box-shadow": "0 0 " + size/2 + "px "+ scolor,
+                "box-shadow": "0 0 " + size / 2 + "px " + scolor,
 
             };
         }
@@ -67,8 +69,8 @@
     // 监听事件
     function AddListener() {
         document.addEventListener("mousemove", onMove);
-        document.addEventListener("touchmove", onMove);
-        //document.addEventListener("touchstart", Touch);
+        window.addEventListener("touchmove", Touch);
+        //document.addEventListener("touchstart", onMove);
         document.addEventListener("mouseleave", onLeave);
     }
 
@@ -131,13 +133,37 @@
     }
 
     // 触摸事件
-    function Touch(e) {
-        if (e.touches.length > 0) {
-            for (var i = 0; i < e.touches.length; i++) {
+   // 触摸事件
+   function Touch(e) {
+    if (e.touches.length > 0) {
+        for (var i = 0; i < e.touches.length; i++) {
+            const touchId = e.touches[i].identifier;
+
+            if (!touchPositions[touchId]) {
+                touchPositions[touchId] = { lastX: e.touches[i].clientX, lastY: e.touches[i].clientY };
+                // 如果是第一次触摸，直接生成元素
                 CreateElement(e.touches[i].clientX, e.touches[i].clientY, color);
+            } else {
+                // 计算两点间的距离
+                const dx = e.touches[i].clientX - touchPositions[touchId].lastX;
+                const dy = e.touches[i].clientY - touchPositions[touchId].lastY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                // 根据距离插值生成点
+                const steps = Math.ceil(distance / o); // 每隔 o个 像素插一个点
+                for (let j = 1; j <= steps; j++) {
+                    const interpolatedX = touchPositions[touchId].lastX + (dx * j) / steps;
+                    const interpolatedY = touchPositions[touchId].lastY + (dy * j) / steps;
+                    CreateElement(interpolatedX, interpolatedY, color);
+                }
             }
+
+            // 更新触摸点的上次位置
+            touchPositions[touchId].lastX = e.touches[i].clientX;
+            touchPositions[touchId].lastY = e.touches[i].clientY;
         }
     }
+}
 
     // 当鼠标移出屏幕时，重置位置
     function onLeave() {
