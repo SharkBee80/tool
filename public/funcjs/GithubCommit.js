@@ -1,5 +1,8 @@
 const axios = require('axios');
-const { createCanvas } = require('canvas');
+const { createCanvas,registerFont  } = require('canvas');
+
+// 注册自定义字体
+//registerFont('./public/decoratejs/SimHei.ttf', { family: 'MyCustomFont' });
 
 // 自动换行
 function wrapText(context, text, x, y, maxWidth, lineHeight) {
@@ -33,14 +36,28 @@ async function GithubCommit(req, res) {
 
             if (commits.length > 0) {
                 const latestCommit = commits[0];
-                const commitName = latestCommit.commit.committer.name;
-                const commitDate = latestCommit.commit.committer.date;
-                text = `更新人员: ${commitName}\n更新日期: ${commitDate}`
+                let commitName = latestCommit.commit.committer.name;
+                let commitDate = latestCommit.commit.committer.date;
+                const date = new Date(commitDate);
+                commitDate = date.toLocaleString('zh-CN', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false, // 使用24小时制
+                }).replace(/\//g, '-').replace(',', '');
+                //text = `更新人员: ${commitName}\n更新日期: ${commitDate} UTC`;
+                text = `Commiter: ${commitName}\nUpdate  : ${commitDate} UTC`;
+                //console.log(commitName);
+                //console.log(commitDate);
             } else {
-                text = `未找到更新信息。`
+                text = `未找到更新信息。`;
             }
         } catch (error) {
-            text = `Error fetching data: \n${error}`
+            text = `Error fetching data: \n${error}`;
+            console.log(error);
         }
     }
 
@@ -57,14 +74,14 @@ async function GithubCommit(req, res) {
 
     // 设置文本样式
     ctx.fillStyle = '#ffff00';
-    ctx.font = 'bold 24px SimHei';
+    ctx.font = 'bold 24px SimHei';//SimHei \ MyCustomFont
 
     // 设置对齐方式
     ctx.textAlign = 'left'; // 左对齐
     ctx.textBaseline = 'middle'; // 垂直居中
 
     // 绘制文本
-    wrapText(ctx, text, 0, height / 3, width , 40);
+    wrapText(ctx, text, 0, height / 3, width, 40);
 
 
     // 返回图片
