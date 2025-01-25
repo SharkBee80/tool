@@ -49,7 +49,7 @@ async function GithubCommit(req, res) {
                     hour12: false, // 使用24小时制
                 }).replace(/\//g, '-').replace(',', '');
                 //text = `更新人员: ${commitName}\n更新日期: ${commitDate} UTC`;
-                text = `Commiter: ${commitName}\nUpdate  : ${commitDate} UTC`;
+                text = `Commiter: ${commitName}\nUpdate: ${commitDate} UTC`;
                 //console.log(commitName);
                 //console.log(commitDate);
             } else {
