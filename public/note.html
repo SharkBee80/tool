@@ -120,37 +120,6 @@
             background-color: #fafafa;
             resize: none;
         }
-
-        /* 气泡通知样式 */
-        .notification {
-            position: fixed;
-            top: 20px;
-            /* 与顶部的间距 */
-            left: 50%;
-            /* 水平居中 */
-            transform: translateX(-50%);
-            /* 通过平移调整水平居中 */
-            background-color: #ff9800;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            display: none;
-            /* 初始状态隐藏 */
-            opacity: 0;
-            /* 初始透明度为0 */
-            z-index: 9999;
-            /* 确保气泡通知不会被其他元素遮挡 */
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-            /* 平滑过渡 */
-        }
-
-        .notification.show {
-            display: block;
-            opacity: 1;
-            /* 显示时设置透明度为1 */
-            transform: translateX(-50%) translateY(0);
-            /* 显示时从顶部滑入 */
-        }
     </style>
 </head>
 
@@ -178,8 +147,6 @@
             </div>
             <textarea id="notes" placeholder="选择或创建文本..."></textarea>
         </div>
-        <!-- 气泡通知 -->
-        <div id="notification" class="notification"></div>
     </div>
 
     <script>
@@ -238,7 +205,7 @@
             })
                 .then(response => response.text())
                 .then(message => {
-                    showNotification(message);
+                    noty(message);
                     if (!selectedFile || selectedFile.id === 'new') {
                         // 如果是新文件，添加到文件列表
                         const newItem = document.createElement('li');
@@ -263,7 +230,7 @@
                 })
                     .then(response => response.text())
                     .then(message => {
-                        showNotification(message);
+                        noty(message);
                         // 删除文件列表中的项
                         const fileListItems = document.querySelectorAll('.file-list li');
                         fileListItems.forEach(item => {
@@ -301,16 +268,8 @@
             console.log('re')
             init();
         }
-        const notification = document.getElementById('notification');
-        // 显示气泡通知
-        function showNotification(message) {
-            notification.textContent = message;
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
     </script>
+    <script src="funcjs/noty.js"></script>
 
 </body>
 
