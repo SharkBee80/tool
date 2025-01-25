@@ -8,9 +8,9 @@ const { exec } = require('child_process');
 const bodyParser = require('body-parser');
 
 
-const txt2m3uPage = require('./public/funcjs/txt2m3uPage');
-const img2ico = require('./public/funcjs/img2ico')
-const redirect = require('./public/funcjs/redirect')
+const txt2m3uPage = require('./public/nodejs/txt2m3uPage');
+const img2ico = require('./public/nodejs/img2ico')
+const redirect = require('./public/nodejs/redirect')
 
 const app = express();
 
