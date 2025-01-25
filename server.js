@@ -8,7 +8,6 @@ const { exec } = require('child_process');
 
 
 const txt2m3uPage = require('./public/funcjs/txt2m3uPage');
-const GithubCommit = require('./public/funcjs/GithubCommit')
 const img2ico = require('./public/funcjs/img2ico')
 const redirect = require('./public/funcjs/redirect')
 

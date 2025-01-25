@@ -98,6 +98,8 @@ module.exports = GithubCommit;
 //<img src="https://tool.fyk.us.kg/latest-commit?owner=sharkbee80&&repo=tool" alt="更新信息image"></img>
 
 /*
+const GithubCommit = require('./public/funcjs/GithubCommit')
+
 app.get('/latest-commit', async (req, res) => {
     GithubCommit(req, res)
   });
