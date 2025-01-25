@@ -58,9 +58,19 @@
 		<![endif]-->
 	<div id="doc">
 		<!-- #BeginEditable "doctext" -->
-		<p>浏览器当前窗口大小。</p>
-		<h2>您的窗口大小是</h2>
+		<p>浏览器当前窗口信息。</p>
+		<h2>您的窗口信息是&nbsp;&nbsp;<a id="hz"></a></h2>
 		<form name="calcform" autocomplete="off">
+			<p>屏幕刷新率：</p>
+			<table class="dtable">
+				<tbody>
+					<tr>
+						<td style="font-size:48px; border:1px solid">
+							<input type="text" name="tdhz" style="font-size:48px; border:0px solid; width:300px">
+						</td>
+					</tr>
+				</tbody>
+			</table>
 			<p>屏幕分辨率：</p>
 			<table class="dtable">
 				<tbody>
@@ -120,8 +130,30 @@
 		</div>
 
 		<script>
+			let lastTime = 0;
+			let refreshRate = 0;
+			const hz = document.calcform.tdhz;
+
+			function measureRefreshRate() {
+				requestAnimationFrame(function (time) {
+					if (lastTime > 0) {
+						refreshRate = 1000 / (time - lastTime);						
+					}
+					lastTime = time;
+					measureRefreshRate();
+				});
+			}
+
+			function showRefreshRate() {
+				hz.value = refreshRate.toFixed(2) + 'Hz'
+			}
+			
 			window.onload = new function () {
 				GetWinSize();
+				// 开始测量
+				measureRefreshRate();
+				setInterval(function () { showRefreshRate() }, 500);
+
 			}
 			function GetWinSize() {
 				td0 = document.calcform.td0;
@@ -129,7 +161,7 @@
 				td2 = document.calcform.td2;
 				td3 = document.calcform.td3;
 				//if( window.navigator.appName=="Microsoft Internet Explorer" )
-				td0.value = screen.width+" x "+screen.height;
+				td0.value = screen.width + " x " + screen.height;
 				if (window.innerWidth == undefined) {
 					td1.style.fontSize = "16";
 					td1.value = "N/A in this browser";
@@ -144,6 +176,8 @@
 			function RunExample() {
 				alert(screen.availWidth + ' x ' + screen.availHeight);
 			}
+
+
 		</script>
 		<!-- #EndEditable -->
 
