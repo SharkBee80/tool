@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>记事本管理</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            min-width: 280px;
+            margin: 14px;
+        }
+
+        /* 左侧文件列表 */
+        .file-list {
+            flex: 1;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-right: 20px;
+            overflow-y: auto;
+        }
+
+        .file-list ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .file-list #new {
+            position: sticky;
+            top: 0;
+        }
+
+        .file-list li {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .file-list li:hover {
+            background-color: #e1e1e1;
+        }
+
+        .file-list li.active {
+            background-color: #d3f9d8;
+            border-color: #4CAF50;
+        }
+
+        .file-list button:hover {
+            background-color: #45a049;
+        }
+
+        /* 右侧编辑区域 */
+        .editor {
+            flex: 4;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .editor .head {
+            display: flex;
+            align-content: center;
+            line-height: 0%;
+            padding: 5px 0;
+            white-space: nowrap;
+        }
+
+        .editor .head .btn {
+            margin: auto;
+            margin-right: 0;
+        }
+
+        .editor button {
+            padding: 10px;
+            margin: auto;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        textarea {
+            width: calc(100% - 20px);
+            height: calc(100% - 40px - 10px - 16px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #fafafa;
+            resize: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- 文件列表区域 -->
+        <div class="file-list">
+            <h2>文件列表</h2>
+            <ul id="fileList">
+                <!-- 动态加载文件列表 -->
+                <li id="new" onclick="createNewFile()">+ 新建文本</li>
+            </ul>
+        </div>
+
+        <!-- 编辑区域 -->
+        <div class="editor">
+            <div class="head">
+                <h2>编辑区域</h2>
+                <div class="btn">
+                    <button onclick="deleteFile()">删除</button>
+                    <button onclick="saveFile()">保存内容</button>
+                </div>
+            </div>
+            <textarea id="notes" placeholder="选择或创建文本..."></textarea>
+        </div>
+    </div>
+
+    <script>
+        init();
+        // 获取文件列表并填充文件列表
+        function init() {
+            fetch('/files')
+                .then(response => response.json())
+                .then(files => {
+                    const fileList = document.getElementById('fileList');
+                    files.forEach(file => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = file;
+                        listItem.onclick = () => loadFile(file);
+                        fileList.appendChild(listItem);
+                    });
+                });
+        }
+
+        // 加载选中的文件
+        function loadFile(fileName) {
+            document.getElementById('notes').placeholder = "编辑文本..."
+            // 高亮显示当前选中的文件
+            const fileListItems = document.querySelectorAll('.file-list li');
+            fileListItems.forEach(item => item.classList.remove('active'));
+            const clickedItem = Array.from(fileListItems).find(item => item.textContent === fileName && item.id !== 'new');
+            if (clickedItem) {
+                clickedItem.classList.add('active');
+            }
+
+            // 获取文件内容并显示在编辑区域
+            fetch(`/file/${fileName}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('notes').value = data;
+                });
+        }
+
+        // 保存文件内容
+        function saveFile() {
+            const selectedFile = document.querySelector('.file-list li.active');
+            let fileName;
+            if (!selectedFile || selectedFile.id === 'new') {
+                fileName = prompt("输入新文件名:");
+                if (fileName === null) return;
+            } else {
+                fileName = selectedFile.textContent;
+            }
+            const content = document.getElementById('notes').value;
+            fetch(`/file/${fileName}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content }),
+            })
+                .then(response => response.text())
+                .then(message => {
+                    alert(message);
+                    if (!selectedFile || selectedFile.id === 'new') {
+                        // 如果是新文件，添加到文件列表
+                        const newItem = document.createElement('li');
+                        newItem.textContent = fileName;
+                        newItem.onclick = () => loadFile(fileName);
+                        document.getElementById('fileList').appendChild(newItem);
+                    }
+                    refresh();
+                });
+        }
+
+        // 删除文件
+        function deleteFile() {
+            const selectedFile = document.querySelector('.file-list li.active');
+            const fileName = selectedFile.textContent;
+            if (selectedFile === null || selectedFile.id === 'new') {
+                return
+            }
+            if (confirm(`确定要删除文件 ${fileName} 吗？`)) {
+                fetch(`/file/${fileName}`, {
+                    method: 'DELETE',
+                })
+                    .then(response => response.text())
+                    .then(message => {
+                        alert(message);
+                        // 删除文件列表中的项
+                        const fileListItems = document.querySelectorAll('.file-list li');
+                        fileListItems.forEach(item => {
+                            if (item.textContent.includes(fileName)) {
+                                item.remove();
+                            }
+                        });
+                        refresh();
+                    });
+            }
+
+        }
+        // 创建新文件，清空编辑区域
+        function createNewFile() {
+            document.getElementById('notes').value = '';  // 清空编辑区域
+            document.getElementById('notes').placeholder = "输入文本..."
+            const fileListItems = document.querySelectorAll('.file-list li');
+            fileListItems.forEach(item => item.classList.remove('active'));
+
+            const clickedItem = Array.from(fileListItems).find(item => item.id === 'new');
+            if (clickedItem) {
+                clickedItem.classList.add('active');
+            }
+        }
+
+        // 更新列表
+        function refresh() {
+            // 删除文件列表中的项
+            const fileListItems = document.querySelectorAll('.file-list li');
+            fileListItems.forEach(item => {
+                if (item.id !== 'new') {
+                    item.remove();
+                };
+            });
+            console.log('re')
+            init();
+        }
+    </script>
+
+</body>
+
+</html>

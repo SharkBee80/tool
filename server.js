@@ -5,6 +5,7 @@ const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
 const { exec } = require('child_process');
+const bodyParser = require('body-parser');
 
 
 const txt2m3uPage = require('./public/funcjs/txt2m3uPage');
@@ -12,6 +13,18 @@ const img2ico = require('./public/funcjs/img2ico')
 const redirect = require('./public/funcjs/redirect')
 
 const app = express();
+
+// 解析请求体
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// 创建文件夹以存储记事本
+const notesDir = path.join(__dirname, 'notes');
+if (!fs.existsSync(notesDir)) {
+  fs.mkdirSync(notesDir);
+}
+
+// 创建文件夹以存储ico
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir); // 如果没有该目录，创建它
@@ -93,6 +106,54 @@ app.get('/redirect', (req, res) => {
   redirect(targetUrl, res)
 });
 
+// 记事本
+// 获取所有文件列表
+app.get('/files', (req, res) => {
+  fs.readdir(notesDir, (err, files) => {
+    if (err) return res.status(500).send('无法读取文件夹');
+    // 获取文件的修改时间并排序
+    const fileDetails = files.map(file => {
+      const filePath = path.join(notesDir, file);
+      const stats = fs.statSync(filePath);  // 获取文件的stat信息
+      return { name: file, mtime: stats.mtime };  // 返回文件名和修改时间
+    });
+
+    // 按照修改时间排序（从新到旧）
+    fileDetails.sort((a, b) => b.mtime - a.mtime);
+
+    // 只返回文件名，排序后的结果
+    const sortedFiles = fileDetails.map(file => file.name);
+    res.json(sortedFiles);
+  });
+});
+
+// 获取指定文件内容
+app.get('/file/:filename', (req, res) => {
+  const filePath = path.join(notesDir, req.params.filename);
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) return res.status(500).send('文件读取失败');
+    res.send(data);
+  });
+});
+
+// 保存文件
+app.post('/file/:filename', (req, res) => {
+  const filePath = path.join(notesDir, req.params.filename);
+  fs.writeFile(filePath, req.body.content, (err) => {
+    if (err) return res.status(500).send('文件保存失败');
+    res.send('文件已保存');
+  });
+});
+
+// 删除文件
+app.delete('/file/:filename', (req, res) => {
+  const filePath = path.join(notesDir, req.params.filename);
+  fs.unlink(filePath, (err) => {
+    if (err) return res.status(500).send('无法删除文件');
+    res.send(`文件 ${req.params.filename} 删除成功`);
+  });
+});
+
 //
 
 app.post('/gitpull', (req, res) => {
@@ -117,9 +178,9 @@ app.post('/img2ico', upload.single('image'), async (req, res) => {
 
 //
 
-//再定义静态文件处理
 app.use(express.static(path.join(__dirname, 'public')));// 设置静态文件目录
 
+//再定义静态文件处理
 app.get('/', (req, res) => {
   res.redirect('/home.html');
 });
