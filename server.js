@@ -82,10 +82,6 @@ app.get('/txt2m3u', async (req, res) => {
   }
 });
 
-app.get('/latest-commit', async (req, res) => {
-  GithubCommit(req, res)
-});
-
 app.get('/redirect', (req, res) => {
   const host = req.get('Host'); // 获取主机名和端口号
   const targetUrl = req.query.url;  // 从URL查询参数中获取用户输入的URL

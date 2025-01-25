@@ -93,3 +93,13 @@ async function GithubCommit(req, res) {
 
 
 module.exports = GithubCommit;
+
+
+//<img src="https://tool.fyk.us.kg/latest-commit?owner=sharkbee80&&repo=tool" alt="更新信息image"></img>
+
+/*
+app.get('/latest-commit', async (req, res) => {
+    GithubCommit(req, res)
+  });
+  
+*/

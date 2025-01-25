@@ -1,7 +1,5 @@
 # [在线工具箱](https://tool.fyk.us.kg/)
 
-<img src="https://tool.fyk.us.kg/latest-commit?owner=sharkbee80&&repo=tool" alt="更新信息image"></img>
-
 
 致力于打造和收集各种简单、易用、便捷的在线工具，无需注册和下载即可免费使用，开发有趣且有用的小功能，部分来源于开源项目。
 
