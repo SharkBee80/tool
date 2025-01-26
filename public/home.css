@@ -13,7 +13,9 @@ body {
 .nav_content {
     /*width: 1280px;*/
     margin: 15px auto;
-    width: 100%;
+    right: 0;
+    position: absolute;
+    left: 0;
 }
 
 .nav_content .item {
@@ -66,15 +68,17 @@ body {
     height: 26px;
     fill: #999;
 }
+
 .nav_content .list h2 {
     margin: 20px;
     color: #333;
     font-size: 20px;
 }
+
 .nav_content .item .child {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    //justify-content: space-around;
 }
 
 .nav_content .item .child a {
