@@ -10,8 +10,8 @@
     // 存储上一次的触摸位置，支持多个触摸点
     let touchPositions = {}; // {touchId: {lastX, lastY}}
     // 最大圆点数量
-    const MAX_ELEMENTS = 120;
-    var o = 2; // 每隔 o个 像素插一个点
+    const MAX_ELEMENTS = 45;
+    var o = 1; // 每隔 o个 像素插一个点
     var size = 10 // 圆点的大小
 
     // 定义圆点类
