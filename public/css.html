@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+        body {
+            margin: 0 auto;
+            padding: 5px;
+        }
+
+        .text {
+            display: flex;
+            padding: 5px;
+        }
+
+        .text .code {
+            width: 100%;
+            height: 300px;
+            margin: auto 5px;
+        }
+
+        .text .code textarea {
+            width: 100%;
+            height: 100%;
+        }
+
+        .btn {
+            padding: 10px;
+            margin-top: 5px;
+            right: 0;
+            position: absolute;
+            display: flex;
+        }
+
+        .btn .chk {
+            display: block;
+            float: left;
+            line-height: 30px;
+            margin: auto 5px;
+        }
+
+        .btn input {
+            margin: auto 2px;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <form autocomplete="off">
+            <!--GuoLvWrap-begin-->
+            <div class="text">
+                <div class="code">
+                    <textarea id="Code_1" name="content"></textarea><b
+                        class="search-hint CentHid" style="display: none;">CSS代码</b>
+                </div>
+                <div class="code">
+                    <textarea id="Code_2" name="result"></textarea><b
+                        class="search-hint CentHid" style="display: none;">结果</b>
+                </div>
+            </div>
+            <div class="btn">
+                <span class="chk"><input type="checkbox" id="chk" checked="checked">&nbsp;横向排列</span>
+                <input type="button" value="格式化代码" class="GLOkBtn" onclick="CSS('format');">
+                <input class="GLOkBtn" type="button" value="压缩代码" onclick="CSS('pack');">
+            </div>
+            <!--GuoLvWrap-end-->
+        </form>
+    </div>
+    <script>
+        var lCSSCoder = {
+            format: function (s) {//格式化代码
+                s = s.replace(/^\s+/g, '');  // 去掉字符串开头的空白字符
+                s = s.replace(/\s*([\{\}\:\;\,])\s*/g, "$1");
+                s = s.replace(/;\s*;/g, ";"); //清除连续分号
+                s = s.replace(/\,[\s\.\#\d]*{/g, "{");
+                s = s.replace(/([^\s])\{([^\s])/g, "$1 {\n\t$2");
+                s = s.replace(/([^\s])\}([^\n]*)/g, "$1\n}\n$2");
+                s = s.replace(/([^\s]);([^\s\}])/g, "$1;\n\t$2");
+                if (document.getElementById("chk").checked === true) {
+                    s = s.replace(/(\r|\n|\t)/g, "");
+                    s = s.replace(/(})/g, "$1\r\n");
+                }
+                return s;
+            },
+            pack: function (s) {//压缩代码
+                s = s.replace(/\/\*(.|\n)*?\*\//g, ""); //删除注释
+                s = s.replace(/\s*([\{\}\:\;\,])\s*/g, "$1");
+                s = s.replace(/\,[\s\.\#\d]*\{/g, "{"); //容错处理
+                s = s.replace(/;\s*;/g, ";"); //清除连续分号
+                s = s.match(/^\s*(\S+(\s+\S+)*)\s*$/); //去掉首尾空白
+                return (s == null) ? "" : s[1];
+            }
+        };
+        function CSS(s) {
+            document.getElementById("Code_2").value = lCSSCoder[s](document.getElementById("Code_1").value);
+            //document.getElementById("Code_2").siblings(".CentHid").hide();
+        }
+        //-->
+    </script>
+</body>
+
+</html>
