@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <title>颜色值转换 RGB转HEX、RGB转HSL。RGB,RGBA,HEX,HSL互转</title>
@@ -25,47 +26,66 @@
         }
     </style>
 </head>
+
 <body>
-<main>
-    <div class="container">
-        <h1>颜色值转换</h1>
-        <div class="group fullwidth mt-2">
-            <span class="static">颜色值</span>
-            <input id="input_color" class="input" placeholder="#6c928c" onpaste="setTimeout(convert, 1)">
-            <button class="button primary" onclick="convert()">转换</button>
+    <main>
+        <div class="container">
+            <h1>颜色值转换</h1>
+            <div class="group fullwidth mt-2">
+                <span class="static">颜色值</span>
+                <input type="color" id="color_input" class="input" value="#6c928c" style="width: 76px;height: 36px;border: black;" onchange="updateTextFromColor()">
+                <input id="input_color" class="input" placeholder="#6c928c" onpaste="setTimeout(convert(), 1)"
+                    onchange="updateColorFromText()">
+                <button class="button primary" onclick="convert()">转换</button>
+            </div>
+            <div class="flex" style="flex-wrap: wrap">
+                <span class="tag tips">输入示例(大小写不敏感):</span>
+                <span class="tag" style="background-color: #707B7C" onclick="inputExample(this)">#707B7C</span>
+                <span class="tag" style="background-color: rgba(247,220,111,0.667)"
+                    onclick="inputExample(this)">#AAF7DC6F</span>
+                <span class="tag" style="background-color: rgb(72,201,176)"
+                    onclick="inputExample(this)">rgb(72,201,176)</span>
+                <span class="tag" style="background-color: rgba(241,148,138,.5)"
+                    onclick="inputExample(this)">rgba(241,148,138,0.5)</span>
+                <span class="tag" style="background-color: #5FAEE3" onclick="inputExample(this)">hsl(204,70%,63%)</span>
+            </div>
+            <table class="table divide fullwidth mt-2">
+                <thead>
+                    <tr>
+                        <th>预览</th>
+                        <th>格式</th>
+                        <th>转换结果</th>
+                    </tr>
+                </thead>
+                <tbody id="table_preview"></tbody>
+            </table>
+            <h2 class="mt-2">CSS颜色表</h2>
+            <div class="tile mt-2">
+                HTML 和 CSS 颜色规范中定义了 147 中颜色名（17 种标准颜色加 130 种其他颜色）。下面的表格中列出了所有这些颜色，以及它们的十六进制值。
+                <br>
+                17 种标准色是 aqua, black, blue, fuchsia, gray, green, lime, maroon, navy, olive, orange, purple, red,
+                silver,
+                teal, white, yellow。
+            </div>
+            <div id="table_list"></div>
         </div>
-        <div class="flex" style="flex-wrap: wrap">
-            <span class="tag tips">输入示例(大小写不敏感):</span>
-            <span class="tag" style="background-color: #707B7C" onclick="inputExample(this)">#707B7C</span>
-            <span class="tag" style="background-color: rgba(247,220,111,0.667)"
-                  onclick="inputExample(this)">#AAF7DC6F</span>
-            <span class="tag" style="background-color: rgb(72,201,176)"
-                  onclick="inputExample(this)">rgb(72,201,176)</span>
-            <span class="tag" style="background-color: rgba(241,148,138,.5)"
-                  onclick="inputExample(this)">rgba(241,148,138,0.5)</span>
-            <span class="tag" style="background-color: #5FAEE3" onclick="inputExample(this)">hsl(204,70%,63%)</span>
-        </div>
-        <table class="table divide fullwidth mt-2">
-            <thead>
-            <tr>
-                <th>预览</th>
-                <th>格式</th>
-                <th>转换结果</th>
-            </tr>
-            </thead>
-            <tbody id="table_preview"></tbody>
-        </table>
-        <h2 class="mt-2">CSS颜色表</h2>
-        <div class="tile mt-2">
-            HTML 和 CSS 颜色规范中定义了 147 中颜色名（17 种标准颜色加 130 种其他颜色）。下面的表格中列出了所有这些颜色，以及它们的十六进制值。
-            <br>
-            17 种标准色是 aqua, black, blue, fuchsia, gray, green, lime, maroon, navy, olive, orange, purple, red,
-            silver,
-            teal, white, yellow。
-        </div>
-        <div id="table_list"></div>
-    </div>
-</main>
-<script src="static/js/color_convert.js"></script>
+    </main>
+    <script src="static/js/color_convert.js"></script>
+    <script>
+        // 点击文本框时触发颜色选择器
+        function updateColorFromText() {
+            var colorInput = document.getElementById('color_input');
+            var textInput = document.getElementById('input_color');
+            colorInput.value = textInput.value;  // 同步文本框到颜色选择器
+        }
+
+        // 当颜色选择器的颜色变化时，更新文本框
+        function updateTextFromColor() {
+            var colorInput = document.getElementById('color_input');
+            var textInput = document.getElementById('input_color');
+            textInput.value = colorInput.value;  // 同步颜色选择器到文本框
+        }
+    </script>
 </body>
+
 </html>
