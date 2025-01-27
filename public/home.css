@@ -12,7 +12,7 @@ body {
 
 .nav_content {
     /*width: 1280px;*/
-    margin: 15px auto;
+    margin: 15px auto auto;
     right: 0;
     /**position: absolute;*/
     left: 0;

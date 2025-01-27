@@ -14,7 +14,7 @@
         .footxx {
             text-align: center;
             /*margin: 20px;*/
-            padding: 10px;
+            padding-bottom: 10px;
             /*background-color: white;
             box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* 底部阴影 */
         }
