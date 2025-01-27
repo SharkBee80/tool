@@ -269,7 +269,8 @@
                         // 删除文件列表中的项
                         const fileListItems = document.querySelectorAll('.file-list li');
                         fileListItems.forEach(item => {
-                            if (item.textContent.includes(fileName)) {
+                            const n = item.querySelector('#n')
+                            if (n && n.textContent.includes(fileName)) {
                                 item.remove();
                             }
                         });
@@ -280,6 +281,7 @@
             }
 
         }
+
         // 创建新文件，清空编辑区域
         function createNewFile() {
             document.getElementById('notes').value = '';  // 清空编辑区域
@@ -302,7 +304,6 @@
                     item.remove();
                 };
             });
-            console.log('re')
             await init();
             if (saved) {
                 //setTimeout(`loadFile('${saved}')`, 20);
