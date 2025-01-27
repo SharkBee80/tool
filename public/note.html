@@ -255,7 +255,7 @@
         // 删除文件
         function deleteFile() {
             const selectedFile = document.querySelector('.file-list li.active');
-            const fileName = selectedFile.textContent;
+            const fileName = selectedFile.querySelector('#n').textContent;
             if (selectedFile === null || selectedFile.id === 'new') {
                 return
             }
