@@ -130,8 +130,8 @@ aside::-webkit-scrollbar-thumb {
 }
 
 main {
-    flex: 1;
-    overflow: auto;
+    /*flex: 1;
+    overflow: auto;*/
 }
 
 .container {

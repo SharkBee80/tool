@@ -48,7 +48,10 @@ const upload = multer({ storage });
 //
 
 // 你的JavaScript脚本地址
-const scriptUrl = 'decoratejs/drag.js';
+const drag = '<script src="decoratejs/drag.js"></script>';
+const foot = '<script src="decoratejs/foot.js"></script>';
+
+const spt = drag+foot+'</body>'
 
 // 中间件：拦截所有请求，插入 <script> 标签
 // 中间件：拦截对 HTML 文件的请求，插入 <script> 标签
@@ -59,10 +62,10 @@ app.use((req, res, next) => {
       if (err) {
         return next(); // 如果读取文件出错，继续处理下一个中间件
       }
-      // 在 <head> 标签前插入 <script> 标签
+      // 在 <body> 标签前插入 <script> 标签
       const modifiedData = data.replace(
-        /<\/head>/i,
-        `<script src="${scriptUrl}"></script></head>`
+        /<\/body>/i,
+        spt
       );
       res.send(modifiedData);
     });
@@ -73,7 +76,7 @@ app.use((req, res, next) => {
         // 在 </body> 标签前插入 <script> 标签
         body = body.replace(
           /<\/body>/i,
-          `<script src="${scriptUrl}"></script></body>`
+          spt
         );
       }
       originalSend.call(res, body);
