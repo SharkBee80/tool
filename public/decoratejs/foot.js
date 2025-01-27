@@ -38,7 +38,7 @@
     foot.className = 'footxx'
     foot.innerHTML = `
         <div>
-            <a target="_blank" href="https://tool.fyk.us.kg/">主页</a>
+            <a target="_blank" href="/">主页</a>
             <a target="_blank" href="https://github.com/SharkBee80/tool">GitHub</a>
             <br>
             <a>© SharkBee80.</a>
