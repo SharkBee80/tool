@@ -37,7 +37,7 @@ async function fetchTextFile(res, url) {
         }
 
         const contentType = response.headers.get('Content-Type'); // 判断是否text
-        if (contentType && contentType.includes('text/plain')) {} else{
+        if (contentType && contentType.includes('text/plain')) { } else {
             throw new Error('Web is not a text');
         }
 
@@ -54,8 +54,13 @@ async function fetchTextFile(res, url) {
     }
 }
 
-function txt2m3uPage(res, url) {
-    fetchTextFile(res, url)
+function txt2m3uPage(req, res) {
+    const txtUrl = req.params.url;
+    if (!txtUrl) {
+        return res.status(400).send(`缺少必要的 url 参数\nhttps://example.txt`);
+    } else {
+        fetchTextFile(res, txtUrl)
+    }
 }
 
 module.exports = txt2m3uPage;

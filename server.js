@@ -88,13 +88,8 @@ app.use((req, res, next) => {
 //
 
 //先定义动态路由
-app.get('/txt2m3u', async (req, res) => {
-  const txtUrl = req.query.url;
-  if (!txtUrl) {
-    return res.status(400).send('缺少必要的 url 参数');
-  } else {
-    txt2m3uPage(res, txtUrl)
-  }
+app.get('/txt2m3u/:url', async (req, res) => {
+    txt2m3uPage(req, res)
 });
 
 app.get('/redirect', (req, res) => {
