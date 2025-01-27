@@ -5,6 +5,7 @@
         body {
             display: flex;
             flex-direction: column;
+            margin: 0;
         }
 
         .content {
@@ -20,10 +21,15 @@
         }
 
         .footxx a {
-            margin: 0 15px;
+            margin: 0 auto;
             text-decoration: none;
             color: #666666;
-            font-size: 12px;
+            font-size: 14px;
+        }
+
+        
+        .footxx .i {
+            margin: 0 5px;
         }
 
         /*.footxx a:hover {
@@ -39,6 +45,7 @@
     foot.innerHTML = `
         <div>
             <a target="_blank" href="/">主页</a>
+            <a class='i'>|</a>
             <a target="_blank" href="https://github.com/SharkBee80/tool">GitHub</a>
             <br>
             <a>© SharkBee80.</a>
