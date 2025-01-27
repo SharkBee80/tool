@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,18 +15,23 @@
       margin: 0;
       padding: 0;
     }
+
     h2 {
       color: #333;
     }
+
     #inputContainer {
       margin-top: 10px;
     }
+
     label {
       display: block;
       margin-bottom: 5px;
       color: #666;
     }
-    textarea, #txtOutput {
+
+    textarea,
+    #txtOutput {
       width: 800px;
       height: 300px;
       box-sizing: border-box;
@@ -35,6 +41,7 @@
       border-radius: 5px;
       font-size: 12px;
     }
+
     button {
       margin-top: 10px;
       padding: 10px 10px;
@@ -45,40 +52,45 @@
       border: none;
       border-radius: 5px;
     }
+
     button:hover {
       background-color: #45a049;
     }
-    #txt,#m3u {
+
+    #txt,
+    #m3u {
       margin-top: 5px;
       background-color: #fff;
       color: #333;
       width: 100%;
     }
-
   </style>
 </head>
+
 <body>
-  <h2>在线TXT↔M3U格式</h2>
-  <h3>TXT格式:</h3>
-  <div id="inputContainer"> 
-    <textarea id="txt" rows="10" cols="80"></textarea>
-  </div>
-  <button onclick="convertToM3U()">生成M3U</button>  
-  <button onclick="copyM3U()">拷贝M3U</button>
-  <button onclick="saveAsM3U()">保存M3U</button>
+  <div class="main">
+    <h2>在线TXT↔M3U格式</h2>
+    <h3>TXT格式:</h3>
+    <div id="inputContainer">
+      <textarea id="txt" rows="10" cols="80"></textarea>
+    </div>
+    <button onclick="convertToM3U()">生成M3U</button>
+    <button onclick="copyM3U()">拷贝M3U</button>
+    <button onclick="saveAsM3U()">保存M3U</button>
 
-  <button onclick="clearScreen()">清除屏幕</button>
+    <button onclick="clearScreen()">清除屏幕</button>
 
-  <button onclick="convertToTXT()">生成TXT</button>
-  <button onclick="copyTXT()">拷贝TXT</button>
-  <button onclick="saveAsTXT()">保存TXT</button>
+    <button onclick="convertToTXT()">生成TXT</button>
+    <button onclick="copyTXT()">拷贝TXT</button>
+    <button onclick="saveAsTXT()">保存TXT</button>
 
-  <h3>M3U格式:</h3>
-  <div id="inputContainer">
-    <textarea id="m3u" rows="10" cols="80"></textarea>
-  </div>
-  <div>
-    <a>快链：</a><a target="_blank" href="txt2m3u?url=">txt2m3u?url=&lt;https://example.txt&gt;</a>
+    <h3>M3U格式:</h3>
+    <div id="inputContainer">
+      <textarea id="m3u" rows="10" cols="80"></textarea>
+    </div>
+    <div>
+      <a>快链：</a><a target="_blank" href="txt2m3u?url=">txt2m3u?url=&lt;https://example.txt&gt;</a>
+    </div>
   </div>
 
   <script>
@@ -160,4 +172,5 @@
     }
   </script>
 </body>
+
 </html>
