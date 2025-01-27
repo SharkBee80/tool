@@ -55,6 +55,8 @@
             margin-bottom: 8px;
             border-radius: 5px;
             cursor: pointer;
+            display: flex;
+            justify-content: space-between;
         }
 
         .file-list li:hover {
@@ -64,6 +66,12 @@
         .file-list li.active {
             background-color: #d3f9d8;
             border-color: #4CAF50;
+        }
+
+        .file-list li #t {
+            font-size: 10px;
+            color: darkgrey;
+            align-content: end;
         }
 
         .file-list button:hover {
@@ -160,8 +168,29 @@
                     const fileList = document.getElementById('fileList');
                     files.forEach(file => {
                         const listItem = document.createElement('li');
-                        listItem.textContent = file;
-                        listItem.onclick = () => loadFile(file);
+
+                        // 格式化修改时间
+                        const mtime = new Date(file.mtime);
+                        const now = new Date();
+
+                        let formattedTime;
+                        if (mtime.toDateString() === now.toDateString()) {
+                            // 如果是今天，显示时间
+                            formattedTime = mtime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        } else {
+                            // 如果不是今天，显示日期和时间
+                            formattedTime = mtime.toLocaleString([], {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: false
+                            });
+                        }
+
+                        listItem.innerHTML = `<a id='n'>${file.name}</a><a id='t'>${formattedTime}</a>`;
+                        listItem.onclick = () => loadFile(file.name);
                         fileList.appendChild(listItem);
                     });
                 });
@@ -173,7 +202,10 @@
             // 高亮显示当前选中的文件
             const fileListItems = document.querySelectorAll('.file-list li');
             fileListItems.forEach(item => item.classList.remove('active'));
-            const clickedItem = Array.from(fileListItems).find(item => item.textContent === fileName && item.id !== 'new');
+            const clickedItem = Array.from(fileListItems).find(item => {
+                const n = item.querySelector('#n');
+                return n && n.textContent === fileName && item.id !== 'new';
+            });
             if (clickedItem) {
                 clickedItem.classList.add('active');
             }
@@ -194,7 +226,7 @@
                 fileName = prompt("输入新文件名:");
                 if (fileName === null) return;
             } else {
-                fileName = selectedFile.textContent;
+                fileName = selectedFile.querySelector('#n').textContent;
             }
             const content = document.getElementById('notes').value;
             fetch(`/file/${fileName}`, {
@@ -210,11 +242,13 @@
                     if (!selectedFile || selectedFile.id === 'new') {
                         // 如果是新文件，添加到文件列表
                         const newItem = document.createElement('li');
-                        newItem.textContent = fileName;
+                        const formattedTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                        newItem.innerHTML = `<a id='n'>${fileName}</a><a id='t'>${formattedTime}</a>`;
                         newItem.onclick = () => loadFile(fileName);
                         document.getElementById('fileList').appendChild(newItem);
                     }
-                    refresh(fileName);                   
+                    refresh(fileName);
                 });
         }
 
@@ -271,7 +305,7 @@
             console.log('re')
             init();
             if (saved) {
-                setTimeout(`loadFile('${saved}')`,20);
+                setTimeout(`loadFile('${saved}')`, 20);
             };
         }
     </script>

@@ -124,9 +124,7 @@ app.get('/files', (req, res) => {
     // 按照修改时间排序（从新到旧）
     fileDetails.sort((a, b) => b.mtime - a.mtime);
 
-    // 只返回文件名，排序后的结果
-    const sortedFiles = fileDetails.map(file => file.name);
-    res.json(sortedFiles);
+    res.json(fileDetails);
   });
 });
 
