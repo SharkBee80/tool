@@ -88,7 +88,7 @@ app.use((req, res, next) => {
 //
 
 //先定义动态路由
-app.get('/txt2m3u/:url', async (req, res) => {
+app.get('/txt2m3u', async (req, res) => {
     txt2m3uPage(req, res)
 });
 

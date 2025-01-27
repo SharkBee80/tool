@@ -55,7 +55,7 @@ async function fetchTextFile(res, url) {
 }
 
 function txt2m3uPage(req, res) {
-    const txtUrl = req.params.url;
+    const txtUrl = req.query.url;
     if (!txtUrl) {
         return res.status(400).send(`缺少必要的 url 参数\nhttps://example.txt`);
     } else {
