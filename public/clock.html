@@ -10,43 +10,56 @@
     <link rel="stylesheet" href="">
     <style>
         body {
-            margin: 0 auto;
-            padding: 5px;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
             font-size: 1em;
             line-height: 1.3;
             font-family: sans-serif;
             background-color: darkgoldenrod;
             overflow: hidden;
-            height: 100vh;
-            /* 让 body 充满整个视口 */
-            /*transform: rotate(90deg);*/
+            position: absolute;
+            align-content: center;
+            justify-content: center;
+            display: flex;
         }
 
         .main {
             overflow: hidden;
-            /*overflow-x: hidden;*/
             border-width: 0;
-            padding: 1em;
             border: solid darkgoldenrod 12px;
             border-radius: 25px;
             background-color: white;
+            width: 100%;
         }
 
-        .box {
-            margin: 5% auto;
+        #c {
             align-content: center;
             justify-content: center;
             white-space: nowrap;
             display: flex;
             flex-direction: column;
-        }
-
-        .c {
             top: 0;
             bottom: 0;
-            position: absolute;
             left: 0;
             right: 0;
+            position: absolute;
+            user-select: none;
+            color: blue;
+        }
+
+        #f {
+            align-content: center;
+            justify-content: center;
+            white-space: nowrap;
+            display: none;
+            flex-direction: column;
+            top: 50%;
+            left: 50%;
+            position: absolute;
+            user-select: none;
+            color: purple;
+            transform: translate(-50%, -50%) rotate(90deg); /* 使元素完全居中并旋转 */
         }
 
         #time,
@@ -57,6 +70,7 @@
 
         #time {
             font-size: 24vw;
+
         }
 
         #date {
@@ -66,8 +80,15 @@
 </head>
 
 <body>
-    <div class="main c">
-        <div class="box c">
+    <div class="main c" id="main" onclick="switch_()">
+        <div class="box c" id="c">
+            <br>
+            <div id="time">00:00:00</div>
+            <br>
+            <div id="date">◻◻◻ 2000-00-00</div>
+            <br>
+        </div>
+        <div class="box c" id="f">
             <br>
             <div id="time">00:00:00</div>
             <br>
@@ -76,7 +97,14 @@
         </div>
     </div>
     <script>
-        window.onload(setInterval(function () { getDateTime() }, 1000));
+        window.onload = setInterval(function () { getDateTime() }, 1000);
+
+        let mm;
+        document.querySelector('#c #time').style = 'font-size:' + window.innerWidth / 4.2 + 'px';
+        document.querySelector('#c #date').style = 'font-size:' + window.innerWidth / 10 + 'px';
+        document.querySelector('#f #time').style = 'font-size:' + window.innerHeight / 4.2 + 'px';
+        document.querySelector('#f #date').style = 'font-size:' + window.innerHeight / 10 + 'px';
+
         function getDateTime() {
             //var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             //var days = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六']
@@ -112,10 +140,41 @@
 
             var time = hour + ':' + minute + ':' + second
             var date = wday + ' ' + year + '-' + month + '-' + day
-            //document.title = time;
-            document.getElementById('time').textContent = time;
-            document.getElementById('date').textContent = date;
+            document.title = date + ' ' + time;
+            //document.getElementById('time').textContent = time;
+            //document.getElementById('date').textContent = date;
+            document.querySelectorAll('#time').forEach(a => a.textContent = time);
+            document.querySelectorAll('#date').forEach(a => a.textContent = date);
             return dateTime;
+        }
+
+        function f() {//竖-横
+            document.querySelector('#f #time').style = 'font-size:' + window.innerHeight / 4.2 + 'px';
+            document.querySelector('#f #date').style = 'font-size:' + window.innerHeight / 10 + 'px';
+
+            document.getElementById('c').style = 'display:flex';
+            document.getElementById('f').style = 'display:none';
+            mm = 'f';
+            console.log(mm);
+        }
+        function c() {//横-竖
+            document.querySelector('#c #time').style = 'font-size:' + window.innerWidth / 4.2 + 'px';
+            document.querySelector('#c #date').style = 'font-size:' + window.innerWidth / 10 + 'px';
+
+            document.getElementById('c').style = 'display:none';
+            document.getElementById('f').style = 'display:flex';
+            mm = 'c';
+            console.log(mm)
+        }
+
+        function switch_() {
+            if (mm && mm === 'c') {
+                f();console.log('ff');
+            } else if (mm && mm === 'f') {
+                c();console.log('cc');
+            } else {
+                c();console.log('cc');
+            }
         }
     </script>
 </body>
