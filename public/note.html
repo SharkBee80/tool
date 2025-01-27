@@ -161,8 +161,8 @@
     <script>
         init();
         // 获取文件列表并填充文件列表
-        function init() {
-            fetch('/files')
+        async function init() {
+            await fetch('/files')
                 .then(response => response.json())
                 .then(files => {
                     const fileList = document.getElementById('fileList');
@@ -294,7 +294,7 @@
         }
 
         // 更新列表
-        function refresh(saved) {
+        async function refresh(saved) {
             // 删除文件列表中的项
             const fileListItems = document.querySelectorAll('.file-list li');
             fileListItems.forEach(item => {
@@ -303,9 +303,10 @@
                 };
             });
             console.log('re')
-            init();
+            await init();
             if (saved) {
-                setTimeout(`loadFile('${saved}')`, 20);
+                //setTimeout(`loadFile('${saved}')`, 20);
+                loadFile(saved)
             };
         }
     </script>
