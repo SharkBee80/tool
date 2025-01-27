@@ -51,12 +51,17 @@ const upload = multer({ storage });
 const drag = '<script src="decoratejs/drag.js"></script>';
 const foot = '<script src="decoratejs/foot.js"></script>';
 
-const spt = drag+foot+'</body>'
+const spt = drag + foot + '</body>'
 
 // 中间件：拦截所有请求，插入 <script> 标签
 // 中间件：拦截对 HTML 文件的请求，插入 <script> 标签
+const ignoredFiles = ['clock.html']
+
 app.use((req, res, next) => {
   if (req.path.endsWith('.html')) {
+    if (ignoredFiles.some(file => req.path.endsWith(file))) {
+      return next();
+    };
     const filePath = path.join(__dirname, 'public', req.path);
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
@@ -89,7 +94,7 @@ app.use((req, res, next) => {
 
 //先定义动态路由
 app.get('/txt2m3u', async (req, res) => {
-    txt2m3uPage(req, res)
+  txt2m3uPage(req, res)
 });
 
 app.get('/redirect', (req, res) => {
