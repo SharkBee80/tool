@@ -26,9 +26,9 @@
             font-size: 12px;
         }
 
-        .footxx a:hover {
+        /*.footxx a:hover {
             text-decoration: underline;
-        }
+        }/*
     `;
     // 将样式插入到页面的head中
     document.head.appendChild(style);
