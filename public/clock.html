@@ -29,36 +29,34 @@
             border-width: 0;
             border: solid darkgoldenrod 12px;
             border-radius: 25px;
-            background-color: white;
+            background-color: darkgray;
             width: 100%;
         }
 
-        #c {
+        .box {
             align-content: center;
             justify-content: center;
             white-space: nowrap;
-            display: flex;
             flex-direction: column;
+            position: absolute;
+            user-select: none;
+        }
+
+        #c {
+            
+            display: flex;
             top: 0;
             bottom: 0;
             left: 0;
             right: 0;
-            position: absolute;
-            user-select: none;
-            color: blue;
+            color: black;
         }
 
         #f {
-            align-content: center;
-            justify-content: center;
-            white-space: nowrap;
             display: none;
-            flex-direction: column;
             top: 50%;
             left: 50%;
-            position: absolute;
-            user-select: none;
-            color: purple;
+            color: black;
             transform: translate(-50%, -50%) rotate(90deg); /* 使元素完全居中并旋转 */
         }
 
