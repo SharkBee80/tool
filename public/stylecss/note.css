@@ -1,0 +1,182 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    height: 100vh;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 1600px;
+    min-width: 280px;
+    margin: 14px;
+    height: 96%;
+}
+
+/* 左侧文件列表 */
+.file-list {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-right: 6px;
+    overflow-y: auto;
+}
+
+.file-list .head {
+    display: flex;
+    line-height: 0%;
+    align-content: center;
+    height: 41px;
+    padding: 5px 0;
+}
+
+.file-list .head .toggle-btn {
+    margin: auto;
+    margin-right: 0;
+}
+
+.file-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    height: calc(100% - 20px -28px - 32px);
+}
+
+.file-list #new {
+    position: sticky;
+    top: 0;
+    background-color: lightslategray
+}
+
+.file-list li {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+.file-list li:hover {
+    background-color: #e1e1e1;
+}
+
+.file-list li.active {
+    background-color: #d3f9d8;
+    border-color: #4CAF50;
+}
+
+.file-list li #t {
+    font-size: 10px;
+    color: darkgrey;
+    align-content: end;
+}
+
+.file-list button:hover {
+    background-color: #45a049;
+}
+
+/* 右侧编辑区域 */
+.editor {
+    flex: 4;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.editor .head {
+    display: flex;
+    align-content: center;
+    line-height: 0%;
+    padding: 5px 0;
+}
+
+.editor .head h2,
+.btn {
+    white-space: nowrap;
+}
+
+.editor .head a {
+    align-content: center;
+    font-size: x-small;
+}
+
+.editor .head .btn {
+    margin: auto;
+    margin-right: 0;
+}
+
+.editor .bton {
+    padding: 10px;
+    margin: auto;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+textarea {
+    width: calc(100% - 20px);
+    height: calc(100% - 40px - 10px - 16px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #fafafa;
+    resize: none;
+}
+
+/**/
+.toggle-btn {
+    display: none;
+    /* 显示切换按钮 */
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(49, 165, 49, 0.5);
+    min-width: 36px;
+    min-height: 36px;
+    width: 36px;
+    height: 36px;
+}
+
+/* 小屏幕时隐藏文件列表栏并使其覆盖 */
+@media (max-width: 619px) {
+    .file-list {
+        position: fixed;
+        /* 固定在屏幕左边 */
+        /*left: 0;*/
+        width: 70%;
+        /* 可根据需要调整宽度 */
+        z-index: 9999;
+        /* 确保在上层显示 */
+        display: none;
+        /* 默认隐藏 */
+    }
+
+    .file-list.show {
+        display: block;
+        /* 显示文件列表 */
+    }
+
+    .editor {
+        margin-left: 0;
+        /* 编辑区宽度调整 */
+    }
+
+    .toggle-btn {
+        display: block;
+    }
+}
