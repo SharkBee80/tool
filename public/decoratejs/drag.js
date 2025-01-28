@@ -1,3 +1,4 @@
+//禁用Firefox
 (function () {
     // 颜色和元素的定义
     var color = "rgba(59, 48, 48, 0.5)";
@@ -59,7 +60,16 @@
     }
 
     // 添加事件监听器
-    AddListener();
+    // 获取浏览器的 userAgent 信息
+    var userAgent = navigator.userAgent;
+    //"Chrome","Firefox","Safari","Edge",
+    // 判断浏览器类型
+    if (userAgent.indexOf("Firefox") > -1) {
+        return;
+    } else {
+        AddListener();
+    };
+    
 
     // 循环渲染元素
     setInterval(function () {
@@ -68,7 +78,7 @@
 
     // 监听事件
     function AddListener() {
-        document.addEventListener("mousemove", onMouseMove);       
+        document.addEventListener("mousemove", onMouseMove);
         document.addEventListener("mouseleave", onMouseLeave);
         //
         document.addEventListener("touchmove", onTouchMove);

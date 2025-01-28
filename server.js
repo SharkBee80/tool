@@ -52,7 +52,7 @@ const upload = multer({ storage });
 const drag = '<script src="decoratejs/drag.js"></script>';
 const foot = '<script src="decoratejs/foot.js"></script>';
 
-const spt = foot + '</body>'
+const spt = drag + foot + '</body>'
 
 // 中间件：拦截所有请求，插入 <script> 标签
 // 中间件：拦截对 HTML 文件的请求，插入 <script> 标签
