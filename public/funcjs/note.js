@@ -155,8 +155,7 @@ function toggleFileList() {
     fileList.classList.toggle('show');
     const ed = document.querySelector('.editor');
 
-    document.getElementById('file-list').style.height = String(ed.clientHeight - 40) + 'px';
-    console.log(String(ed.clientHeight));
+    fileList.style = 'height: ' + String(ed.clientHeight - 40) + 'px';
 }
 
 document.addEventListener('pointerdown', function (event) {
