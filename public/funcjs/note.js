@@ -160,7 +160,11 @@ function toggleFileList() {
 
 document.addEventListener('pointerdown', function (event) {
     // 这里可以通过 event.target 来判断是哪个具体的元素被点击
-    if (event.target.id === 'file-list') return;
+    const fileList = document.getElementById('file-list');
+    // 如果点击的是 file-list 或其子元素，直接返回
+    if (fileList && fileList.contains(event.target) && event.target.id !== 'new') {
+        return;
+    }
     const e = window.getComputedStyle(document.querySelector('.file-list')).display
     if (window.innerWidth < 620 && e !== 'none') {
         toggleFileList();
