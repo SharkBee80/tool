@@ -32,7 +32,7 @@ function noty(message) {
     // 动态创建气泡通知元素
     const notification = document.createElement('div');
     notification.classList.add('notification');
-    notification.textContent = message;
+    notification.innerText = message;
 
     // 将气泡通知添加到页面中
     document.body.appendChild(notification);
