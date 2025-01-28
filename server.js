@@ -9,8 +9,9 @@ const bodyParser = require('body-parser');
 
 
 const txt2m3uPage = require('./public/nodejs/txt2m3uPage');
-const img2ico = require('./public/nodejs/img2ico')
-const redirect = require('./public/nodejs/redirect')
+const img2ico = require('./public/nodejs/img2ico');
+const redirect = require('./public/nodejs/redirect');
+const comment = require('./public/nodejs/comment')
 
 const app = express();
 
@@ -51,7 +52,7 @@ const upload = multer({ storage });
 const drag = '<script src="decoratejs/drag.js"></script>';
 const foot = '<script src="decoratejs/foot.js"></script>';
 
-const spt = drag + foot + '</body>'
+const spt = foot + '</body>'
 
 // 中间件：拦截所有请求，插入 <script> 标签
 // 中间件：拦截对 HTML 文件的请求，插入 <script> 标签
@@ -88,6 +89,19 @@ app.use((req, res, next) => {
     };
     next();
   }
+});
+
+//
+
+//评论
+// 获取评论列表
+app.get("/comments", (req, res) => {
+  comment(req, res, 'get')
+});
+
+// 添加新评论
+app.post("/comments", (req, res) => {
+  comment(req, res, 'post')
 });
 
 //
