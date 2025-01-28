@@ -152,11 +152,14 @@
             border-radius: 50%;
             border: none;
             background-color: rgba(49, 165, 49, 0.5);
-            min-width: 40px;
+            min-width: 36px;
+            min-height: 36px;
+            width: 36px;
+            height: 36px;
         }
 
         /* 小屏幕时隐藏文件列表栏并使其覆盖 */
-        @media (max-width: 768px) {
+        @media (max-width: 619px) {
             .file-list {
                 position: fixed;
                 /* 固定在屏幕左边 */
@@ -376,6 +379,17 @@
             const fileList = document.querySelector('.file-list');
             fileList.classList.toggle('show');
         }
+
+        document.querySelector('.editor').addEventListener('pointerdown', function (event) {
+            // 这里可以通过 event.target 来判断是哪个具体的元素被点击
+            const e = window.getComputedStyle(document.querySelector('.file-list')).display
+            if (window.innerWidth < 620 && e !== 'none') {
+                toggleFileList();
+            }
+        });
+
+
+
     </script>
     <script src="funcjs/noty.js"></script>
 
