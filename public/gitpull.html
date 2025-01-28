@@ -39,7 +39,7 @@
         document.getElementById('Button').addEventListener('click', async () => {
             const url = '/gitpull'; // 替换为你的目标地址
             const resultElement = document.getElementById('result');
-            resultElement.textContent = `等待`
+            resultElement.textContent = `等待`;
             try {
                 const response = await fetch(url, {
                     method: 'POST',
