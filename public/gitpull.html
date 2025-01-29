@@ -49,18 +49,18 @@
                     body: JSON.stringify({ message: 'Connection' }),
                 });
                 resultElement.textContent = `等待返回`;
-                const data = await response; // 如果服务器返回 JSON 数据
+                const res = await response; // 如果服务器返回 JSON 数据
                 if (response.ok) {
-                    resultElement.textContent = `连接成功: ${JSON.stringify(data.json())}`;
+                    resultElement.textContent = `连接成功: ${JSON.stringify(res.json())}`;
                 } 
                 else if (response.status === 502) {
-                    throw new Error(data)
+                    throw new Error(res.text)
                 }
                 else {
-                    resultElement.textContent = `服务器返回错误: ${response.status}\n${JSON.stringify(data.json())}`;
+                    resultElement.textContent = `服务器返回错误: ${response.status}\n${JSON.stringify(res.json())}`;
                 }
             } catch (error) {
-                resultElement.innerHTML = `连接失败: 502 Bad Gateway<br><a style="color: red;">代表服务器正在重启</a><br><iframe>${error}</iframe>`;//${error.message}
+                resultElement.innerHTML = `连接失败: 502 Bad Gateway<br><a style="color: red;">代表服务器正在重启</a><br><iframe>${error.message}</iframe>`;//${error.message}
             }
         });
     </script>
