@@ -189,17 +189,21 @@ app.delete('/file/:filename', (req, res) => {
 app.post('/gitpull', (req, res) => {
   // 执行系统命令-在服务器运行~/tool-重新拉取github
   const command = "~/tool"
-  //("即将运行"+command+"命令")
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      return res.status(500).json({ error: `执行错误: ${error.message}` });
-    }
-    if (stderr) {
-      return res.status(500).json({ error: `命令错误: ${stderr}` });
-    }
-    // 返回命令输出
-    res.json({ output: stdout });
-  });
+  try { 
+    //("即将运行"+command+"命令")
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        return res.status(500).json({ error: `执行错误: ${error.message}` });
+      }
+      if (stderr) {
+        return res.status(500).json({ error: `命令错误: ${stderr}` });
+      }
+      // 返回命令输出
+      res.json({ output: stdout });
+    });
+  } catch (error) {
+    res.send(error.message)
+  }
 });
 
 app.post('/img2ico', upload.single('image'), async (req, res) => {

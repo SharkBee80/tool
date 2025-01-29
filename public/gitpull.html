@@ -56,7 +56,7 @@
                     resultElement.textContent = `服务器返回错误: ${response.status}\n${JSON.stringify(data)}`;
                 }
             } catch (error) {
-                resultElement.innerHTML = `连接失败: 404 Not Found<br><a style="color: red;">代表服务器正在重启</a><br>${error.message}`;//${error.message}
+                resultElement.innerHTML = `连接失败: 502 Bad Gateway<br><a style="color: red;">代表服务器正在重启</a><br><iframe>${error.message}</iframe>`;//${error.message}
             }
         });
     </script>
