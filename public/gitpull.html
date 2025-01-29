@@ -53,7 +53,7 @@
                 if (response.ok) {
                     resultElement.textContent = `连接成功: ${JSON.stringify(data)}`;
                 } 
-                else if (response.status === 502) {
+                else if (response.status === '502 Bad Gateway') {
                     throw new Error(data)
                 }
                 else {
