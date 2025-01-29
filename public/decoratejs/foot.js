@@ -39,7 +39,7 @@
     // 将样式插入到页面的head中
     document.head.appendChild(style);
 
-    // 创建页面内容和底部内容
+    // 创建底部内容
     const foot = document.createElement('div');
     foot.className = 'footxx'
     foot.innerHTML = `
@@ -54,6 +54,6 @@
     `;
     
 
-    // 将内容和底部元素插入到页面
+    // 将底部元素插入到页面
     document.body.appendChild(foot);
 })();
