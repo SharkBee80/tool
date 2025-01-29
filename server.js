@@ -11,7 +11,9 @@ const bodyParser = require('body-parser');
 const txt2m3uPage = require('./public/nodejs/txt2m3uPage');
 const img2ico = require('./public/nodejs/img2ico');
 const redirect = require('./public/nodejs/redirect');
-const comment = require('./public/nodejs/comment')
+const comment = require('./public/nodejs/comment');
+const comment_admin = require('./public/nodejs/comment_admin')
+
 
 const app = express();
 
@@ -102,6 +104,16 @@ app.get("/comments", (req, res) => {
 // 添加新评论
 app.post("/comments", (req, res) => {
   comment(req, res, 'post')
+});
+
+// 删除评论
+app.delete("/comments/:id", (req, res) => {
+  comment(req, res, 'delete');
+});
+
+// 进入管理员页面
+app.get(['/comment_admin/:token', '/comment_admin'], (req, res) => {
+  comment_admin(req, res, __dirname);
 });
 
 //
@@ -196,26 +208,10 @@ app.post('/img2ico', upload.single('image'), async (req, res) => {
 app.use(express.static(path.join(__dirname, 'public')));// 设置静态文件目录
 
 //再定义静态文件处理
-app.get('/', (req, res) => {
+app.get(['/', '/index', '/index.html', '/home'], (req, res) => {
   res.redirect('/home.html');
 });
 
-// 示例路由：动态生成的页面
-app.get('/o', (req, res) => {
-  const dynamicContent = '<h1>动态生成的页面</h1>';
-  const html = `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title>动态页面</title>
-      </head>
-      <body>
-        ${dynamicContent}
-        </body>
-    </html>
-  `;
-  res.send(html);
-});
 
 // 404 页面处理
 app.use((req, res, next) => {

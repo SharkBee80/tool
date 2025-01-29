@@ -35,6 +35,7 @@ function post(req,res) {
     }
 
     const newComment = {
+        id: Date.now().toString(),  // 为每个评论生成唯一的 ID
         text: comment,
         time: new Date().toISOString(),
         name: name || "匿名",  // 默认匿名
@@ -45,10 +46,25 @@ function post(req,res) {
     res.status(201).send("评论已添加");
 }
 
+// 删除评论
+function deleteComment(req, res) {
+    const { id } = req.params;
+    comments = comments.filter(comment => comment.id !== id);  // 根据 ID 过滤出要删除的评论
+
+    if (comments.length === comments.filter(comment => comment.id !== id).length) {
+        return res.status(404).send("评论未找到");
+    }
+
+    saveComments(comments);
+    res.status(200).send("评论已删除");
+}
+
+
 function comment(req, res, a) {
     if (a === undefined) return;
     if (a === 'get') get(res);
     if (a === 'post') post(req,res);
+    if (a === 'delete') deleteComment(req, res);
 }
 
 

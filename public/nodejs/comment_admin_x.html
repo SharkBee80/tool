@@ -92,7 +92,7 @@
     <div class="comment-box">
       <textarea id="comment" placeholder="输入你的评论（最多200字符）"></textarea>
       <div class="line">
-        <input type="text" id="name" placeholder="输入你的署名（默认匿名）">
+        <input type="text" id="name" placeholder="输入你的署名（默认admin）">
         <button id="submit-comment">提交评论</button>
       </div>
     </div>
@@ -101,7 +101,36 @@
 
   <script>
     const apiUrl = "/comments";
+    
+    // 获取并显示评论
+    /*function loadComments() {
+      fetch(apiUrl)
+        .then(res => res.json())
+        .then(data => {
+          const commentsDiv = document.getElementById("comments");
+          commentsDiv.innerHTML = "";
+          data.forEach(comment => {
+            const div = document.createElement("div");
+            div.className = "comment";
 
+            const name = document.createElement("div");
+            name.className = "comment-name";
+            name.textContent = comment.name;
+
+            const text = document.createElement("p");
+            text.textContent = comment.text;
+
+            const time = document.createElement("div");
+            time.className = "comment-time";
+            time.textContent = `时间：${new Date(comment.time).toLocaleString()}`;
+
+            div.appendChild(name);
+            div.appendChild(text);
+            div.appendChild(time);
+            commentsDiv.appendChild(div);
+          });
+        });
+    }*/
    // 获取并显示评论
     function loadComments() {
       fetch(apiUrl)
@@ -118,6 +147,7 @@
               <div class="line">
                 <div class="comment-name">${comment.name}</div>
                 <div class="comment-time">${new Date(comment.time).toLocaleString()}</div>
+                <button class="delete-btn" onclick="deleteComment(${comment.id})">删除</button>
               </div>
             </div>
             `
@@ -130,7 +160,7 @@
     // 提交评论
     document.getElementById("submit-comment").addEventListener("click", () => {
       const comment = document.getElementById("comment").value.trim();
-      const name = document.getElementById("name").value.trim() || "匿名";
+      const name = document.getElementById("name").value.trim() || "admin";
 
       if (!comment || comment.length > 200) {
         noty(`评论内容不能为空且不能超过200字符！\n当前${comment.length}字符。`)
@@ -148,6 +178,15 @@
         loadComments();
       });
     });
+
+    // 删除评论
+    function deleteComment(commentId) {
+      fetch(`${apiUrl}/${commentId}`, {
+        method: "DELETE",
+      }).then(() => {
+        loadComments();  // 刷新评论列表
+      });
+    }
 
     // 初始化加载评论
     loadComments();
