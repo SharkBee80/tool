@@ -199,7 +199,7 @@ app.post('/gitpull', (req, res) => {
         return res.status(500).json({ error: `命令错误: ${stderr}` });
       }
       // 返回命令输出
-      res.json({ output: stdout });
+      res.send(stdout);
     });
   } catch (error) {
     res.send(error.message)
