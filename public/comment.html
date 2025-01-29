@@ -137,6 +137,10 @@
         //alert("评论内容不能为空且不能超过200字符！");
         return;
       }
+      if (name === 'admin') {
+        noty('你不是管理员！');
+        return;
+      }
 
       fetch(apiUrl, {
         method: "POST",
@@ -146,6 +150,7 @@
         document.getElementById("comment").value = "";
         document.getElementById("name").value = "";
         loadComments();
+        noty('Done!');
       });
     });
 

@@ -184,7 +184,8 @@
       fetch(`${apiUrl}/${commentId}`, {
         method: "DELETE",
       }).then(() => {
-        loadComments();  // 刷新评论列表
+        loadComments();  // 刷新评论列表        
+        noty('Done!');
       });
     }
 

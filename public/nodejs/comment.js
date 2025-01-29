@@ -34,6 +34,10 @@ function post(req,res) {
         return res.status(400).send("评论内容不能为空且不能超过200个字符");
     }
 
+    if (!req.get('Referer').includes('comment_admin') && name === 'admin') {
+        return res.status(400).send("你不是管理员！");
+      }
+
     const newComment = {
         id: Date.now().toString(),  // 为每个评论生成唯一的 ID
         text: comment,
