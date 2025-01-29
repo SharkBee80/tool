@@ -54,7 +54,7 @@
                     resultElement.textContent = `连接成功: ${JSON.stringify(res.json())}`;
                 } 
                 else if (response.status === 502) {
-                    throw new Error(res.body)
+                    throw new Error(res.text());
                 }
                 else {
                     resultElement.textContent = `服务器返回错误: ${response.status}\n${JSON.stringify(res.json())}`;
