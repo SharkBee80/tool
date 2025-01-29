@@ -50,17 +50,19 @@ const upload = multer({ storage });
 
 //
 
-// 你的JavaScript脚本地址
-const drag = '<script src="decoratejs/drag.js"></script>';
-const foot = '<script src="decoratejs/foot.js"></script>';
-
-const spt = drag + foot + '</body>'
-
 // 中间件：拦截所有请求，插入 <script> 标签
 // 中间件：拦截对 HTML 文件的请求，插入 <script> 标签
 const ignoredFiles = ['clock.html']
 
 app.use((req, res, next) => {
+  let host = req.get('Host');
+  host = 'http://' + host;
+  // 你的JavaScript脚本地址
+  const drag = `<script src="${host}/decoratejs/drag.js"></script>`;
+  const foot = `<script src="${host}/decoratejs/foot.js"></script>`;
+
+  const spt = drag + foot + '</body>';
+
   if (req.path.endsWith('.html')) {
     if (ignoredFiles.some(file => req.path.endsWith(file))) {
       return next();
