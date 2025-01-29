@@ -133,7 +133,7 @@
       const name = document.getElementById("name").value.trim() || "匿名";
 
       if (!comment || comment.length > 200) {
-        noty(`评论内容不能为空且不能超过200字符！\n当前${comment.length}字符。`)
+        noty(`评论内容不能为空且不能超过200字符！\n当前${comment.length}字符。`);
         //alert("评论内容不能为空且不能超过200字符！");
         return;
       }
