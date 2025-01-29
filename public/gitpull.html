@@ -50,16 +50,8 @@
                 });
                 resultElement.textContent = `等待返回`;
                 const data = await response.json(); // 如果服务器返回 JSON 数据
-                if (response.ok) {
-                    resultElement.textContent = `连接成功: ${JSON.stringify(data)}`;
-                } 
-                else if (response.status === '502 Bad Gateway') {
-                    throw new Error(data)
-                }
-                else {
-                    //resultElement.textContent = `服务器返回错误: ${response.status}\n${JSON.stringify(data)}`;
-                    throw new Error(data)
-                }
+                
+                throw new Error(data)
             } catch (error) {
                 resultElement.innerHTML = `连接失败: 502 Bad Gateway<br><a style="color: red;">代表服务器正在重启</a><br><iframe>${error.message}</iframe>`;//${error.message}
             }
