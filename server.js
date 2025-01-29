@@ -12,7 +12,8 @@ const txt2m3uPage = require('./public/nodejs/txt2m3uPage');
 const img2ico = require('./public/nodejs/img2ico');
 const redirect = require('./public/nodejs/redirect');
 const comment = require('./public/nodejs/comment');
-const comment_admin = require('./public/nodejs/comment_admin')
+const comment_admin = require('./public/nodejs/comment_admin');
+const N404 = require('./public/nodejs/N404')
 
 
 const app = express();
@@ -217,7 +218,8 @@ app.get(['/', '/index', '/index.html', '/home'], (req, res) => {
 
 // 404 页面处理
 app.use((req, res, next) => {
-  res.status(404).send('<h1 style="display: flex;justify-content: center;">404 Not Found</h1>');
+  N404(req, res, next);
+  //res.status(404).send('<h1 style="display: flex;justify-content: center;">404 Not Found</h1>');
 });
 
 app.listen(port, () => {
