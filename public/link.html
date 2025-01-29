@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short Link Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            margin-bottom: 20px;
+            align-content: center;
+            display: inline-flex;
+        }
+
+        input[type="text"],
+        input[type="url"] {
+            padding: 8px;
+            margin: 5px;
+            width: 300px;
+        }
+
+        input[type="checkbox"] {
+            padding: 8px;
+            margin: 5px;
+            width: 36px;
+            height: 36px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #delete {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Short Link Manager</h1>
+
+    <!-- 表单：添加新短链接 -->
+    <form id="createForm">
+        <input type="text" id="name" placeholder="Enter name (optional)" />
+        <input type="url" id="originalUrl" placeholder="Enter original URL" required />
+        <input type="checkbox" id="toggle" placeholder="unknown" checked />
+        <input type="submit" value="Create Short Link" />
+    </form>
+
+    <h2>Existing Short Links</h2>
+
+    <!-- 表格：显示短链接记录 -->
+    <table id="linksTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Original URL</th>
+                <th>Short URL</th>
+                <th>Date</th>
+                <th id="delete">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 数据行会通过 JavaScript 动态填充 -->
+        </tbody>
+    </table>
+
+    <script>
+        const apiUrl = "/links";
+        // 获取短链接记录并渲染到表格
+        function loadLinks() {
+            fetch(apiUrl)  // 假设后端返回所有链接
+                .then(response => response.json())
+                .then(links => {
+                    const tableBody = document.getElementById('linksTable').querySelector('tbody');
+                    tableBody.innerHTML = '';  // 清空表格
+
+                    links.forEach(link => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+              <td>${link.name}</td>
+              <td>${link.originalUrl}</td>
+              <td><a href="/link/${link.shortUrl}" target="_blank">${link.shortUrl}</a></td>
+              <td>${new Date(link.time).toLocaleString()}</td>
+              <td>
+                <button onclick="del(${link.id})" id="delete">删除</button>
+              </td>
+            `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error loading links:', error));
+        }
+
+        // 提交表单，添加新短链接
+        document.getElementById('createForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const originalUrl = document.getElementById('originalUrl').value;
+            const name = document.getElementById('name').value;
+            const toggle = document.getElementById('toggle').checked ? 'true' : 'false';
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    originalUrl,
+                    toggle,
+                })
+            })
+                .then(() => {
+                    loadLinks();  // 重新加载短链列表
+                    noty('Short link created successfully!');
+                })
+                .catch(error => {
+                    noty('Error creating short link');
+                    console.error('Error:', error);
+                });
+        });
+
+        // 删除
+        function del(id) {
+            fetch(`${apiUrl}/${id}`, {
+                method: "DELETE",
+            }).then(() => {
+                loadComments();  // 刷新评论列表        
+                noty('Done!');
+            });
+        }
+
+
+        // 页面加载时获取所有短链接记录
+        loadLinks();
+    </script>
+    <script src="funcjs/noty.js"></script>
+</body>
+
+</html>

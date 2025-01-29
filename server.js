@@ -13,6 +13,7 @@ const img2ico = require('./public/nodejs/img2ico');
 const redirect = require('./public/nodejs/redirect');
 const comment = require('./public/nodejs/comment');
 const comment_admin = require('./public/nodejs/comment_admin');
+const link = require('./public/nodejs/link');
 const N404 = require('./public/nodejs/N404')
 
 
@@ -117,6 +118,28 @@ app.delete("/comments/:id", (req, res) => {
 // 进入管理员页面
 app.get(['/comment_admin/:token', '/comment_admin'], (req, res) => {
   comment_admin(req, res, __dirname);
+});
+
+//
+
+//短链
+// 获取短链列表
+app.get("/links", (req, res) => {
+  link(req, res, 'get')
+});
+
+app.get("/link/:shortUrl", (req, res) => {
+  link(req, res, 'red')
+});
+
+// 添加新短链
+app.post("/links", (req, res) => {
+  link(req, res, 'post')
+});
+
+// 删除短链
+app.delete("/links/:id", (req, res) => {
+  link(req, res, 'delete');
 });
 
 //
