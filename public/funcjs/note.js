@@ -1,4 +1,6 @@
 init();
+let fileIndex = 1;  // 计数器，用来给文件加编号
+
 // 获取文件列表并填充文件列表
 async function init() {
     await fetch('/files')
@@ -64,6 +66,8 @@ function saveFile() {
     if (!selectedFile || selectedFile.id === 'new') {
         fileName = prompt("输入新文件名:");
         if (fileName === null) return;
+        // 检查文件名是否重复，如果重复，增加编号
+        fileName = ensureUniqueFileName(fileName);
     } else {
         fileName = selectedFile.querySelector('#n').textContent;
     }
@@ -89,6 +93,27 @@ function saveFile() {
             }
             refresh(fileName);
         });
+}
+
+// 确保文件名唯一，给文件加编号
+function ensureUniqueFileName(fileName) {
+    const fileListItems = document.querySelectorAll('.file-list li');
+    let newFileName = fileName;
+    let exists = true;
+
+    // 遍历文件列表，检查文件名是否已存在
+    while (exists) {
+        exists = false;
+        fileListItems.forEach(item => {
+            const n = item.querySelector('#n')
+            if (n && item.querySelector('#n').textContent === newFileName) {
+                exists = true;
+                // 给文件名加上编号，避免重复
+                newFileName = `${fileName}-${fileIndex++}`;
+            }
+        });
+    }
+    return newFileName;
 }
 
 // 删除文件
