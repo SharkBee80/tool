@@ -34,7 +34,7 @@ function post(req,res) {
         return res.status(400).send("评论内容不能为空且不能超过200个字符");
     }
 
-    if (!req.get('Referer').includes('comment_admin') && name === 'admin') {
+    if (!req.get('Referer').includes('comment_admin') && name.includes('admin')) {
         return res.status(400).send("你不是管理员！");
       }
 

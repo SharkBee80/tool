@@ -137,7 +137,7 @@
         //alert("评论内容不能为空且不能超过200字符！");
         return;
       }
-      if (name === 'admin') {
+      if (name.includes('admin')) {
         noty('你不是管理员！');
         return;
       }
