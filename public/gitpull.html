@@ -39,7 +39,7 @@
         document.getElementById('Button').addEventListener('click', async () => {
             const url = '/gitpull'; // 替换为你的目标地址
             const resultElement = document.getElementById('result');
-            resultElement.textContent = `等待`;
+            resultElement.textContent = `等待发送`;
             try {
                 const response = await fetch(url, {
                     method: 'POST',
@@ -48,6 +48,7 @@
                     },
                     body: JSON.stringify({ message: 'Test connection' }),
                 });
+                resultElement.textContent = `等待返回`;
                 const data = await response.json(); // 如果服务器返回 JSON 数据
                 if (response.ok) {
                     resultElement.textContent = `连接成功: ${JSON.stringify(data)}`;
@@ -55,7 +56,7 @@
                     resultElement.textContent = `服务器返回错误: ${response.status}\n${JSON.stringify(data)}`;
                 }
             } catch (error) {
-                resultElement.innerHTML = `连接失败: 404 Not Found<br><a style="color: red;">代表服务器正在重启</a>`;//${error.message}
+                resultElement.innerHTML = `连接失败: 404 Not Found<br><a style="color: red;">代表服务器正在重启</a><br>${error.message}`;//${error.message}
             }
         });
     </script>
