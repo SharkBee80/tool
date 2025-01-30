@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Short Link Manager</title>
+    <title>短链</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,14 +65,14 @@
             background-color: #45a049;
         }
 
-        #delete {
+        #delete, #delete ~ td {
             display: none;
         }
     </style>
 </head>
 
 <body>
-    <h1>Short Link Manager</h1>
+    <h1>短链</h1>
 
     <!-- 表单：添加新短链接 -->
     <form id="createForm">
@@ -86,12 +86,19 @@
 
     <!-- 表格：显示短链接记录 -->
     <table id="linksTable">
+        <colgroup>
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+            <col style="width: 10%;">
+            <col style="width: 10%;">
+            <col style="width: 5%;" id="delete">
+          </colgroup>
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Original URL</th>
-                <th>Short URL</th>
-                <th>Date</th>
+                <th>命名</th>
+                <th>原始链接</th>
+                <th>短链</th>
+                <th>创建日期</th>
                 <th id="delete">Delete</th>
             </tr>
         </thead>
@@ -117,7 +124,7 @@
               <td>${link.originalUrl}</td>
               <td><a href="/link/${link.shortUrl}" target="_blank">${link.shortUrl}</a></td>
               <td>${new Date(link.time).toLocaleString()}</td>
-              <td>
+              <td id="delete">
                 <button onclick="del(${link.id})" id="delete">删除</button>
               </td>
             `;
@@ -130,6 +137,7 @@
         // 提交表单，添加新短链接
         document.getElementById('createForm').addEventListener('submit', function (event) {
             event.preventDefault();
+            noty('请等待');
 
             const originalUrl = document.getElementById('originalUrl').value;
             const name = document.getElementById('name').value;
@@ -161,7 +169,7 @@
             fetch(`${apiUrl}/${id}`, {
                 method: "DELETE",
             }).then(() => {
-                loadComments();  // 刷新评论列表        
+                loadLinks();  // 刷新评论列表        
                 noty('Done!');
             });
         }

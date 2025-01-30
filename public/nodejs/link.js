@@ -41,7 +41,6 @@ async function getName(url) {
 
         // 获取 <title> 标签内容
         const title = $('title').text();
-        console.log('Fetched title:', title);  // 打印 title，确保它是字符串
         return title;
     } catch (error) {
         console.error('Error fetching the title:', error);
