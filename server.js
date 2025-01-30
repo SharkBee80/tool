@@ -117,7 +117,7 @@ app.delete("/comments/:id", (req, res) => {
 
 // 进入管理员页面
 app.get(['/comment_admin/:token', '/comment_admin'], (req, res) => {
-  comment_admin(req, res, __dirname);
+  comment_admin(req, res);
 });
 
 //
@@ -128,10 +128,6 @@ app.get("/links", (req, res) => {
   link(req, res, 'get')
 });
 
-app.get("/link/:shortUrl", (req, res) => {
-  link(req, res, 'red')
-});
-
 // 添加新短链
 app.post("/links", (req, res) => {
   link(req, res, 'post')
@@ -140,6 +136,11 @@ app.post("/links", (req, res) => {
 // 删除短链
 app.delete("/links/:id", (req, res) => {
   link(req, res, 'delete');
+});
+
+// 跳转
+app.get(['/link',"/link/:shortUrl"], (req, res) => {
+  link(req, res, 'red')
 });
 
 //

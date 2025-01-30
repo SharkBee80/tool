@@ -10,7 +10,7 @@ function link(req, res, a) {
     if (a === 'get') get(res);
     if (a === 'post') post(req, res);
     if (a === 'delete') del(req, res);
-    if (a === 'red') red(req,res)
+    if (a === 'red') red(req, res)
 }
 
 // 文件存储路径
@@ -122,6 +122,16 @@ function del(req, res) {
 // 重定向
 function red(req, res) {
     const shortUrl = req.params.shortUrl;
+    if (!shortUrl) {
+        const filePath = path.join(__dirname, '..', 'link.html');
+        fs.readFile(filePath, 'utf8', (err, data) => {
+            if (err) {
+                res.status(404);
+            }
+            res.send(`${data}`);
+        });
+        return;
+    }
     const links = loadLinks();
     const link = links.find(link => link.shortUrl === shortUrl);
 
