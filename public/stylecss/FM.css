@@ -145,7 +145,7 @@ body {
 #volume-bar {
     position: absolute;
     bottom: 80px;
-    -webkit-appearance: none;
+    appearance: none;
     width: 45px;
     height: 4px;
     background: #ccc;
