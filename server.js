@@ -54,7 +54,7 @@ const upload = multer({ storage });
 
 // 中间件：拦截所有请求，插入 <script> 标签
 // 中间件：拦截对 HTML 文件的请求，插入 <script> 标签
-const ignoredFiles = ['clock.html']
+const ignoredFiles = ['clock.html', 'FM.html']
 
 app.use((req, res, next) => {
   let host = req.get('Host');
@@ -139,7 +139,7 @@ app.delete("/links/:id", (req, res) => {
 });
 
 // 跳转
-app.get(['/link',"/link/:shortUrl"], (req, res) => {
+app.get(['/link', "/link/:shortUrl"], (req, res) => {
   link(req, res, 'red')
 });
 
@@ -213,7 +213,7 @@ app.delete('/file/:filename', (req, res) => {
 app.post('/gitpull', (req, res) => {
   // 执行系统命令-在服务器运行~/tool-重新拉取github
   const command = "~/tool"
-  try { 
+  try {
     //("即将运行"+command+"命令")
     exec(command, (error, stdout, stderr) => {
       if (error) {
