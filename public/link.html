@@ -80,11 +80,11 @@
 
     <!-- 表单：添加新短链接 -->
     <form id="createForm" autocomplete="off">
-        <input type="text" id="name" placeholder="Enter name (optional)" />
+        <input type="text" id="name" placeholder="Enter name (optional)(<10)" />
         <input type="url" id="originalUrl" placeholder="Enter original URL" required />
         <input type="checkbox" id="toggle" placeholder="unknown" checked />
         <input type="submit" value="创建" />
-        <input type="text" id="sort" placeholder="Enter shortUrl (optional)" style="display: none;"/>
+        <input type="text" id="sort" placeholder="Enter shortUrl (optional)" style="display: none;" />
     </form>
 
     <h2>短链记录</h2>
@@ -150,6 +150,11 @@
             const originalUrl = document.getElementById('originalUrl').value;
             const name = document.getElementById('name').value;
             const toggle = document.getElementById('toggle').checked ? 'true' : 'false';
+
+            if (name && name.length > 10) {
+                noty(`命名超过10字符！\n当前${name.length}字符。`);
+                return;
+            }
 
             fetch(apiUrl, {
                 method: 'POST',

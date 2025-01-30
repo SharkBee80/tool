@@ -41,7 +41,12 @@ async function getName(url) {
 
         // 获取 <title> 标签内容
         const title = $('title').text();
-        return title;
+        let name;
+        if (title.length>8) {
+            name = title.substring(0,8) + '...';//slice()
+        } else name = title;
+
+        return name;
     } catch (error) {
         console.error('Error fetching the title:', error);
         return 'null';
@@ -88,8 +93,8 @@ async function post(req, res) {
         originalUrl = 'http://' + originalUrl;  // 默认添加 http://
     }
 
-    if (!req.get('Referer').includes('link_admin') && name.includes('admin')) {
-        return res.status(400).send("你不是管理员！");
+    if (name && name.length > 10) {
+        return res.status(400).send("命名不能超过10个字符");
     }
 
     const newLink = {
