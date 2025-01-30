@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FM</title>
+    <!-- 引入 Video.js 库 -->
+    <link href="stylecss/video-js.css" rel="stylesheet">
+    <script src="funcjs/video.min.js"></script>
+    <!-- 引入 Video.js HLS 插件 -->
+    <script src="funcjs/videojs-contrib-hls.min.js"></script>
+    <!-- 引入 CSS -->
+    <link rel="stylesheet" type="text/css" href="stylecss/FM.css">
+
+</head>
+
+<body>
+    <!-- 背景 -->
+    <div class="LOGO">
+        <a href="https://www.radiofoshan.com.cn/" target="_blank" rel="noopener noreferrer">
+            <img src="img/FM/fsdt.png" style="width:132px;height:43px;" draggable="false">
+        </a>
+        <a href="https://www.gztv.com/" target="_blank" rel="noopener noreferrer">
+            <img src="img/FM/gsw.png" style="width:43px;height:43px;" draggable="false">
+        </a>
+        <a href="https://www.gdtv.cn/" target="_blank" rel="noopener noreferrer">
+            <img src="img/FM/gdtv.png" style="width:108.7px;height:43px;" draggable="false">
+        </a>
+    </div>
+
+    <!-- 音源列表和播放器容器 -->
+    <div id="player" style="width: 350px;height: 90px;">
+        <!-- 歌曲信息模块 -->
+        <div id="player-content1">
+            <audio id="audio" class="video-js vjs-default-skin" playsinline style="display: none"></audio>
+            <!-- 歌曲名 -->
+            <div class="music-name"></div>
+            <!-- 时间 -->
+            <div id="progress-container">
+                <span id="current-time"></span>
+            </div>
+        </div>
+
+        <!-- 控制模块 -->
+        <div id="player-content2">
+            <!-- 左侧歌曲封面旋转模块 -->
+            <div class="music-imgs" id="imageContainer">
+                <!-- 封面图 -->
+                <img src="./img/FM/record.png" id="audioimg" style="width:100px;height:100px;" draggable="false">
+            </div>
+            <!-- 右侧歌曲操作模块 -->
+            <div class="player-controls">
+                <!-- 上一个按钮 -->
+                <div class="btn prev"><svg class="icon"
+                        style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
+                        viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="424">
+                        <path
+                            d="M409.6 379.965l290.673-183.214c43.049-27.136 77.967-8.396 77.967 42.046v546.406c0 50.36-34.857 69.223-77.967 42.046L409.6 644.035V757.76a81.92 81.92 0 1 1-163.84 0V266.24a81.92 81.92 0 1 1 163.84 0v113.725z"
+                            fill="#333333" p-id="425"></path>
+                    </svg></div>
+
+                <!-- 播放/暂停按钮 -->
+                <div class="btn play-pause" id="pause-play-btn"><svg class="icon"
+                        style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
+                        viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="402">
+                        <path
+                            d="M245.76 785.203V238.797c0-50.442 34.918-69.182 77.967-42.046l422.196 266.117c43.11 27.157 43.069 71.128 0 98.284L323.727 827.249c-43.11 27.177-77.967 8.315-77.967-42.046z"
+                            fill="#333333" p-id="403"></path>
+                    </svg></div>
+
+                <!-- 下一个按钮 -->
+                <div class="btn next"><svg class="icon"
+                        style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
+                        viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="435">
+                        <path
+                            d="M614.4 379.965V266.24a81.92 81.92 0 1 1 163.84 0v491.52a81.92 81.92 0 1 1-163.84 0V644.035L323.727 827.249c-43.11 27.177-77.967 8.315-77.967-42.046V238.797c0-50.442 34.918-69.182 77.967-42.046L614.4 379.965z"
+                            fill="#333333" p-id="436"></path>
+                    </svg></div>
+
+                <!-- 音量按钮 -->
+                <div class="btn volume" id="volume-container">
+                    <svg class="icon"
+                        style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
+                        viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="490">
+                        <path
+                            d="M552.96 152.064v719.872c0 16.118-12.698 29.184-28.365 29.184a67.482 67.482 0 0 1-48.394-20.644L329.359 729.354a74.547 74.547 0 0 0-53.493-22.794H250.47c-104.386 0-189.03-87.101-189.03-194.56s84.644-194.56 189.03-194.56h25.396c20.07 0 39.3-8.192 53.473-22.794L476.18 143.503a67.482 67.482 0 0 1 48.436-20.623c15.646 0 28.344 13.066 28.344 29.184z m216.965 101.58a39.936 39.936 0 0 1 0-57.425 42.25 42.25 0 0 1 58.778 0c178.483 174.408 178.483 457.154 0 631.562a42.25 42.25 0 0 1-58.778 0 39.936 39.936 0 0 1 0-57.405 359.506 359.506 0 0 0 0-516.752zM666.542 373.884a39.731 39.731 0 0 1 0-55.235 37.52 37.52 0 0 1 53.944 0c104.305 106.783 104.305 279.921 0 386.704a37.52 37.52 0 0 1-53.944 0 39.731 39.731 0 0 1 0-55.235c74.486-76.288 74.486-199.946 0-276.234z"
+                            fill="#333333" p-id="491"></path>
+                    </svg>
+                    <!-- 自定义的音量调节器 -->
+                    <input type="range" id="volume-bar" value="100" max="100" orient="vertical">
+                </div>
+
+                <div class="btn menu" style="font-size:23px;"><svg class="icon"
+                        style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
+                        viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2920">
+                        <path d="M64 64h896v128H64V64z m0 768h896v128H64v-128z m0-384h896v128H64V448z" fill="#262626"
+                            p-id="2921"></path>
+                    </svg></div>
+            </div>
+        </div>
+
+        <!-- 音源列表 -->
+        <div id="player-content3">
+            <div id="audio-list">
+                <ul id="audio-list-ul">
+                    <!-- 音源列表项将在这里动态生成 -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入自定义的JavaScript代码 -->
+    <script src="funcjs/FM.js"></script>
+
+</body>
+
+</html>

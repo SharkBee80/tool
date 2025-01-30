@@ -1,0 +1,218 @@
+/*背景*/
+body {
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/*FM主体*/
+body {
+    position: absolute;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#player {
+    position: fixed;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* 歌曲信息模块 */
+#player-content1 {
+    position: absolute;
+    top: 0px;
+    left: 15px;
+    width: 320px;
+    height: 90px;
+    padding: 0 4px 0 104px;
+    background: rgb(209, 226, 245);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    /* transition过渡动画：设置top属性过渡，过渡时间0.3s,速度曲线为ease(逐渐变慢) */
+    transition: top 0.3s ease;
+    z-index: -99;
+}
+
+#player-content1.active {
+    top: -85px;
+}
+
+.music-name {
+    margin-top: 15px;
+    font-size: 20px;
+}
+
+#progress-container {
+    position: absolute;
+    bottom: 20px;
+    width: 130px;
+    right: 40px;
+}
+
+#player-content2 {
+    position: absolute;
+    width: 350px;
+    height: 90px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 30px 80px #656565;
+}
+
+/* 左侧封面图模块 */
+.music-imgs {
+    position: absolute;
+    top: -40px;
+    width: 100px;
+    height: 100px;
+    margin-left: 30px;
+    -webkit-transform: rotateZ(0);
+    transform: rotateZ(0);
+    background-color: #ffffff;
+    transition: 0.3s ease all;
+    box-shadow: 0 0 0 10px #ffffff;
+    border-radius: 50%;
+    /*圆*/
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    /* 水平居中 */
+    align-items: center;
+    /* 垂直居中 */
+}
+
+/* 左侧封面图模块添加了active类名 */
+.music-imgs.active {
+    top: -50px;
+    box-shadow: 0 0 0 4px #e8f5ff, 0 30px 50px -15px #afb7c1;
+}
+
+#audioimg {
+    width: 100px;
+    height: 100px;
+}
+
+.rotateAnimation {
+    animation: rotateAnimation 6s linear infinite;
+}
+
+@keyframes rotateAnimation {
+    from {
+        transform: rotate(0deg);
+        /* 从0度开始旋转 */
+    }
+
+    to {
+        transform: rotate(360deg);
+        /* 旋转到360度 */
+    }
+}
+
+/*控件*/
+.player-controls {
+    position: absolute;
+    top: 10%;
+    right: 0px;
+    height: 90px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    /* 垂直居中 */
+}
+
+/*按钮方块*/
+.player-controls .btn {
+    float: left;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 30px;
+    color: #000000;
+    display: flex;
+    justify-content: center;
+    /* 水平居中 */
+    align-items: center;
+    /* 垂直居中 */
+    cursor: pointer;
+}
+
+
+/* 音量调节器样式 */
+#volume-bar {
+    position: absolute;
+    bottom: 80px;
+    -webkit-appearance: none;
+    width: 45px;
+    height: 4px;
+    background: #ccc;
+    border-radius: 3px;
+    outline: none;
+    margin-top: 0px;
+    transform: rotate(-90deg);
+}
+
+/* 滑块样式 */
+#volume-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #333;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/*audio-list*/
+#player-content3 {
+    width: 320px;
+    position: absolute;
+    top: 90px;
+    left: 15px;
+}
+
+#audio-list {
+    background-color: #f2f2f2;
+    /*border-radius: 10px;*/
+    padding-left: 10px;
+    padding-right: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 0px;
+    /* 设置初始高度为0 */
+    overflow: hidden;
+    /* 隐藏溢出部分 */
+    transition: height 0.3s ease;
+    /* 添加过渡效果 */
+}
+
+#audio-list.active {
+    overflow-y: auto;
+    /* 添加垂直滚动条 */
+    height: 225px;
+    /* 展开后的高度 */
+}
+
+#audio-list::-webkit-scrollbar {
+    display: none;
+    /* 添加垂直滚动条样式 不显示 */
+}
+
+#audio-list-ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 8px;
+}
+
+#audio-list-ul li {
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#audio-list-ul li:hover {
+    background-color: #eaeaea;
+}
