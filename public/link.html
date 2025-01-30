@@ -79,11 +79,12 @@
     <h1>短链</h1>
 
     <!-- 表单：添加新短链接 -->
-    <form id="createForm">
+    <form id="createForm" autocomplete="off">
         <input type="text" id="name" placeholder="Enter name (optional)" />
         <input type="url" id="originalUrl" placeholder="Enter original URL" required />
         <input type="checkbox" id="toggle" placeholder="unknown" checked />
         <input type="submit" value="创建" />
+        <input type="text" id="sort" placeholder="Enter shortUrl (optional)" style="display: none;"/>
     </form>
 
     <h2>短链记录</h2>
@@ -180,7 +181,6 @@
                 noty('Done!');
             });
         }
-
 
         // 页面加载时获取所有短链接记录
         loadLinks();
