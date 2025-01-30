@@ -118,23 +118,6 @@ function playAudioSource(url) {
         audio_img.classList.remove('rotateAnimation');
         musicImgs.classList.remove('active');
     });
-
-    // 获取音量调节滑块元素
-    const volumeBar = document.getElementById('volume-bar');
-    // 监听音量滑块变化事件
-    volumeBar.addEventListener('input', function () {
-        // 获取滑块当前值
-        const volume = parseFloat(volumeBar.value) / 100;
-        // 设置播放器音量
-        player.volume(volume);
-    });
-    // 添加喇叭图标的隐藏式动画
-    volumeContainer.addEventListener('click'/*mouseenter*/, function () {
-        volumeBarContainer.style.display = 'block';
-    });
-    volumeContainer.addEventListener('mouseleave', function () {
-        volumeBarContainer.style.display = 'none';
-    });
 }
 
 // 辅助函数，确保时间显示为两位数
@@ -161,6 +144,24 @@ function togglePausePlay() {
         pausePlayBtn.innerHTML = playSVG;
     }
 }
+
+// 获取音量调节滑块元素
+const volumeBar = document.getElementById('volume-bar');
+// 监听音量滑块变化事件
+volumeBar.addEventListener('input', function () {
+    // 获取滑块当前值
+    const volume = parseFloat(volumeBar.value) / 100;
+    // 设置播放器音量
+    videojs('audio').volume(volume);
+});
+
+// 添加喇叭图标的隐藏式动画
+volumeContainer.addEventListener('click'/*mouseenter*/, function () {
+    volumeBarContainer.style.display = 'block';
+});
+volumeContainer.addEventListener('mouseleave', function () {
+    volumeBarContainer.style.display = 'none';
+});
 
 // 更新音乐名称
 function updateMusicName(name) {
@@ -227,5 +228,16 @@ function playRandomAudio() {
 /*禁止鼠标的右击操作查看源代码*/
 document.oncontextmenu = function () {
     return false;
+}
+
+// pc端显示滚轮
+function isTouchDevice() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+}
+
+if (!isTouchDevice()) {
+    const listul = document.getElementById('audio-list-ul')
+    listul.style.height = 'inherit';
+    listul.style.overflow = 'auto';
 }
 
