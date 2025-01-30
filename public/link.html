@@ -37,13 +37,14 @@
             margin-bottom: 20px;
             align-content: center;
             display: inline-flex;
+            width: 100%;
         }
 
         input[type="text"],
         input[type="url"] {
             padding: 8px;
             margin: 5px;
-            width: 300px;
+            width: 30%;
         }
 
         input[type="checkbox"] {
@@ -54,18 +55,21 @@
         }
 
         input[type="submit"] {
-            padding: 10px 15px;
+            padding: 10px;
             background-color: #4CAF50;
             color: white;
             border: none;
             cursor: pointer;
+            max-width: 20%;
+            height: 36px;
+            margin: 5px;
         }
 
         input[type="submit"]:hover {
             background-color: #45a049;
         }
 
-        #delete, #delete ~ td {
+        #delete {
             display: none;
         }
     </style>
@@ -79,10 +83,10 @@
         <input type="text" id="name" placeholder="Enter name (optional)" />
         <input type="url" id="originalUrl" placeholder="Enter original URL" required />
         <input type="checkbox" id="toggle" placeholder="unknown" checked />
-        <input type="submit" value="Create Short Link" />
+        <input type="submit" value="创建" />
     </form>
 
-    <h2>Existing Short Links</h2>
+    <h2>短链记录</h2>
 
     <!-- 表格：显示短链接记录 -->
     <table id="linksTable">
@@ -91,14 +95,16 @@
             <col style="width: 25%;">
             <col style="width: 10%;">
             <col style="width: 10%;">
+            <col style="width: 5%;">
             <col style="width: 5%;" id="delete">
-          </colgroup>
+        </colgroup>
         <thead>
             <tr>
                 <th>命名</th>
                 <th>原始链接</th>
                 <th>短链</th>
                 <th>创建日期</th>
+                <th>toggle</th>
                 <th id="delete">Delete</th>
             </tr>
         </thead>
@@ -124,6 +130,7 @@
               <td>${link.originalUrl}</td>
               <td><a href="/link/${link.shortUrl}" target="_blank">${link.shortUrl}</a></td>
               <td>${new Date(link.time).toLocaleString()}</td>
+              <td>${link.toggle ? 'on' : 'off'}</td>
               <td id="delete">
                 <button onclick="del(${link.id})" id="delete">删除</button>
               </td>
