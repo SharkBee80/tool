@@ -166,15 +166,22 @@ volumeBar.addEventListener('input', function () {
 });
 
 // 添加喇叭图标的隐藏式动画
+let timeoutId;  // 用于存储setTimeout的返回ID
 volumeContainer.addEventListener('mouseenter'/*click*/, function () {
     volumeBarContainer.style.display = 'block';
     // 监听滚轮事件
     volumeContainer.addEventListener('wheel', handleWheelEvent, { passive: false });
+    // 取消之前的setTimeout操作
+    if (timeoutId) {
+        clearTimeout(timeoutId);
+    }
 });
 volumeContainer.addEventListener('mouseleave', function () {
-    volumeBarContainer.style.display = 'none';
-    // 移除监听滚轮事件
-    volumeContainer.removeEventListener('wheel', handleWheelEvent);
+    timeoutId = setTimeout(() => {
+        volumeBarContainer.style.display = 'none';
+        // 移除监听滚轮事件
+        volumeContainer.removeEventListener('wheel', handleWheelEvent);
+    },1000)
 });
 volumeContainer.addEventListener('touchstart'/*click*/, function () {
     volumeBarContainer.style.display = 'block';
