@@ -190,7 +190,7 @@ volumeIcon.addEventListener('touchstart'/*click*/, function () {
     } else if (volumeBarContainer.style.display === 'block') {
         togglemute(false);
     }
-});
+}, { passive: false });
 
 // 定义滚轮事件的回调函数
 function handleWheelEvent(event) {
