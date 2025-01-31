@@ -51,6 +51,7 @@ nextBtn.addEventListener('click', playNextAudio);
 //音量
 const volumeContainer = document.getElementById('volume-container');
 const volumeBarContainer = document.getElementById('volume-bar');
+const volumeIcon = document.getElementById('volume-icon');
 
 // 初始化列表
 createAudioList(audioSources);
@@ -176,14 +177,19 @@ volumeContainer.addEventListener('mouseenter'/*click*/, function () {
     }
 });
 volumeContainer.addEventListener('mouseleave', function () {
+    // 延时
     timeoutId = setTimeout(() => {
         volumeBarContainer.style.display = 'none';
         // 移除监听滚轮事件
         volumeContainer.removeEventListener('wheel', handleWheelEvent);
     }, 500)
 });
-volumeContainer.addEventListener('touchstart'/*click*/, function () {
-    volumeBarContainer.style.display = 'block';
+volumeIcon.addEventListener('touchstart'/*click*/, function () {
+    if (volumeBarContainer.style.display === 'none') {
+        volumeBarContainer.style.display = 'block';
+    } else if (volumeBarContainer.style.display === 'block') {
+        togglemute(false);
+    }
 });
 
 // 定义滚轮事件的回调函数
@@ -208,8 +214,6 @@ function handleWheelEvent(event) {
 }
 
 // 音量图标切换逻辑
-const volumeIcon = document.getElementById('volume-icon');
-
 volumeIcon.addEventListener('mousedown'/*mouseenter*/, togglemute);
 
 // 静音    
@@ -248,8 +252,11 @@ class Volumes {
 }
 
 let v = new Volumes();
-function togglemute() {
-    if (isTouchDevice()) {
+function togglemute(touch) {
+    if (touch === undefined) {
+        touch = false;
+    }
+    if (isTouchDevice() && touch) {
         return;
     };
     if (v.ismute) {
