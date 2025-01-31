@@ -144,10 +144,10 @@ body {
 /* 音量调节器样式 */
 #volume-bar {
     position: absolute;
-    bottom: 80px;
+    bottom: 78px;
     appearance: none;
     width: 45px;
-    height: 4px;
+    height: 6px;
     background: #ccc;
     border-radius: 3px;
     outline: none;

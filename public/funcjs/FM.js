@@ -30,6 +30,11 @@ const nextSVG = '<svg class="icon" style="width: 1em;height: 1em;vertical-align:
 const soundSVG = '<svg class="icon" style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="490"><path d="M552.96 152.064v719.872c0 16.118-12.698 29.184-28.365 29.184a67.482 67.482 0 0 1-48.394-20.644L329.359 729.354a74.547 74.547 0 0 0-53.493-22.794H250.47c-104.386 0-189.03-87.101-189.03-194.56s84.644-194.56 189.03-194.56h25.396c20.07 0 39.3-8.192 53.473-22.794L476.18 143.503a67.482 67.482 0 0 1 48.436-20.623c15.646 0 28.344 13.066 28.344 29.184z m216.965 101.58a39.936 39.936 0 0 1 0-57.425 42.25 42.25 0 0 1 58.778 0c178.483 174.408 178.483 457.154 0 631.562a42.25 42.25 0 0 1-58.778 0 39.936 39.936 0 0 1 0-57.405 359.506 359.506 0 0 0 0-516.752zM666.542 373.884a39.731 39.731 0 0 1 0-55.235 37.52 37.52 0 0 1 53.944 0c104.305 106.783 104.305 279.921 0 386.704a37.52 37.52 0 0 1-53.944 0 39.731 39.731 0 0 1 0-55.235c74.486-76.288 74.486-199.946 0-276.234z" fill="#333333" p-id="491"></path></svg>'
 const menuSVG = '<svg class="icon" style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2920"><path d="M64 64h896v128H64V64z m0 768h896v128H64v-128z m0-384h896v128H64V448z" fill="#262626" p-id="2921"></path></svg>'
 
+// 定义不同音量状态的 SVG 图标
+const muteSvg = `<path d="M552.96 152.064v719.872c0 16.118-12.698 29.184-28.365 29.184a67.482 67.482 0 0 1-48.394-20.644L329.359 729.354a74.547 74.547 0 0 0-53.493-22.794H250.47c-104.386 0-189.03-87.101-189.03-194.56s84.644-194.56 189.03-194.56h25.396c20.07 0 39.3-8.192 53.473-22.794L476.18 143.503a67.482 67.482 0 0 1 48.436-20.623c15.646 0 28.344 13.066 28.344 29.184z m400.507 514.662a31.068 31.068 0 0 1-41.41 2.294l-88.167-70.656a40.243 40.243 0 0 0-50.34 0l-88.166 70.656a31.068 31.068 0 0 1-43.684-43.684l70.656-88.166a40.243 40.243 0 0 0 0-50.34L641.7 398.664a31.068 31.068 0 0 1 43.684-43.684l88.166 70.656c14.705 11.796 35.635 11.796 50.34 0l88.166-70.656a31.068 31.068 0 0 1 43.684 43.684l-70.656 88.166a40.243 40.243 0 0 0 0 50.34l70.656 88.166a31.068 31.068 0 0 1-2.273 41.41z" fill="#333333" p-id="893"></path>`;
+const mediumVolumeSvg = `<svg class="icon" style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M552.96 152.064v719.872c0 16.118-12.698 29.184-28.365 29.184a67.482 67.482 0 0 1-48.394-20.644L329.359 729.354a74.547 74.547 0 0 0-53.493-22.794H250.47c-104.386 0-189.03-87.101-189.03-194.56s84.644-194.56 189.03-194.56h25.396c20.07 0 39.3-8.192 53.473-22.794L476.18 143.503a67.482 67.482 0 0 1 48.436-20.623c15.646 0 28.344 13.066 28.344 29.184z" fill="#333333"></path></svg>`;
+const highVolumeSvg = '<path d="M552.96 152.064v719.872c0 16.118-12.698 29.184-28.365 29.184a67.482 67.482 0 0 1-48.394-20.644L329.359 729.354a74.547 74.547 0 0 0-53.493-22.794H250.47c-104.386 0-189.03-87.101-189.03-194.56s84.644-194.56 189.03-194.56h25.396c20.07 0 39.3-8.192 53.473-22.794L476.18 143.503a67.482 67.482 0 0 1 48.436-20.623c15.646 0 28.344 13.066 28.344 29.184z m216.965 101.58a39.936 39.936 0 0 1 0-57.425 42.25 42.25 0 0 1 58.778 0c178.483 174.408 178.483 457.154 0 631.562a42.25 42.25 0 0 1-58.778 0 39.936 39.936 0 0 1 0-57.405 359.506 359.506 0 0 0 0-516.752zM666.542 373.884a39.731 39.731 0 0 1 0-55.235 37.52 37.52 0 0 1 53.944 0c104.305 106.783 104.305 279.921 0 386.704a37.52 37.52 0 0 1-53.944 0 39.731 39.731 0 0 1 0-55.235c74.486-76.288 74.486-199.946 0-276.234z" fill="#333333" p-id="491"></path>';
+
 //监听player-content1
 const playerContent1 = document.getElementById('player-content1');
 
@@ -147,21 +152,121 @@ function togglePausePlay() {
 
 // 获取音量调节滑块元素
 const volumeBar = document.getElementById('volume-bar');
+let currentVolume = volumeBar.value;
 // 监听音量滑块变化事件
 volumeBar.addEventListener('input', function () {
     // 获取滑块当前值
     const volume = parseFloat(volumeBar.value) / 100;
     // 设置播放器音量
+    currentVolume = volumeBar.value;
     videojs('audio').volume(volume);
+    volumeIco();
 });
 
 // 添加喇叭图标的隐藏式动画
-volumeContainer.addEventListener('click'/*mouseenter*/, function () {
+volumeContainer.addEventListener('mouseenter'/*click*/, function () {
     volumeBarContainer.style.display = 'block';
+    // 监听滚轮事件
+    window.addEventListener('wheel', handleWheelEvent,{ passive: false });
 });
 volumeContainer.addEventListener('mouseleave', function () {
     volumeBarContainer.style.display = 'none';
+    window.removeEventListener('wheel', handleWheelEvent);
 });
+volumeContainer.addEventListener('touchstart'/*click*/, function () {
+    volumeBarContainer.style.display = 'block';
+});
+
+// 定义滚轮事件的回调函数
+function handleWheelEvent(event) {
+    // 阻止默认行为，防止页面滚动
+    event.preventDefault();
+
+    if (event.deltaY > 0) {
+        // 滚轮向下，减少音量
+        currentVolume = Math.max(0, currentVolume - 10); // 防止小于 0
+    } else {
+        // 滚轮向上，增加音量
+        currentVolume = Math.min(100, currentVolume + 10); // 防止大于 100
+    }
+
+    // 更新音量条的值
+    volumeBar.value = currentVolume;
+    volumeIco();
+    if (v.ismute) return;
+    const volume = parseFloat(volumeBar.value) / 100;
+    videojs('audio').volume(volume);
+}
+
+// 音量图标切换逻辑
+const volumeIcon = document.getElementById('volume-icon');
+
+volumeIcon.addEventListener('mousedown'/*mouseenter*/, togglemute);
+
+// 静音    
+class Volumes {
+    constructor() {
+        this.volume = parseFloat(volumeBar.value) / 100;
+        this.play = videojs('audio');
+        this.ismute = false;
+    }
+
+    mute() {
+        if (!this.ismute) {
+            this.play.volume(0);
+            this.ismute = true;
+        }
+        return this.ismute;
+    }
+
+    unmute(volume) {
+        if (this.ismute) {
+            if (volume) {
+                this.play.volume(volume);
+            } 
+            else if (currentVolume) {
+                const volume = parseFloat(currentVolume) / 100;
+                this.play.volume(volume);
+            }
+            
+            else {
+                this.play.volume(this.volume);
+            }
+            this.ismute = false;
+        }
+        return this.ismute;
+    }
+}
+
+let v = new Volumes();
+function togglemute() {
+    if (isTouchDevice()) return;
+    if (v.ismute) {
+        console.log("volume is mute, unmute now");
+        v.unmute();
+        volumeIco();
+    } else {
+        console.log("volume is unmute, mute now");
+        v.mute();
+        volumeIcon.innerHTML = muteSvg;
+    }
+}
+
+function volumeIco() {
+    const volume = volumeBar.value;
+    if (v.ismute) return;
+
+    if (volume == 0) {
+        // 静音图标
+        volumeIcon.innerHTML = muteSvg;
+    } else if (volume <= 50) {
+        // 中音量图标
+        volumeIcon.innerHTML = mediumVolumeSvg;
+    } else {
+        // 高音量图标
+        volumeIcon.innerHTML = highVolumeSvg;
+    }
+}
 
 // 更新音乐名称
 function updateMusicName(name) {
