@@ -7,9 +7,9 @@ style.innerHTML = `
                 top: 20px;
                 left: 50%;
                 transform: translateX(-50%);
-                background-color: rgba(44, 42, 40, 0.75);
+                background-color: rgba(44, 42, 40, 0.95);
                 color: white;
-                padding: 15px;
+                padding: 15px 20px;
                 border-radius: 8px;
                 opacity: 0;
                 z-index: 9999;
@@ -18,8 +18,8 @@ style.innerHTML = `
 
             .notification.show {
                 display: block;
-                opacity: 1;
-                /* 显示时设置透明度为1 */
+                opacity: 0;
+                /* 显示时设置透明度为0 */
                 transform: translateX(-50%) translateY(0);
                 /* 显示时从顶部滑入 */
             }
@@ -40,8 +40,8 @@ function noty(message) {
     // 触发显示效果
     setTimeout(() => {
         notification.style.opacity = 1;
-        notification.style.transform = 'translateX(-50%) translateY(0)';
-    }, 10);
+        notification.style.transform = 'translateX(-50%) translateY(20px)';
+    }, 500);
 
     // 3秒后自动消失
     setTimeout(() => {
