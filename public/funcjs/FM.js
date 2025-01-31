@@ -51,7 +51,6 @@ nextBtn.addEventListener('click', playNextAudio);
 //音量
 const volumeContainer = document.getElementById('volume-container');
 const volumeBarContainer = document.getElementById('volume-bar');
-volumeBarContainer.style.display = 'none';
 
 // 初始化列表
 createAudioList(audioSources);
@@ -181,7 +180,7 @@ volumeContainer.addEventListener('mouseleave', function () {
         volumeBarContainer.style.display = 'none';
         // 移除监听滚轮事件
         volumeContainer.removeEventListener('wheel', handleWheelEvent);
-    },1000)
+    }, 500)
 });
 volumeContainer.addEventListener('touchstart'/*click*/, function () {
     volumeBarContainer.style.display = 'block';
