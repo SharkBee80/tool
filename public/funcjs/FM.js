@@ -41,6 +41,7 @@ const playerContent1 = document.getElementById('player-content1');
 
 // 获取暂停播放按钮 
 const pausePlayBtn = document.getElementById('pause-play-btn');
+const imageContainer = document.getElementById('imageContainer');
 
 // 为 prev 和 next 按钮添加事件监听器
 const prevBtn = document.querySelector('.prev');
@@ -134,6 +135,7 @@ function padZero(num) {
 
 // 添加暂停播放按钮的点击事件处理程序
 pausePlayBtn.addEventListener('click', togglePausePlay);
+imageContainer.addEventListener('click', togglePausePlay);
 // 切换播放状态的函数
 function togglePausePlay() {
     if (!player) {
