@@ -167,11 +167,12 @@ volumeBar.addEventListener('input', function () {
 volumeContainer.addEventListener('mouseenter'/*click*/, function () {
     volumeBarContainer.style.display = 'block';
     // 监听滚轮事件
-    window.addEventListener('wheel', handleWheelEvent,{ passive: false });
+    volumeContainer.addEventListener('wheel', handleWheelEvent,{ passive: false });
 });
 volumeContainer.addEventListener('mouseleave', function () {
     volumeBarContainer.style.display = 'none';
-    window.removeEventListener('wheel', handleWheelEvent);
+    // 移除监听滚轮事件
+    volumeContainer.removeEventListener('wheel', handleWheelEvent);
 });
 volumeContainer.addEventListener('touchstart'/*click*/, function () {
     volumeBarContainer.style.display = 'block';
@@ -240,7 +241,9 @@ class Volumes {
 
 let v = new Volumes();
 function togglemute() {
-    if (isTouchDevice()) return;
+    if (isTouchDevice()) {
+        return;
+    };
     if (v.ismute) {
         console.log("volume is mute, unmute now");
         v.unmute();
