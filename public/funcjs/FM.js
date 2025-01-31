@@ -260,11 +260,11 @@ function togglemute(touch) {
         return;
     };
     if (v.ismute) {
-        console.log("volume is mute, unmute now");
+        //console.log("unmute");
         v.unmute();
         volumeIco();
     } else {
-        console.log("volume is unmute, mute now");
+        //console.log("mute");
         v.mute();
         volumeIcon.innerHTML = muteSvg;
     }
