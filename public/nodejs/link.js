@@ -129,7 +129,6 @@ function del(req, res) {
 // 重定向
 function red(req, res) {
     const shortUrl = req.params.shortUrl;
-    const host = req.get('Host')
     if (!shortUrl) {
         const filePath = path.join(__dirname, '..', 'link.html');
         fs.readFile(filePath, 'utf8', (err, data) => {
