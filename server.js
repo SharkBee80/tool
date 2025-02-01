@@ -155,7 +155,7 @@ app.get('/redirect', (req, res) => {
   const targetUrl = req.query.url;  // 从URL查询参数中获取用户输入的URL
   if (!targetUrl) {
     //return res.status(400).send("缺少跳转URL");
-    redirect(host + '/redirect?url=', res, 'here')
+    redirect(host + '/redirect?url=', res, 60,'here')
     return
   }
   // 返回包含倒计时的HTML页面

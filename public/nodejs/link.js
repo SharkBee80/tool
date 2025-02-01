@@ -3,6 +3,7 @@ const path = require("path");
 const axios = require('axios');
 const cheerio = require('cheerio');
 const N404 = require("./N404");
+const redirect = require("./redirect");
 
 module.exports = link;
 
@@ -128,6 +129,7 @@ function del(req, res) {
 // 重定向
 function red(req, res) {
     const shortUrl = req.params.shortUrl;
+    const host = req.get('Host')
     if (!shortUrl) {
         const filePath = path.join(__dirname, '..', 'link.html');
         fs.readFile(filePath, 'utf8', (err, data) => {
@@ -142,9 +144,10 @@ function red(req, res) {
     const link = links.find(link => link.shortUrl === shortUrl);
 
     if (link) { // && link.toggle
-        res.redirect(link.originalUrl);
+        //res.redirect(link.originalUrl);
+        redirect(link.originalUrl, res, 1)
     } else {
         //res.status(404).json({ error: 'Link not found or is disabled' });
         N404(undefined, res);
     }
-}
+}   
