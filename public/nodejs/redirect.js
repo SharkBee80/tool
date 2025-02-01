@@ -1,9 +1,9 @@
 /**
  * 
- * @param {URL} targetUrl 重定向目标地址
- * @param {Response} res Response
- * @param {Int} countdown 倒计时
- * @param {URL} target 页面显示目标地址
+ * @param {URL} targetUrl 重定向目标地址 - 必须
+ * @param {Response} res Response - 必须
+ * @param {Int} countdown 倒计时/s - 默认5
+ * @param {URL} target 页面显示目标地址 - 默认targetUrl
  */
 function redirect(targetUrl, res, countdown, target) {
     if (target === undefined) {
