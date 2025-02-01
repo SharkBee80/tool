@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const axios = require('axios');
 const cheerio = require('cheerio');
+const N404 = require("./N404");
 
 module.exports = link;
 
@@ -42,8 +43,8 @@ async function getName(url) {
         // 获取 <title> 标签内容
         const title = $('title').text();
         let name;
-        if (title.length>8) {
-            name = title.substring(0,8) + '...';//slice()
+        if (title.length > 8) {
+            name = title.substring(0, 8) + '...';//slice()
         } else name = title;
 
         return name;
@@ -140,9 +141,10 @@ function red(req, res) {
     const links = loadLinks();
     const link = links.find(link => link.shortUrl === shortUrl);
 
-    if (link && link.toggle) {
+    if (link) { // && link.toggle
         res.redirect(link.originalUrl);
     } else {
-        res.status(404).json({ error: 'Link not found or is disabled' });
+        //res.status(404).json({ error: 'Link not found or is disabled' });
+        N404(undefined, res);
     }
 }
