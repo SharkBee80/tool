@@ -59,8 +59,13 @@
 		}
 
 		.butn:hover {
-			background: #232931;
+			background: #2c9975;
 			text-decoration: none;
+		}
+
+		.butn:disabled {
+			cursor: not-allowed;
+			background: #232931;
 		}
 	</style>
 
@@ -77,7 +82,7 @@
 	</div>
 
 	<div class="container bottom">
-		<button type="button" class="butn" onClick="rollTheDice()">
+		<button type="button" class="butn" id="butn" onClick="rollTheDice()">
 			掷骰子
 		</button>
 	</div>
@@ -97,11 +102,15 @@
 	var intervalId; // 用于存储setInterval的返回ID
 	var timeoutId;  // 用于存储setTimeout的返回ID
 
+
+	const btn = document.getElementById('butn');
+
 	// 初始化点数
 	document.querySelector(".img").setAttribute("src", dice[Math.floor(Math.random() * 6)]);
 
 	// 掷骰子的功能
 	function rollTheDice() {
+		btn.disabled = true;
 		var randomNumber = Math.floor(Math.random() * 6);
 		var lastNumber = -1; // 记录上一次的点数
 		if (intervalId) clearInterval(intervalId);
@@ -120,6 +129,7 @@
 		if (timeoutId) clearTimeout(timeoutId);
 		timeoutId = setTimeout(function () {
 			if (intervalId) clearInterval(intervalId);
+			butn.disabled = false;
 		}, 1200);
 	}
 </script>
