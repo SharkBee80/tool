@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抛硬币</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        #coin {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            position: relative;
+            margin: 20px auto;
+            transition: transform 1s ease-in-out;
+            background-color: #d4af3700;
+        }
+        #coin img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .flip {
+            transform: rotateY(3600deg); /* 旋转10圈 */
+        }
+        #result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #ddd;
+            cursor: not-allowed;
+        }
+        #picture {
+            color: rgba(0, 0, 0, 0.25);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>抛硬币</h1>
+<div id="coin">
+    <img id="heads" src="img/Coins/heads.png" alt="正面" style="display: block;">
+    <img id="tails" src="img/Coins/tails.png" alt="反面" style="display: none;">
+</div>
+<button id="flipButton" onclick="flipCoin()">抛硬币</button>
+<div id="result"></div>
+<a id="picture" href="https://www.zcool.com.cn/work/ZMjYwMjU2NDQ=.html">coins来源</a>
+
+<script>
+    function flipCoin() {
+        const coin = document.getElementById("coin");
+        const heads = document.getElementById("heads");
+        const tails = document.getElementById("tails");
+        const result = document.getElementById("result");
+        const button = document.getElementById("flipButton");
+
+        // 禁用按钮，防止多次点击
+        button.disabled = true;
+
+        // 动画效果
+        coin.classList.add("flip");
+
+        // 等待动画结束后更新结果
+        setTimeout(() => {
+            coin.classList.remove("flip");
+
+            // 随机生成硬币结果
+            const outcome = Math.random() < 0.5 ? "正面" : "反面";
+            
+            // 切换正反面图片
+            if (outcome === "正面") {
+                heads.style.display = "block";
+                tails.style.display = "none";
+            } else {
+                heads.style.display = "none";
+                tails.style.display = "block";
+            }
+
+            // 显示结果
+            result.textContent = outcome;
+
+            // 恢复按钮可点击状态
+            button.disabled = false;
+        }, 1000);  // 动画时长1秒
+    }
+
+</script>
+
+</body>
+</html>
