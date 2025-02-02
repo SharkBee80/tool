@@ -10,12 +10,20 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            padding-top: 50px;
+        }
+
+        .main {
+            margin-top: 12vh;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin: auto;
         }
 
         #coin {
-            width: 100px;
-            height: 100px;
+            width: 10rem;
+            height: 10rem;
             border-radius: 50%;
             position: relative;
             margin: 20px auto;
@@ -37,14 +45,14 @@
         }
 
         #result {
-            font-size: 24px;
+            font-size: 44px;
             font-weight: bold;
             margin-top: 20px;
         }
 
         button {
             padding: 10px 20px;
-            font-size: 16px;
+            font-size: 2.5rem;
             cursor: pointer;
             background-color: #4CAF50;
             color: white;
@@ -70,15 +78,15 @@
 </head>
 
 <body>
-
-    <h1>抛硬币</h1>
-    <div id="coin">
-        <img id="img" src="img/Coins/heads.png" alt="正面" style="display: block;">
+    <div class="main">
+        <h1>抛硬币</h1>
+        <div id="coin">
+            <img id="img" src="img/Coins/heads.png" alt="正面" style="display: block;">
+        </div>
+        <button id="flipButton" onclick="flipCoin()">抛硬币</button>
+        <div id="result">--</div>
+        <a id="picture" href="https://www.zcool.com.cn/work/ZMjYwMjU2NDQ=.html">coins来源</a>
     </div>
-    <button id="flipButton" onclick="flipCoin()">抛硬币</button>
-    <div id="result">--</div>
-    <a id="picture" href="https://www.zcool.com.cn/work/ZMjYwMjU2NDQ=.html">coins来源</a>
-
     <script>
         const head = "img/Coins/heads.png";
         const tail = "img/Coins/tails.png";
