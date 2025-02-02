@@ -135,14 +135,14 @@
 
             // 使用 async/await 确保按顺序执行
             (async () => {
-                coin.style.transform = `rotateY(${deg += 90}deg);`;
+                coin.style.transform = `rotateY(${deg += 90}deg)`;
                 await new Promise(resolve => setTimeout(resolve, ms / 2));
 
                 img.src = ishead ? tail : head;
                 ishead = !ishead;
                 //console.log('ishead:', ishead);
 
-                coin.style.transform = `rotateY(${deg += 90}deg);`;
+                coin.style.transform = `rotateY(${deg += 90}deg)`;
                 await new Promise(resolve => setTimeout(resolve, ms / 2));
             })();
         }
