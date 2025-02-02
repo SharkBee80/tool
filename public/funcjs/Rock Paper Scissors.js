@@ -89,9 +89,9 @@ function gameRules() {
 function whoWon() {
     if (points[0] === 10) {
         alert("你干掉了AI成功取得胜利!")
-        points = [0, 0];
+        points = [0, 0, 0];
     } else if (points[1] === 10) {
-        alert("你被人工智能打败了!")
-        points = [0, 0];
+        alert("你被AI打败了!")
+        points = [0, 0, 0];
     }
 }
