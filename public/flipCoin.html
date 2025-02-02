@@ -81,15 +81,15 @@
     <div class="main">
         <h1>抛硬币</h1>
         <div id="coin">
-            <img id="img" src="img/Coins/heads.png" alt="正面" style="display: block;">
+            <img id="img" src="" alt="正面" style="display: block;">
         </div>
         <button id="flipButton" onclick="flipCoin()">抛硬币</button>
         <div id="result">--</div>
         <a id="picture" href="https://www.zcool.com.cn/work/ZMjYwMjU2NDQ=.html">coins来源</a>
     </div>
     <script>
-        const head = "img/Coins/heads.png";
-        const tail = "img/Coins/tails.png";
+        const head = "img/Coins/head.png";
+        const tail = "img/Coins/tail.png";
         const coin = document.getElementById("coin");
         const img = document.getElementById("img");
         const result = document.getElementById("result");
@@ -99,6 +99,9 @@
         let intervalId;
         let intervalId2;
         let ani = false;
+
+        // 初始化图片
+        img.src = head;
 
         function flipCoin() {
             if (intervalId) clearInterval(intervalId); ani = false;
