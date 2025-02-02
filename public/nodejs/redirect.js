@@ -5,14 +5,7 @@
  * @param {Int} countdown 倒计时/s - 默认5
  * @param {URL} target 页面显示目标地址 - 默认targetUrl
  */
-function redirect(targetUrl, res, countdown, target) {
-    if (target === undefined) {
-        target = targetUrl;
-    }
-    if (countdown === undefined) {
-        countdown = 5;
-    }
-
+function redirect(targetUrl, res, countdown = 5, target = targetUrl) {
     // 检查 URL 是否以 http:// 或 https:// 开头，如果没有，则自动添加 http://
     if (!/^https?:\/\//i.test(targetUrl)) {
         targetUrl = 'http://' + targetUrl;  // 默认添加 http://
