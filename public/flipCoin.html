@@ -102,10 +102,11 @@
 
         function flipCoin() {
             if (intervalId) clearInterval(intervalId); ani = false;
+
             // 禁用按钮，防止多次点击
             button.disabled = true;
             result.textContent = '--';
-            const ms = 100;
+            const ms = 120;
             // 动画效果
             circle(ms);
 
@@ -140,9 +141,9 @@
          * 旋转硬币动画
          * @param {number} transform 旋转动画时长（毫秒）
          */
-        function deg180(ms = 200) { // 默认 500ms
+        function deg180(ms = 200) { // 默认 200ms
             // 设置旋转动画时长
-            coin.style.transition = `transform ${ms / 1000}s ease-in-out`;
+            coin.style.transition = `${ms / 1000 / 2}s ease-in-out`; // linear , ease-in-out
 
             // 使用 async/await 确保按顺序执行
             (async () => {
@@ -158,7 +159,7 @@
             })();
         }
 
-        async function circle(ms) {// 旋转
+        async function circle(ms = 200) {// 旋转
             intervalId = setInterval(() => deg180(ms), ms);
         }
 
@@ -178,7 +179,8 @@
             }
             else if (!ani) {
                 ani = true;
-                circle(200)
+                circle(180);
+                result.textContent = '--';
             } else {
                 ani = false;
                 if (intervalId) clearInterval(intervalId);
