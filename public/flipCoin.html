@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抛硬币</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        #coin {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            position: relative;
+            margin: 20px auto;
+            transition: transform 0.5s ease-in-out;
+            /* 旋转动画时长 */
+            background-color: #d4af3700;
+        }
+
+        #coin img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .flip {
+            transform: rotateY(3600deg);
+            /* 旋转10圈 */
+        }
+
+        #result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:disabled {
+            background-color: #ddd;
+            cursor: not-allowed;
+        }
+
+        #picture {
+            color: rgba(0, 0, 0, 0.25);
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>抛硬币</h1>
+    <div id="coin">
+        <img id="imge" src="img/Coins/heads.png" alt="正面" style="display: block;">
+    </div>
+    <button id="flipButton" onclick="flipCoin()">抛硬币</button>
+    <div id="result">--</div>
+    <a id="picture" href="https://www.zcool.com.cn/work/ZMjYwMjU2NDQ=.html">coins来源</a>
+
+    <script>
+        const head = "img/Coins/heads.png";
+        const tail = "img/Coins/tails.png";
+        const coin = document.getElementById("coin");
+        const imge = document.getElementById("imge");
+        const result = document.getElementById("result");
+        const button = document.getElementById("flipButton");
+        let deg = 0;
+        let ishead = true;
+        let intervalId;
+        let intervalId2;
+
+        function flipCoin() {
+            // 禁用按钮，防止多次点击
+            button.disabled = true;
+            result.textContent = '--';
+            const ms = 100;
+            // 动画效果
+            circle(ms);
+
+            // 等待动画结束后更新结果
+            setTimeout(() => {
+
+                // 随机生成硬币结果
+                const outcome = Math.random() < 0.5 ? "正面" : "反面";
+                const targetIsHead = outcome === "正面";
+
+                // 结束动画前，确保最终的 ishead 与 outcome 匹配
+                intervalId2 = setInterval(() => {
+                    if (ishead !== targetIsHead) {
+                        deg180(ms); // 继续翻转，直到 ishead 符合 outcome
+                        endflipCoin(outcome);
+                    } else {
+                        endflipCoin(outcome);
+                    }
+                }, ms / 2);
+
+
+            }, 1000);  // 动画时长1秒
+        }
+
+        /*
+        // 封装一个延迟函数
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }*/
+
+        /**
+         * 旋转硬币动画
+         * @param {number} transform 旋转动画时长（毫秒）
+         */
+        function deg180(ms = 500) { // 默认 500ms
+            // 设置旋转动画时长
+            coin.style.transition = `transform ${ms / 1000}s ease-in-out`;
+
+            // 使用 async/await 确保按顺序执行
+            (async () => {
+                coin.style.transform = `rotateY(${deg += 90}deg)`;
+                await new Promise(resolve => setTimeout(resolve, ms / 2));
+
+                imge.src = ishead ? tail : head;
+                ishead = !ishead;
+                //console.log('ishead:', ishead);
+
+                coin.style.transform = `rotateY(${deg += 90}deg)`;
+                await new Promise(resolve => setTimeout(resolve, ms / 2));
+            })();
+        }
+
+        async function circle(ms) {// 旋转
+            intervalId = setInterval(() => deg180(ms), ms);
+        }
+
+        function endflipCoin(outcome) { //结束
+            clearInterval(intervalId);
+            clearInterval(intervalId2);
+            // 显示结果
+            result.textContent = outcome;
+
+            // 恢复按钮可点击状态
+            button.disabled = false;
+        }
+
+    </script>
+
+</body>
+
+</html>
