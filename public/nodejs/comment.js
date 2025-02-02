@@ -15,6 +15,7 @@ function loadComments() {
 
 // 写入评论到文件
 function saveComments(comments) {
+    console.log(comments)
     fs.writeFileSync(commentsFile, JSON.stringify(comments, null, 2));
 }
 
@@ -53,9 +54,10 @@ function post(req,res) {
 // 删除评论
 function deleteComment(req, res) {
     const { id } = req.params;
+    const oldcomments = comments;
     comments = comments.filter(comment => comment.id !== id);  // 根据 ID 过滤出要删除的评论
 
-    if (comments.length === comments.filter(comment => comment.id !== id).length) {
+    if (oldcomments.length === comments.filter(comment => comment.id !== id).length) {
         return res.status(404).send("评论未找到");
     }
 

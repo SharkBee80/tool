@@ -116,9 +116,10 @@ async function post(req, res) {
 // 删除链接
 function del(req, res) {
     const { id } = req.params;
+    const oldlinks = links;
     links = links.filter(link => link.id !== id);  // 根据 ID 过滤出要删除的评论
 
-    if (links.length === links.filter(link => link.id !== id).length) {
+    if (oldlinks.length === links.filter(link => link.id !== id).length) {
         return res.status(404).send("链接未找到");
     }
 
