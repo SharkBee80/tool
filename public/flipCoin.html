@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="tosscoin flipCoin" />
     <title>抛硬币</title>
     <style>
         body {
@@ -71,7 +72,7 @@
 
     <h1>抛硬币</h1>
     <div id="coin">
-        <img id="imge" src="img/Coins/heads.png" alt="正面" style="display: block;">
+        <img id="img" src="img/Coins/heads.png" alt="正面" style="display: block;">
     </div>
     <button id="flipButton" onclick="flipCoin()">抛硬币</button>
     <div id="result">--</div>
@@ -81,7 +82,7 @@
         const head = "img/Coins/heads.png";
         const tail = "img/Coins/tails.png";
         const coin = document.getElementById("coin");
-        const imge = document.getElementById("imge");
+        const img = document.getElementById("img");
         const result = document.getElementById("result");
         const button = document.getElementById("flipButton");
         let deg = 0;
@@ -134,14 +135,14 @@
 
             // 使用 async/await 确保按顺序执行
             (async () => {
-                coin.style.transform = `rotateY(${deg += 90}deg)`;
+                coin.style.transform = `rotateY(${deg += 90}deg);`;
                 await new Promise(resolve => setTimeout(resolve, ms / 2));
 
-                imge.src = ishead ? tail : head;
+                img.src = ishead ? tail : head;
                 ishead = !ishead;
                 //console.log('ishead:', ishead);
 
-                coin.style.transform = `rotateY(${deg += 90}deg)`;
+                coin.style.transform = `rotateY(${deg += 90}deg);`;
                 await new Promise(resolve => setTimeout(resolve, ms / 2));
             })();
         }
