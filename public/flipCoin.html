@@ -98,8 +98,10 @@
         let ishead = true;
         let intervalId;
         let intervalId2;
+        let ani = false;
 
         function flipCoin() {
+            if (intervalId) clearInterval(intervalId); ani = false;
             // 禁用按钮，防止多次点击
             button.disabled = true;
             result.textContent = '--';
@@ -169,6 +171,19 @@
             // 恢复按钮可点击状态
             button.disabled = false;
         }
+
+        coin.addEventListener('click', () => {
+            if (button.disabled) {
+                return;
+            }
+            else if (!ani) {
+                ani = true;
+                circle(200)
+            } else {
+                ani = false;
+                if (intervalId) clearInterval(intervalId);
+            }
+        });
 
     </script>
 
