@@ -214,6 +214,7 @@ button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
+    appearance: button;
     -webkit-appearance: button;
 }
 
@@ -314,6 +315,7 @@ textarea {
    */
 
 [type="search"] {
+    appearance: textfield;
     -webkit-appearance: textfield;
     /* 1 */
     outline-offset: -2px;
@@ -402,6 +404,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    user-select: none;
 }
 
 #container {
@@ -439,6 +442,7 @@ body {
 
 #choice img {
     width: 50%;
+    pointer-events: none;
 }
 
 #computerChoice,

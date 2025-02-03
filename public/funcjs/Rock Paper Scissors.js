@@ -33,6 +33,9 @@ playerPoints.textContent = points[0];
 computerPoints.textContent = points[1];
 draw.textContent = points[2];
 
+playerChoiceImg.src = "./img/Rock Paper Scissors/gif.gif"
+computerChoiceImg.src = "./img/Rock Paper Scissors/gif.gif"
+
 // EVENT LISTENERS
 buttons.forEach((button) => {
     button.addEventListener("click", () => {
