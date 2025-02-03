@@ -6,23 +6,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>骰子</title>
 	<style>
-		.container {
-			width: 70%;
-			margin: auto;
-			text-align: center;
-		}
-
-		.dice {
-			text-align: center;
-			display: inline-block;
-			margin: 10px;
-		}
-
 		body {
 			/*background-image: url(https://labfile.oss.aliyuncs.com/courses/8605/bg-451838.jpeg);*/
 			background-size: 100% 100%;
 			height: 95vh;
 			margin: 0;
+			user-select: none;
 		}
 
 		h1 {
@@ -40,8 +29,21 @@
 			font-family: "Indie Flower", cursive;
 		}
 
+		.container {
+			width: 70%;
+			margin: auto;
+			text-align: center;
+		}
+
+		.dice {
+			text-align: center;
+			display: inline-block;
+			margin: 10px;
+		}
+
 		img {
 			width: 100%;
+			pointer-events: none;
 		}
 
 		.bottom {

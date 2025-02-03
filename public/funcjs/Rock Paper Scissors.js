@@ -28,7 +28,10 @@ let buttons = document.querySelectorAll(".btn")
 let points = [0, 0, 0]
 let randomNumber;
 
-
+// 初始化数字
+playerPoints.textContent = points[0];
+computerPoints.textContent = points[1];
+draw.textContent = points[2];
 
 // EVENT LISTENERS
 buttons.forEach((button) => {
