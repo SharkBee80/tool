@@ -10,6 +10,7 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            user-select: none;
         }
 
         .main {
@@ -37,6 +38,7 @@
             height: 100%;
             border-radius: 50%;
             position: absolute;
+            pointer-events: none;
         }
 
         .flip {
@@ -88,8 +90,8 @@
         <a id="picture" href="https://www.zcool.com.cn/work/ZMjYwMjU2NDQ=.html">coins来源</a>
     </div>
     <script>
-        const head = "img/Coins/head.png";
-        const tail = "img/Coins/tail.png";
+        const head = "img/Coins/head.webp";
+        const tail = "img/Coins/tail.webp";
         const coin = document.getElementById("coin");
         const img = document.getElementById("img");
         const result = document.getElementById("result");
@@ -145,18 +147,19 @@
          * @param {number} transform 旋转动画时长（毫秒）
          */
         function deg180(ms = 200) { // 默认 200ms
-            // 设置旋转动画时长
-            coin.style.transition = `${ms / 1000 / 2}s ease-in-out`; // linear , ease-in-out
+
 
             // 使用 async/await 确保按顺序执行
             (async () => {
+                // 设置旋转动画时长
+                coin.style.transition = `${ms / 1000 / 2}s ease-in`; // linear , ease-in-out
                 coin.style.transform = `rotateY(${deg += 90}deg)`;
                 await new Promise(resolve => setTimeout(resolve, ms / 2));
 
                 img.src = ishead ? tail : head;
                 ishead = !ishead;
                 //console.log('ishead:', ishead);
-
+                coin.style.transition = `${ms / 1000 / 2}s ease-out`;
                 coin.style.transform = `rotateY(${deg += 90}deg)`;
                 await new Promise(resolve => setTimeout(resolve, ms / 2));
             })();
