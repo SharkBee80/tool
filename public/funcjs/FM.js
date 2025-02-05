@@ -79,6 +79,11 @@ function createAudioList(audioSources) {
         });
         listContainer.appendChild(listItem);
     });
+    // 设置最后一个列表项的margin
+    if (listContainer.children.length > 0) {
+        const lastItem = listContainer.lastElementChild;
+        lastItem.style.marginBottom = '0'; // 根据需要调整具体属性和值
+    }
 }
 
 
@@ -366,7 +371,7 @@ function isTouchDevice() {
 
 if (!isTouchDevice()) {
     const listul = document.getElementById('audio-list-ul')
-    listul.style.height = 'inherit';
     listul.style.overflow = 'auto';
+    audioList.style.paddingRight = '2px';
 }
 
