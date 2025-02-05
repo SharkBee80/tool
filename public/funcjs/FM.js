@@ -425,8 +425,3 @@ window.addEventListener('keydown', function (event) {
         togglemute();
     }
 });
-
-// 
-setInterval(()=>{
-    console.log(currentVolume);
-},1000);
