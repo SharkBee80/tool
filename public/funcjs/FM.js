@@ -161,13 +161,13 @@ function togglePausePlay() {
 
 // 获取音量调节滑块元素
 const volumeBar = document.getElementById('volume-bar');
-let currentVolume = volumeBar.value;
+let currentVolume = Number(volumeBar.value);
 // 监听音量滑块变化事件
 volumeBar.addEventListener('input', function () {
     // 获取滑块当前值
     const volume = parseFloat(volumeBar.value) / 100;
     // 设置播放器音量
-    currentVolume = volumeBar.value;
+    currentVolume = Number(volumeBar.value);
     videojs('audio').volume(volume);
     volumeIco();
 });
@@ -354,7 +354,7 @@ function playRandomAudio() {
 
 // 增加音量
 function increase() {
-    currentVolume = Math.min(100, currentVolume + 10); // 防止大于 100
+    currentVolume = Math.min(currentVolume + 10, 100); // 防止大于 100
     // 更新音量条的值
     volumeBar.value = currentVolume;
     volumeIco();
@@ -425,3 +425,8 @@ window.addEventListener('keydown', function (event) {
         togglemute();
     }
 });
+
+// 
+setInterval(()=>{
+    console.log(currentVolume);
+},1000);
