@@ -40,6 +40,7 @@
             position: absolute;
             pointer-events: none;
             backface-visibility: hidden;
+            -webkit-backface-visibility: hidden; /* 添加这个来确保兼容iOS */
             /* 隐藏背面 */
         }
 
@@ -171,6 +172,8 @@
                 coin.style.transition = `${ms / 1000 / 2}s ease-out`;
                 coin.style.transform = `rotateY(${deg += 90}deg)`;
                 await new Promise(resolve => setTimeout(resolve, ms / 2));
+                // 重设deg
+                deg = deg % 360
             })();
         }
 
@@ -183,9 +186,6 @@
             clearInterval(intervalId2);
             // 显示结果
             result.textContent = outcome;
-
-            // 重设deg
-            deg = deg % 360
 
             // 恢复按钮可点击状态
             button.disabled = false;
