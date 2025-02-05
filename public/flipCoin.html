@@ -40,7 +40,8 @@
             position: absolute;
             pointer-events: none;
             backface-visibility: hidden;
-            -webkit-backface-visibility: hidden; /* 添加这个来确保兼容iOS */
+            -webkit-backface-visibility: hidden;
+            /* 添加这个来确保兼容iOS */
             /* 隐藏背面 */
         }
 
@@ -160,6 +161,9 @@
 
             // 使用 async/await 确保按顺序执行
             (async () => {
+                // 重设deg
+                deg = deg % 360
+
                 // 设置旋转动画时长
                 coin.style.transition = `${ms / 1000 / 2}s ease-in`; // linear , ease-in-out
                 coin.style.transform = `rotateY(${deg += 90}deg)`;
@@ -172,8 +176,6 @@
                 coin.style.transition = `${ms / 1000 / 2}s ease-out`;
                 coin.style.transform = `rotateY(${deg += 90}deg)`;
                 await new Promise(resolve => setTimeout(resolve, ms / 2));
-                // 重设deg
-                deg = deg % 360
             })();
         }
 
