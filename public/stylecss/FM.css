@@ -18,6 +18,7 @@ body {
 .LOGO a {
     margin-right: 8px;
     color: rgba(255, 255, 255, 0);
+    user-select: none;
 }
 
 #player {
@@ -99,6 +100,7 @@ body {
 #audioimg {
     width: 100px;
     height: 100px;
+    user-select: none;
 }
 
 .rotateAnimation {
@@ -270,4 +272,46 @@ body {
 
 .footprint .o {
     margin-inline: 6px;
+}
+
+@media (min-width: 1920px) {
+    #player {
+        zoom: 1.4;
+    }
+}
+
+@media (max-width: 1919px) {
+    #player {
+        zoom: 1.4;
+    }
+}
+
+@media (max-width: 1219px) {
+    #player {
+        zoom: 1.3;
+    }
+}
+
+@media (max-width: 959px) {
+    #player {
+        zoom: 1.2;
+    }
+}
+
+@media (max-width: 719px) {
+    #player {
+        zoom: 1.1;
+    }
+}
+
+@media (max-width: 479px) {
+    #player {
+        zoom: 1.0;
+    }
+}
+
+@media (max-width: 359px) {
+    #player {
+        zoom: 0.9;
+    }
 }
