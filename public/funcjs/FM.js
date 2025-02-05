@@ -206,18 +206,11 @@ function handleWheelEvent(event) {
 
     if (event.deltaY > 0) {
         // 滚轮向下，减少音量
-        currentVolume = Math.max(0, currentVolume - 10); // 防止小于 0
+        decrease();
     } else {
         // 滚轮向上，增加音量
-        currentVolume = Math.min(100, currentVolume + 10); // 防止大于 100
+        increase();
     }
-
-    // 更新音量条的值
-    volumeBar.value = currentVolume;
-    volumeIco();
-    if (v.ismute) return;
-    const volume = parseFloat(volumeBar.value) / 100;
-    videojs('audio').volume(volume);
 }
 
 // 音量图标切换逻辑
@@ -359,6 +352,29 @@ function playRandomAudio() {
     updateMusicName(randomSource.name);
 }
 
+// 增加音量
+function increase() {
+    currentVolume = Math.min(100, currentVolume + 10); // 防止大于 100
+    // 更新音量条的值
+    volumeBar.value = currentVolume;
+    volumeIco();
+    if (v.ismute) return;
+    const volume = parseFloat(volumeBar.value) / 100;
+    videojs('audio').volume(volume);
+}
+
+// 减小音量
+function decrease() {
+    currentVolume = Math.max(0, currentVolume - 10); // 防止小于 0
+    // 更新音量条的值
+    volumeBar.value = currentVolume;
+    volumeIco();
+    if (v.ismute) return;
+    const volume = parseFloat(volumeBar.value) / 100;
+    videojs('audio').volume(volume);
+}
+
+
 /*禁止鼠标的右击操作查看源代码*/
 document.oncontextmenu = function () {
     return false;
@@ -375,3 +391,37 @@ if (!isTouchDevice()) {
     audioList.style.paddingRight = '2px';
 }
 
+
+// 快捷键
+window.addEventListener('keydown', function (event) {
+    // 检查是否按下了空格键（使用现代标准 event.code）
+    if (event.code === 'Space' || event.code === 'Enter') {
+        event.preventDefault();  // 阻止默认行为（如页面滚动）
+        togglePausePlay();
+    }
+    else if (event.code === 'KeyA' || event.code === 'ArrowLeft') {
+        event.preventDefault();  // 阻止默认行为（如页面滚动）
+        playPrevAudio();
+    }
+    else if (event.code === 'KeyD' || event.code === 'ArrowRight') {
+        event.preventDefault();  // 阻止默认行为（如页面滚动）
+        playNextAudio();
+    }
+    else if (event.code === 'KeyW' || event.code === 'ArrowUp') {
+        event.preventDefault();  // 阻止默认行为（如页面滚动）
+        increase();
+    }
+    else if (event.code === 'KeyS' || event.code === 'ArrowDown') {
+        event.preventDefault();  // 阻止默认行为（如页面滚动）
+        decrease();
+    }
+    else if (event.ctrlKey || event.shiftKey) {
+        event.preventDefault();  // 阻止默认行为（如页面滚动）
+        audioList.classList.toggle('active');;
+    }
+
+    else if (event.code === 'Tab' || event.code === 'Backspace') {
+        event.preventDefault();  // 阻止默认行为（如页面滚动）
+        togglemute();
+    }
+});
