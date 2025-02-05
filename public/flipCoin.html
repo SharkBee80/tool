@@ -28,9 +28,9 @@
             border-radius: 50%;
             position: relative;
             margin: 20px auto;
-            transition: transform 0.5s ease-in-out;
-            /* 旋转动画时长 */
             background-color: #d4af3700;
+            transform-style: preserve-3d;
+            /* 启用3D变换 */
         }
 
         #coin img {
@@ -39,6 +39,13 @@
             border-radius: 50%;
             position: absolute;
             pointer-events: none;
+            backface-visibility: hidden;
+            /* 隐藏背面 */
+        }
+
+        #coin #imgt {
+            transform: rotateY(180deg);
+            /* 初始反面旋转180度 */
         }
 
         .flip {
@@ -83,17 +90,19 @@
     <div class="main">
         <h1>抛硬币</h1>
         <div id="coin">
-            <img id="img" src="" alt="正面" style="display: block;">
+            <img id="imgh" src="img/Coins/head.webp" alt="正面" style="display: block;">
+            <img id="imgt" src="img/Coins/tail.webp" alt="反面" style="display: none;">
         </div>
         <button id="flipButton" onclick="flipCoin()">抛硬币</button>
         <div id="result">--</div>
         <a id="picture" href="https://www.zcool.com.cn/work/ZMjYwMjU2NDQ=.html">coins来源</a>
     </div>
     <script>
-        const head = "img/Coins/head.webp";
-        const tail = "img/Coins/tail.webp";
+        //const head = "img/Coins/head.webp";
+        //const tail = "img/Coins/tail.webp";
         const coin = document.getElementById("coin");
-        const img = document.getElementById("img");
+        const imgh = document.getElementById("imgh");
+        const imgt = document.getElementById('imgt')
         const result = document.getElementById("result");
         const button = document.getElementById("flipButton");
         let deg = 0;
@@ -103,7 +112,6 @@
         let ani = false;
 
         // 初始化图片
-        img.src = head;
 
         function flipCoin() {
             if (intervalId) clearInterval(intervalId); ani = false;
@@ -156,7 +164,8 @@
                 coin.style.transform = `rotateY(${deg += 90}deg)`;
                 await new Promise(resolve => setTimeout(resolve, ms / 2));
 
-                img.src = ishead ? tail : head;
+                imgh.style.display = ishead ? 'none' : 'block';
+                imgt.style.display = ishead ? 'block' : 'none';
                 ishead = !ishead;
                 //console.log('ishead:', ishead);
                 coin.style.transition = `${ms / 1000 / 2}s ease-out`;
@@ -174,6 +183,9 @@
             clearInterval(intervalId2);
             // 显示结果
             result.textContent = outcome;
+
+            // 重设deg
+            deg = deg % 360
 
             // 恢复按钮可点击状态
             button.disabled = false;
