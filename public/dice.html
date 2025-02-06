@@ -115,7 +115,7 @@
 
 <body>
 	<h1>让我们开始吧</h1>
-	<div class="scene">
+	<div class="scene" id="scene">
 		<div class="cube" id="cube">
 			<div class="face face1">
 				<img src="data:image/png;base64,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"
@@ -158,6 +158,8 @@
 		};
 		function rollDice() {
 			btn.disabled = true;
+			if (intervalId) clearInterval(intervalId);
+			ani = false;
 			// 随机结果 1~6
 			const result = Math.floor(Math.random() * 6) + 1;
 			// 为了有更多旋转效果，增加额外整数倍360°
@@ -172,11 +174,42 @@
 		}
 
 		// 随机初始化
-		// 随机结果 1~6
 		const result = Math.floor(Math.random() * 6) + 1;
 		const finalX = diceTransforms[result].x;
 		const finalY = diceTransforms[result].y;
 		cube.style.transform = `rotateX(${finalX}deg) rotateY(${finalY}deg)`;
+
+		let intervalId;
+		let ani = false;
+		function circle() {
+			var lastX = -1;
+			var lastY = -1;
+			if (intervalId) clearInterval(intervalId);
+			intervalId = setInterval(() => {
+				// 生成不与上次重复的随机数
+				do {
+					var X = 90 * (Math.floor(Math.random() * 4) + 1);
+					var Y = 90 * (Math.floor(Math.random() * 4) + 1);
+				} while (X === lastX || Y === lastY);
+				lastX = X;
+				lastY = Y;
+				cube.style.transform = `rotateX(${X}deg) rotateY(${Y}deg)`;
+			}, 1200);
+
+		}
+
+		document.getElementById('scene').addEventListener('click', () => {
+			if (btn.disabled) {
+				return;
+			}
+			else if (!ani) {
+				ani = true;
+				circle();
+			} else {
+				ani = false;
+				if (intervalId) clearInterval(intervalId);
+			}
+		});
 	</script>
 </body>
 
