@@ -89,6 +89,7 @@ body {
     /* 水平居中 */
     align-items: center;
     /* 垂直居中 */
+    cursor: pointer;
 }
 
 /* 左侧封面图模块添加了active类名 */
