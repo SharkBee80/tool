@@ -318,6 +318,7 @@ function volumeIco() {
 function updateMusicName(name) {
     const musicNameElement = document.querySelector('.music-name');
     musicNameElement.textContent = name;
+    document.title = '网络电台__' + name;
 }
 //图片
 function showAudioImage(img) {
