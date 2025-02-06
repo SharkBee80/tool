@@ -76,22 +76,32 @@ menuBtn.addEventListener('click', function () {
 function createAudioList(audioSources) {
     const listContainer = document.getElementById('audio-list-ul');
     audioSources.sort((a, b) => {
-        if (a.fm !== b.fm) {
-            return a.fm - b.fm; // 先按 fm 升序排序
+        if (a.fm !== b.fm) return a.fm - b.fm; // 先按 fm 升序排序
+
+        const nameA = a.name.trim();
+        const nameB = b.name.trim();
+        /*
+        const firstA = nameA[0] || '';
+        const firstB = nameB[0] || '';
+        const isAEnglish = /^[a-zA-Z]$/.test(firstA);
+        const isBEnglish = /^[a-zA-Z]$/.test(firstB);
+
+        // 只对首字符做英文优先判断
+        if (isAEnglish && !isBEnglish) return -1;
+        if (!isAEnglish && isBEnglish) return 1;
+
+        // 如果首字符不相等，直接按默认顺序比较
+        if (firstA !== firstB) {
+            return firstA < firstB ? -1 : 1;
         }
-        // 获取第一个非空白字符，并判断是否是英文
-        const firstCharA = a.name.trim().match(/\S/)?.[0] || ''; // 获取首个非空字符
-        const firstCharB = b.name.trim().match(/\S/)?.[0] || '';
 
-        const isAEnglish = /^[a-zA-Z]/.test(firstCharA); // 是否以英文开头
-        const isBEnglish = /^[a-zA-Z]/.test(firstCharB);
-
-        if (isAEnglish && !isBEnglish) return -1; // 英文在前
-        if (!isAEnglish && isBEnglish) return 1;  // 中文在后
-
-        return a.name.localeCompare(b.name, 'zh'); // 按拼音/字母排序
-
-    }); // 正序排列
+        // 当首字符相同，比较剩余部分（不使用 localeCompare 的中英文排序）
+        */
+        const restA = nameA.slice(1);
+        const restB = nameB.slice(1);
+        if (restA === restB) return 0;
+        return restA < restB ? -1 : 1;
+    });
     audioSources.forEach(source => {
         const listItem = document.createElement('li');
         listItem.textContent = source.name;
