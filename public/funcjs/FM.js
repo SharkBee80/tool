@@ -1,15 +1,18 @@
 // 音源列表数组
 const audioSources = [
+    // 佛山电台
     { fm: "92.4", name: "FM92.4-南海广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_42_audio.m3u8", img: "./img/FM/924.jpg" },
     { fm: "94.6", name: "FM94.6-佛山综合广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_46_audio.m3u8", img: "./img/FM/946.jpg" },
     { fm: "88.3", name: "FM88.3-高明广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_43_audio.m3u8", img: "./img/FM/883.jpg" },
     { fm: "90.1", name: "FM90.1-顺德广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_44_audio.m3u8", img: "./img/FM/901.jpg" },
     { fm: "90.6", name: "FM90.6-三水广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_45_audio.m3u8", img: "./img/FM/906.jpg" },
     { fm: "98.5", name: "FM98.5-佛山音乐广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_41_audio.m3u8", img: "./img/FM/985.jpg" },
+    // 广州电台
     { fm: "88.0", name: "FM88.0-广州都市生活", url: "https://tencentplay.gztv.com/live/fm880.m3u8?txSecret=43e759eb546ad0658f0903e5ac8d7733&txTime=18ed764ce11", img: "./img/FM/880.jpg" },
     { fm: "106.1", name: "FM106.1-广州交通广播", url: "https://tencentplay.gztv.com/live/fm1061.m3u8?txSecret=cc7b1a4166f1d00d8d9e64717b5a6cc4&txTime=18ed7702c5a", img: "./img/FM/1061.jpg" },
     { fm: "96.2", name: "FM96.2-广州新闻资讯", url: "https://tencentplay.gztv.com/live/fm962.m3u8?txSecret=6c9997d52e9fbe1c3a10e83f28570f27&txTime=18ed775ec73", img: "./img/FM/962.jpg" },
     { fm: "102.7", name: "FM102.7-广州汽车音乐", url: "https://tencentplay.gztv.com/live/fm1027.m3u8?txSecret=cf78ef371503e3544e3db79b399e9a64&txTime=18ed7783401", img: "./img/FM/1027.jpg" },
+    // 蜻蜓
     { fm: "91.4", name: "FM91.4-广东新闻广播", url: "https://lhttp.qingting.fm/live/1254/64k.mp3", img: "./img/FM/914.jpg" },
     { fm: "97.4", name: "FM97.4-珠江经济台", url: "https://lhttp.qingting.fm/live/1259/64k.mp3", img: "./img/FM/974.jpg" },
     { fm: "99.3", name: "FM99.3-音乐之声", url: "https://lhttp.qingting.fm/live/1260/64k.mp3", img: "./img/FM/993.jpg" },
@@ -19,7 +22,12 @@ const audioSources = [
     { fm: "95.3", name: "FM95.3-股市广播", url: "https://lhttp.qingting.fm/live/4847/64k.mp3", img: "./img/FM/953.jpg" },
     { fm: "107.7", name: "FM107.7-文体广播", url: "https://lhttp.qingting.fm/live/471/64k.mp3", img: "./img/FM/1077.jpg" },
     { fm: "105.7", name: "FM105.7-珠江之声", url: "https://lhttp.qingting.fm/live/470/64k.mp3", img: "./img/FM/1057.jpg" },
-    // 更多音源...
+    // 更多音源...   { fm: "", name: "", url: "", img: "./img/FM/" },
+    { fm: "9999", name: "AsiaFM 亚洲粤语台", url: "https://lhttp.qingting.fm/live/15318569/64k.mp3", img: "./img/FM/10001.jpeg" },
+    { fm: "9999", name: "两广之声音乐台", url: "https://lhttp.qingting.fm/live/15318569/64k.mp3", img: "./img/FM/10002.jpeg" },
+    { fm: "9999", name: "顺德音乐之声", url: "https://lhttp.qingting.fm/live/20500150/64k.mp3", img: "./img/FM/10003.jpeg" },
+    { fm: "9999", name: "AsiaFM HD音乐台", url: "https://lhttp-hw.qtfm.cn/live/15318341/64k.mp3", img: "./img/FM/10004.jpeg" },
+    { fm: "9999", name: "AsiaFM 亚洲音乐台", url: "https://lhttp-hw.qtfm.cn/live/5022405/64k.mp3", img: "./img/FM/10005.jpeg" },
 ];
 
 // SVG
@@ -67,7 +75,23 @@ menuBtn.addEventListener('click', function () {
 // 动态创建音源列表项
 function createAudioList(audioSources) {
     const listContainer = document.getElementById('audio-list-ul');
-    audioSources.sort((a, b) => a.fm - b.fm); // 倒序排列
+    audioSources.sort((a, b) => {
+        if (a.fm !== b.fm) {
+            return a.fm - b.fm; // 先按 fm 升序排序
+        }
+        // 获取第一个非空白字符，并判断是否是英文
+        const firstCharA = a.name.trim().match(/\S/)?.[0] || ''; // 获取首个非空字符
+        const firstCharB = b.name.trim().match(/\S/)?.[0] || '';
+
+        const isAEnglish = /^[a-zA-Z]/.test(firstCharA); // 是否以英文开头
+        const isBEnglish = /^[a-zA-Z]/.test(firstCharB);
+
+        if (isAEnglish && !isBEnglish) return -1; // 英文在前
+        if (!isAEnglish && isBEnglish) return 1;  // 中文在后
+
+        return a.name.localeCompare(b.name, 'zh'); // 按拼音/字母排序
+
+    }); // 正序排列
     audioSources.forEach(source => {
         const listItem = document.createElement('li');
         listItem.textContent = source.name;
