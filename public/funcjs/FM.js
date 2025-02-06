@@ -24,7 +24,7 @@ const audioSources = [
     { fm: "1057", name: "FM105.7-珠江之声", url: "https://lhttp.qingting.fm/live/470/64k.mp3", img: "./img/FM/1057.jpg" },
     // 更多音源...   { fm: "", name: "", url: "", img: "./img/FM/" },
     { fm: "9999", name: "AsiaFM 亚洲粤语台", url: "https://lhttp.qingting.fm/live/15318569/64k.mp3", img: "./img/FM/10001.jpeg" },
-    { fm: "9999", name: "两广之声音乐台", url: "https://lhttp.qingting.fm/live/15318569/64k.mp3", img: "./img/FM/10002.jpeg" },
+    { fm: "9999", name: "两广之声音乐台", url: "https://lhttp.qingting.fm/live/20500149/64k.mp3", img: "./img/FM/10002.jpeg" },
     { fm: "9999", name: "顺德音乐之声", url: "https://lhttp.qingting.fm/live/20500150/64k.mp3", img: "./img/FM/10003.jpeg" },
     { fm: "9999", name: "AsiaFM HD音乐台", url: "https://lhttp-hw.qtfm.cn/live/15318341/64k.mp3", img: "./img/FM/10004.jpeg" },
     { fm: "9999", name: "AsiaFM 亚洲音乐台", url: "https://lhttp-hw.qtfm.cn/live/5022405/64k.mp3", img: "./img/FM/10005.jpeg" },
