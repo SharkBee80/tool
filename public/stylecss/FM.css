@@ -200,7 +200,7 @@ body {
 #audio-list.active {
     overflow-y: auto;
     /* 添加垂直滚动条 */
-    height: 30vh;
+    height: 26vh;
     /* 展开后的高度 */
 }
 
