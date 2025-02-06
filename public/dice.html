@@ -32,6 +32,7 @@
 			height: 112px;
 			/*perspective: 600px;*/
 			margin-block: 30px;
+			cursor: pointer;
 		}
 
 		.cube {
@@ -98,7 +99,7 @@
 			font-size: 30px;
 			padding: 16px 25px;
 			cursor: pointer;
-			margin-top: 25px;
+			margin-block: 25px;
 		}
 
 		button:hover {
@@ -182,18 +183,17 @@
 		let intervalId;
 		let ani = false;
 		function circle() {
-			var lastX = -1;
-			var lastY = -1;
+			var last1R = -1;
+			var last2R = -1;
 			if (intervalId) clearInterval(intervalId);
 			intervalId = setInterval(() => {
 				// 生成不与上次重复的随机数
 				do {
-					var X = 90 * (Math.floor(Math.random() * 4) + 1);
-					var Y = 90 * (Math.floor(Math.random() * 4) + 1);
-				} while (X === lastX || Y === lastY);
-				lastX = X;
-				lastY = Y;
-				cube.style.transform = `rotateX(${X}deg) rotateY(${Y}deg)`;
+					var result = Math.floor(Math.random() * 6) + 1;
+				} while (result === last1R || result === last2R);
+				last2R = last1R;
+				last1R = result;
+				cube.style.transform = `rotateX(${diceTransforms[result].x}deg) rotateY(${diceTransforms[result].y}deg)`;
 			}, 1200);
 
 		}
