@@ -332,17 +332,7 @@ function updateMusicName(name) {
 }
 //图片
 function showAudioImage(img) {
-    const imageContainer = document.getElementById('imageContainer');
-    const imgElement = document.createElement('img');
-    imgElement.src = img;
-    imgElement.id = 'audioimg';
-    imgElement.draggable = 'true'; // 将draggable属性设置为true
-    imageContainer.innerHTML = ''; // 清空容器内容  
-    // 添加dragstart事件监听器，阻止默认行为
-    imgElement.addEventListener('dragstart', function (event) {
-        event.preventDefault();
-    });
-    imageContainer.appendChild(imgElement); // 将图片添加到容器中
+    document.getElementById('audioimg').src = img;
 }
 
 // 播放上一首音频的函数
