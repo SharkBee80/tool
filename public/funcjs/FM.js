@@ -123,9 +123,13 @@ function createAudioList(audioSources) {
 
 // 播放音源的函数  
 let player = null;
+let spectrumer = null;
 function playAudioSource(url) {
     if (!player) {
         player = videojs('audio');
+    }
+    if (!spectrumer && player) {
+        spectrumer = spectrum({});
     }
     // 在切换音频时重置计时
     const currentTimeElement = document.getElementById('current-time');
