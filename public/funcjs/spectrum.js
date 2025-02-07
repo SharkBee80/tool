@@ -1,5 +1,8 @@
 /**
  * 为videojs使用的频谱spectrum
+ * 1、<script src="spectrum.js"></script>  <!-- 引入 spectrum.js -->
+ * 2、<audio crossorigin="anonymous"></audio>  <!-- 跨域访问 -->
+ * 3、spectrum({}); //------注意{}
  */
 
 let analyser, canvas, canvasObj, gradient;
@@ -13,11 +16,11 @@ let transparent = 0.5;//透明度
  * @param {String} top 距顶部位置
  * @param {String} left 距左侧位置
  * @param {String} z_index 层次
- * @param {Number} style 样式'单线效果', '竖线效果', '竖线+帽子', '柱子效果', '柱子+帽子', '柱子倒影', '爆炸效果'
+ * @param {Number} style 样式 (0->N) '单线效果', '竖线效果', '竖线+帽子', '柱子效果', '柱子+帽子', '柱子倒影', '爆炸效果'
  * @param {Number} transparents 透明度
  * @returns 
  */
-function spectrum({width = 336, height = 600, top = `calc(100vh - ${height / 2}px)`, left = '50%', z_index = 1, style = 4, transparents = 0.5}) {
+function spectrum({ width = 336, height = 600, top = `calc(100vh - ${height / 2}px)`, left = '50%', z_index = 1, style = 4, transparents = 0.5 }) {
     const context = new (window.AudioContext || window.webkitAudioContext)();
     // canvas元素
     document.body.insertAdjacentHTML('afterbegin', `<canvas id="canvas-spectrum" width="${width}" height="${height}" style="position: fixed; left: ${left};top: ${top};transform: translate(-50%, -50%);z-index: ${z_index}; pointer-events: none;"></canvas>`);
