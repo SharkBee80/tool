@@ -13,10 +13,10 @@ let transparent = 0.5;//透明度
  * 
  * @param {Number} width 宽
  * @param {Number} height 高
- * @param {String} top 距顶部位置
- * @param {String} left 距左侧位置
+ * @param {String} top 上边距顶部位置
+ * @param {String} left 中轴距左侧位置
  * @param {String} z_index 层次
- * @param {Number} style 样式 (0->N) '单线效果', '竖线效果', '竖线+帽子', '柱子效果', '柱子+帽子', '柱子倒影', '爆炸效果'
+ * @param {Number} style 样式 (0 -> N) '单线效果', '竖线效果', '竖线+帽子', '柱子效果', '柱子+帽子', '柱子倒影', '爆炸效果'
  * @param {Number} transparents 透明度
  * @returns 
  */
@@ -36,7 +36,7 @@ function spectrum({ width = 336, height = 600, top = `calc(100vh - ${height / 2}
     }
     transparent = transparents;
     // 颜色
-    gradient = canvasObj.context.createLinearGradient(0, 250, 0, canvasObj.height)
+    gradient = canvasObj.context.createLinearGradient(0, canvasObj.height * 0.5, 0, canvasObj.height) // x0,y0,x1,y1
     gradient.addColorStop(1, `rgba(0,255,0,${transparent})`)
     gradient.addColorStop(0.7, `rgba(255,255,0,${transparent})`)
     gradient.addColorStop(0, `rgba(255,0,0,${transparent})`)
@@ -109,7 +109,7 @@ function drawMeter() {
             }
             ctx.fillStyle = gradient
             for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
-                ctx.fillRect(i * 12, canvasObj.height - Math.max(frequencyArray[i * 12], 5), 7, canvasObj.height);
+                ctx.fillRect(i * 12, canvasObj.height - Math.max(frequencyArray[i * 12], 5), 7, canvasObj.height); //x0,y0,+x,+y
             }
             break
         case 5:
