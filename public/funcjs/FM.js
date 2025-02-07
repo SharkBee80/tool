@@ -199,13 +199,14 @@ function togglePausePlay() {
 
 // 获取音量调节滑块元素
 const volumeBar = document.getElementById('volume-bar');
-let currentVolume = Number(volumeBar.value);
+let currentVolume = parseFloat(volumeBar.value);
 // 监听音量滑块变化事件
 volumeBar.addEventListener('input', function () {
     // 获取滑块当前值
     const volume = parseFloat(volumeBar.value) / 100;
     // 设置播放器音量
-    currentVolume = Number(volumeBar.value);
+    currentVolume = parseFloat(volumeBar.value);
+    if (v.ismute) return;
     videojs('audio').volume(volume);
     volumeIco();
 });
@@ -294,10 +295,10 @@ function togglemute(touch) {
     if (touch === undefined) {
         touch = false;
     }
-    if (isTouchDevice() && touch) {
-        return;
-    };
+    if (isTouchDevice() && touch) return;
+
     if (v.ismute) {
+        if (volumeBar.value == 0) return;
         //console.log("unmute");
         v.unmute();
         volumeIco();
@@ -309,8 +310,9 @@ function togglemute(touch) {
 }
 
 function volumeIco() {
-    const volume = volumeBar.value;
     if (v.ismute) return;
+
+    const volume = volumeBar.value;
 
     if (volume == 0) {
         // 静音图标
