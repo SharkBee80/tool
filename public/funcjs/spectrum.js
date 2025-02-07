@@ -76,6 +76,7 @@ function drawMeter() {
 
     switch (canvasObj.style) {
         case 0:
+            if (frequencyArray.every(x => x === 0)) break;
             ctx.beginPath()
             ctx.moveTo(0, canvasObj.height)
             for (var i = Math.min(frequencyArray.length, 336) - 1; i >= 0; i--) {
@@ -86,6 +87,7 @@ function drawMeter() {
             break
         case 1:
         case 2:
+            if (frequencyArray.every(x => x === 0)) break;
             if (canvasObj.style === 2) {
                 ctx.fillStyle = `rgba(255,255,255,${transparent})`//加上帽子
                 for (var i = Math.min(frequencyArray.length, 336) - 1; i >= 0; i--) {
@@ -100,6 +102,7 @@ function drawMeter() {
             break
         case 3:
         case 4:
+            if (frequencyArray.every(x => x === 0)) break;
             if (canvasObj.style === 4) {
                 ctx.fillStyle = `rgba(255,255,255,${transparent})`//加上帽子
                 for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
