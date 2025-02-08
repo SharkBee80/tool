@@ -163,6 +163,7 @@ function playAudioSource(url) {
         musicImgs.classList.add('active');
     });
     player.on('pause', function () {
+        currentUrl = url;
         playerContent1.classList.remove('active');
         const audio_img = document.getElementById('audioimg');
         const musicImgs = document.getElementById('imageContainer');
@@ -179,6 +180,9 @@ function padZero(num) {
 // 添加暂停播放按钮的点击事件处理程序
 pausePlayBtn.addEventListener('click', togglePausePlay);
 imageContainer.addEventListener('click', togglePausePlay);
+
+let timeout_play;
+let currentUrl;
 // 切换播放状态的函数
 function togglePausePlay() {
     if (!player) {
@@ -188,12 +192,24 @@ function togglePausePlay() {
 
     if (player.paused()) {
         console.log("Audio is paused, playing now");
-        player.play();
+        if (currentUrl) {
+            playAudioSource(currentUrl);
+        } else {
+            player.play();
+            currentUrl = null;
+        }
         pausePlayBtn.innerHTML = pauseSVG;
+        if (timeout_play) clearTimeout(timeout_play); // 移除
     } else {
         console.log("Audio is playing, pausing now");
         player.pause();
         pausePlayBtn.innerHTML = playSVG;
+        // 设置 10 秒后销毁播放器
+        timeout_play = setTimeout(() => {
+            console.log('暂停超时，释放资源');
+            player.src({ src: 'sound/null.mp3'}); // 清空视频源
+            //player.load(); // 重新加载，停止请求
+        }, 10000); // 10秒
     }
 }
 
@@ -212,19 +228,19 @@ volumeBar.addEventListener('input', function () {
 });
 
 // 添加喇叭图标的隐藏式动画
-let timeoutId;  // 用于存储setTimeout的返回ID
+let timeout_mouse;  // 用于存储setTimeout的返回ID
 volumeContainer.addEventListener('mouseenter'/*click*/, function () {
     volumeBarContainer.style.display = 'block';
     // 监听滚轮事件
     volumeContainer.addEventListener('wheel', handleWheelEvent, { passive: false });
     // 取消之前的setTimeout操作
-    if (timeoutId) {
-        clearTimeout(timeoutId);
+    if (timeout_mouse) {
+        clearTimeout(timeout_mouse);
     }
 });
 volumeContainer.addEventListener('mouseleave', function () {
     // 延时
-    timeoutId = setTimeout(() => {
+    timeout_mouse = setTimeout(() => {
         volumeBarContainer.style.display = 'none';
         // 移除监听滚轮事件
         volumeContainer.removeEventListener('wheel', handleWheelEvent);

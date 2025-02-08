@@ -6,7 +6,7 @@
  */
 
 let analyser, canvas, canvasObj, gradient;
-let frequencyArray = []//采样频率缓冲数组
+let frequencyArray = [];//采样频率缓冲数组
 let transparent = 0.5;//透明度
 
 /**
@@ -43,13 +43,13 @@ function spectrum({ width = 336, height = 600, top = `calc(100vh - ${height / 2}
     // 设置样式
     canvasObj.style = style;
 
-    playSong(context);
+    ani(context);
 
     return true
 }
 
 //指定序号播放歌曲
-function playSong(context) {
+function ani(context) {
     // 获取 video.js 播放器的音频元素
     const audioElement = player.el().querySelector('audio');
 
