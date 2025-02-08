@@ -204,14 +204,14 @@ function togglePausePlay() {
         console.log("Audio is playing, pausing now");
         player.pause();
         pausePlayBtn.innerHTML = playSVG;
-        // 设置 10 秒后销毁播放器
+        // 设置 8 秒后销毁播放器
         timeout_play = setTimeout(() => {
             console.log('暂停超时，释放资源');
             player.src({ src: 'sound/null.wav'}); // 替换空白音频源
             //data:audio/wav;base64,UklGRjoAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YRYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
             //player.load(); // 重新加载，停止请求
             timeout_play = null;
-        }, 10000); // 10秒
+        }, 8000); // 8秒
     }
 }
 
