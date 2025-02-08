@@ -207,7 +207,7 @@ function togglePausePlay() {
         // 设置 10 秒后销毁播放器
         timeout_play = setTimeout(() => {
             console.log('暂停超时，释放资源');
-            player.src({ src: 'sound/null.mp3'}); // 清空视频源
+            player.src({ src: 'sound/null.wav'}); // 清空视频源
             //player.load(); // 重新加载，停止请求
         }, 10000); // 10秒
     }
