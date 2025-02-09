@@ -5,7 +5,7 @@
  * 3、spectrum({}); //------注意{}
  */
 
-let analyser, canvas, canvasObj, gradient;
+let analyser, context, canvas, canvasObj, gradient;
 let frequencyArray = [];//采样频率缓冲数组
 let transparent = 0.5;//透明度
 
@@ -21,7 +21,9 @@ let transparent = 0.5;//透明度
  * @returns 
  */
 function spectrum({ width = 336 - 2, height = 600, top = `calc(100vh - ${height / 2}px)`, left = '50%', z_index = 1, style = 4, transparents = 0.5 }) {
-    const context = new (window.AudioContext || window.webkitAudioContext)();
+    if (!context) {
+        context = new (window.AudioContext || window.webkitAudioContext)();
+    }
     // canvas元素
     document.body.insertAdjacentHTML('afterbegin', `<canvas id="canvas-spectrum" width="${width}" height="${height}" style="position: fixed; left: ${left};top: ${top};transform: translate(-50%, -50%);z-index: ${z_index}; pointer-events: none;"></canvas>`);
     canvas = document.getElementById("canvas-spectrum")
