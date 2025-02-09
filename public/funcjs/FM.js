@@ -156,6 +156,7 @@ function playAudioSource(url) {
 
     // 添加播放和暂停事件监听器-playerContent1&图片
     player.on('play', function () {
+        currentUrl = null;
         playerContent1.classList.add('active');
         const audio_img = document.getElementById('audioimg');
         const musicImgs = document.getElementById('imageContainer');
@@ -196,9 +197,9 @@ function togglePausePlay() {
             playAudioSource(currentUrl);
         } else {
             player.play();
-            currentUrl = null;
         }
         pausePlayBtn.innerHTML = pauseSVG;
+        currentUrl = null;
         if (timeout_play) clearTimeout(timeout_play); // 移除
     } else {
         console.log("Audio is playing, pausing now");
@@ -367,7 +368,7 @@ function playPrevAudio() {
         playRandomAudio();
     }
 
-    const currentIndex = audioSources.findIndex(source => source.url === player.src());
+    const currentIndex = audioSources.findIndex(source => source.url === (currentUrl ? currentUrl : player.src()));
     const prevIndex = currentIndex === 0 ? audioSources.length - 1 : currentIndex - 1;
     const prevSource = audioSources[prevIndex];
     playAudioSource(prevSource.url);
@@ -383,7 +384,7 @@ function playNextAudio() {
         playRandomAudio();
     }
 
-    const currentIndex = audioSources.findIndex(source => source.url === player.src());
+    const currentIndex = audioSources.findIndex(source => source.url === (currentUrl ? currentUrl : player.src()));
     const nextIndex = currentIndex === audioSources.length - 1 ? 0 : currentIndex + 1;
     const nextSource = audioSources[nextIndex];
     playAudioSource(nextSource.url);
