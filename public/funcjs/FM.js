@@ -192,7 +192,7 @@ function togglePausePlay() {
     }
 
     if (player.paused()) {
-        console.log("Audio is paused, playing now");
+        console.log("Audio is playing now");
         if (currentUrl && !timeout_play) {
             playAudioSource(currentUrl);
         } else {
@@ -201,7 +201,7 @@ function togglePausePlay() {
         pausePlayBtn.innerHTML = pauseSVG;
         if (timeout_play) clearTimeout(timeout_play); // 移除
     } else {
-        console.log("Audio is playing, pausing now");
+        console.log("Audio is pausing now");
         player.pause();
         pausePlayBtn.innerHTML = playSVG;
         // 设置 5 秒后销毁播放器
@@ -354,6 +354,7 @@ function updateMusicName(name) {
     const musicNameElement = document.querySelector('.music-name');
     musicNameElement.textContent = name;
     document.title = '网络电台__' + name;
+    console.log(name);
 }
 //图片
 function showAudioImage(img) {
