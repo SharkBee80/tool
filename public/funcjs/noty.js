@@ -54,11 +54,15 @@ if (!container) {
 // 存储当前通知的队列
 const notifications = [];
 
-function noty(message) {
+function noty(message, color, backgroundColor) {
     // 创建通知元素
     const notification = document.createElement('div');
     notification.classList.add('notification');
     notification.innerText = message;
+
+    // 应用自定义颜色
+    if (color) notification.style.color = color;
+    if (backgroundColor) notification.style.backgroundColor = backgroundColor;
 
     // 插入到通知容器中
     container.appendChild(notification);
@@ -79,6 +83,7 @@ function noty(message) {
             updateNotifications();
         }, 600); // **动画结束后再删除**
     }, 3000);
+    return `notify`
 }
 
 // 更新通知位置
@@ -94,11 +99,24 @@ function updateNotifications() {
     });
 }
 
+// 随机颜色
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
-// 测试：每 1.5 秒弹出一个通知
-function notytest() {
-    setInterval(() => {
-        noty(`测试通知 ${new Date().toLocaleTimeString()}`);
+let testIntervalId;
+// 测试：每 1.5 秒弹出一个随机颜色的通知
+function notytest(c) {
+    if (testIntervalId) clearInterval(testIntervalId); 
+    testIntervalId = setInterval(() => {
+        const textColor = c ? getRandomColor() : undefined;
+        const bgColor = c ? getRandomColor() : undefined;
+        noty(`测试通知 ${new Date().toLocaleTimeString()}`, textColor, bgColor);
     }, 1500);
-    return 'start test'
+    return 'start test';
 }
