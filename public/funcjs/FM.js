@@ -140,6 +140,8 @@ function playAudioSource(url) {
         this.play();
     });
 
+    currentUrl = url;
+
     // 监听播放器的时间更新事件
     player.on('timeupdate', function () {
         // 获取当前播放时间，单位为秒
@@ -156,7 +158,6 @@ function playAudioSource(url) {
 
     // 添加播放和暂停事件监听器-playerContent1&图片
     player.on('play', function () {
-        currentUrl = null;
         playerContent1.classList.add('active');
         const audio_img = document.getElementById('audioimg');
         const musicImgs = document.getElementById('imageContainer');
@@ -164,7 +165,6 @@ function playAudioSource(url) {
         musicImgs.classList.add('active');
     });
     player.on('pause', function () {
-        currentUrl = url;
         playerContent1.classList.remove('active');
         const audio_img = document.getElementById('audioimg');
         const musicImgs = document.getElementById('imageContainer');
@@ -199,7 +199,6 @@ function togglePausePlay() {
             player.play();
         }
         pausePlayBtn.innerHTML = pauseSVG;
-        currentUrl = null;
         if (timeout_play) clearTimeout(timeout_play); // 移除
     } else {
         console.log("Audio is playing, pausing now");
@@ -368,7 +367,7 @@ function playPrevAudio() {
         playRandomAudio();
     }
 
-    const currentIndex = audioSources.findIndex(source => source.url === (currentUrl ? currentUrl : player.src()));
+    const currentIndex = audioSources.findIndex(source => source.url === currentUrl);
     const prevIndex = currentIndex === 0 ? audioSources.length - 1 : currentIndex - 1;
     const prevSource = audioSources[prevIndex];
     playAudioSource(prevSource.url);
@@ -384,7 +383,7 @@ function playNextAudio() {
         playRandomAudio();
     }
 
-    const currentIndex = audioSources.findIndex(source => source.url === (currentUrl ? currentUrl : player.src()));
+    const currentIndex = audioSources.findIndex(source => source.url === currentUrl);
     const nextIndex = currentIndex === audioSources.length - 1 ? 0 : currentIndex + 1;
     const nextSource = audioSources[nextIndex];
     playAudioSource(nextSource.url);
