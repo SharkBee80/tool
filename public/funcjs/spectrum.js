@@ -23,7 +23,7 @@ let transparent = 0.5;//透明度
 function spectrum({ width = 336, height = 600, top = `calc(100vh - ${height / 2}px)`, left = '50%', z_index = 1, style = 4, transparents = 0.5 }) {
     const context = new (window.AudioContext || window.webkitAudioContext)();
     // canvas元素
-    document.body.insertAdjacentHTML('afterbegin', `<canvas id="canvas-spectrum" width="${width}" height="${height}" style="position: fixed; left: ${left};top: ${top};transform: translate(-50%, -50%);z-index: ${z_index}; pointer-events: none;"></canvas>`);
+    document.body.insertAdjacentHTML('afterbegin', `<canvas id="canvas-spectrum" width="${width - (12 - 10)}" height="${height}" style="position: fixed; left: ${left};top: ${top};transform: translate(-50%, -50%);z-index: ${z_index}; pointer-events: none;"></canvas>`);
     canvas = document.getElementById("canvas-spectrum")
     canvasObj = {
         width: canvas.width,
@@ -107,22 +107,22 @@ function drawMeter() {
                 ctx.fillStyle = `rgba(255,255,255,${transparent})`//加上帽子
                 for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
                     canvasObj.capYArray[i] = frequencyArray[i * 12] < canvasObj.capYArray[i] ? canvasObj.capYArray[i] - 1 : frequencyArray[i * 12]
-                    ctx.fillRect(i * 12, canvasObj.height - canvasObj.capYArray[i], 7, 2)
+                    ctx.fillRect(i * 12, canvasObj.height - canvasObj.capYArray[i], 10, 2)
                 }
             }
             ctx.fillStyle = gradient
             for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
-                ctx.fillRect(i * 12, canvasObj.height - Math.max(frequencyArray[i * 12], 5), 7, canvasObj.height); //x0,y0,+x,+y
+                ctx.fillRect(i * 12, canvasObj.height - Math.max(frequencyArray[i * 12], 5), 10, canvasObj.height); //x0,y0,+x,+y
             }
             break
         case 5:
             ctx.fillStyle = `rgba(102,102,102,${transparent})`
             for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
-                ctx.fillRect(i * 12, canvasObj.height - frequencyArray[i * 12] - 250, 7, frequencyArray[i * 12])
+                ctx.fillRect(i * 12, canvasObj.height - frequencyArray[i * 12] - 250, 10, frequencyArray[i * 12])
             }
             ctx.fillStyle = `rgba(51,51,51,${transparent})`
             for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
-                ctx.fillRect(i * 12, canvasObj.height - 250, 7, frequencyArray[i * 12])
+                ctx.fillRect(i * 12, canvasObj.height - 250, 10, frequencyArray[i * 12])
             }
             break
         case 6:
