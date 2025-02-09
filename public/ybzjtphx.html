@@ -110,6 +110,20 @@
 </head>
 
 <body>
+    <script>
+        function redirectToUrl() {
+            var urlSelect = document.getElementById("urlSelect");
+            var selectedUrl = urlSelect.value;
+            if (selectedUrl) {
+                window.location.href = selectedUrl;
+            }
+        }
+    </script>
+    菜单切换:
+    <select id="urlSelect" onchange="redirectToUrl()">
+        <option value="xfqtphx.html">小番茄图片混淆</option>
+        <option value="ybzjtphx.html" selected>Ybzj图片混淆</option>
+    </select>
     <div style="padding:0 16px;text-align:center">
         <h1>Ybzj图片混淆</h1>
         <input style="border:0px;display:none" onchange="ipt()" type="file" id="ipt" accept="image/*">
