@@ -24,17 +24,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// 创建文件夹以存储ico
-const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir); // 如果没有该目录，创建它
-}
-const outputDir = path.join(__dirname, 'outputs');
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir); // 如果没有该目录，创建它
-}
-
-// 配置文件上传存储
+// 配置文件上传存储 [ico]
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/');

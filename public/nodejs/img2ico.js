@@ -2,8 +2,15 @@ const sharp = require('sharp');
 const path = require('path');
 const fs = require('fs');
 
-const input = '../..'
-const output = '../../outputs'
+// 创建文件夹以存储ico
+const uploadDir = path.join(__dirname, '../..', 'uploads'); // @root/uploads
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir); // 如果没有该目录，创建它
+}
+const outputDir = path.join(__dirname, '../..', 'outputs'); // @root/outputs
+if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir); // 如果没有该目录，创建它
+}
 
 function emptyDir(path) {
     const files = fs.readdirSync(path);
@@ -24,8 +31,8 @@ async function img2ico(req, res) {
         if (!req.file) {
             return res.status(400).send('未上传文件');
         }
-        const inputFilePath = path.join(__dirname, input, req.file.path);
-        const outputFilePath = path.join(__dirname, output, 'output.ico');
+        const inputFilePath = path.join(__dirname, '../..', req.file.path);
+        const outputFilePath = path.join(__dirname, '../../outputs', 'output.ico');
         const size = Number(req.body.size)
         //console.log(size)
         //console.log('上传的文件:', inputFilePath);
