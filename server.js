@@ -14,7 +14,8 @@ const redirect = require('./public/nodejs/redirect');
 const comment = require('./public/nodejs/comment');
 const comment_admin = require('./public/nodejs/comment_admin');
 const link = require('./public/nodejs/link');
-const N404 = require('./public/nodejs/N404')
+const note = require('./public/nodejs/note');
+const N404 = require('./public/nodejs/N404');
 
 
 const app = express();
@@ -22,12 +23,6 @@ const app = express();
 // 解析请求体
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// 创建文件夹以存储记事本
-const notesDir = path.join(__dirname, 'notes');
-if (!fs.existsSync(notesDir)) {
-  fs.mkdirSync(notesDir);
-}
 
 // 创建文件夹以存储ico
 const uploadDir = path.join(__dirname, 'uploads');
@@ -155,7 +150,7 @@ app.get('/redirect', (req, res) => {
   const targetUrl = req.query.url;  // 从URL查询参数中获取用户输入的URL
   if (!targetUrl) {
     //return res.status(400).send("缺少跳转URL");
-    redirect(host + '/redirect?url=', res, 60,'here')
+    redirect(host + '/redirect?url=', res, 60, 'here')
     return
   }
   // 返回包含倒计时的HTML页面
@@ -165,47 +160,22 @@ app.get('/redirect', (req, res) => {
 // 记事本
 // 获取所有文件列表
 app.get('/files', (req, res) => {
-  fs.readdir(notesDir, (err, files) => {
-    if (err) return res.status(500).send('无法读取文件夹');
-    // 获取文件的修改时间并排序
-    const fileDetails = files.map(file => {
-      const filePath = path.join(notesDir, file);
-      const stats = fs.statSync(filePath);  // 获取文件的stat信息
-      return { name: file, mtime: stats.mtime };  // 返回文件名和修改时间
-    });
-
-    // 按照修改时间排序（从新到旧）
-    fileDetails.sort((a, b) => b.mtime - a.mtime);
-
-    res.json(fileDetails);
-  });
+  note(req, res, 'list');
 });
 
 // 获取指定文件内容
 app.get('/file/:filename', (req, res) => {
-  const filePath = path.join(notesDir, req.params.filename);
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) return res.status(500).send('文件读取失败');
-    res.send(data);
-  });
+  note(req, res, 'get')
 });
 
 // 保存文件
 app.post('/file/:filename', (req, res) => {
-  const filePath = path.join(notesDir, req.params.filename);
-  fs.writeFile(filePath, req.body.content, (err) => {
-    if (err) return res.status(500).send('文件保存失败');
-    res.send('文件已保存');
-  });
+  note(req, res, 'post')
 });
 
 // 删除文件
 app.delete('/file/:filename', (req, res) => {
-  const filePath = path.join(notesDir, req.params.filename);
-  fs.unlink(filePath, (err) => {
-    if (err) return res.status(500).send('无法删除文件');
-    res.send(`文件 ${req.params.filename} 删除成功`);
-  });
+  note(req, res, 'delete')
 });
 
 //
