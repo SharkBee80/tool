@@ -84,6 +84,25 @@ app.use((req, res, next) => {
 
 //
 
+//先定义动态路由
+app.get('/txt2m3u', async (req, res) => {
+  txt2m3uPage(req, res)
+});
+
+app.get('/redirect', (req, res) => {
+  const host = req.get('Host'); // 获取主机名和端口号
+  const targetUrl = req.query.url;  // 从URL查询参数中获取用户输入的URL
+  if (!targetUrl) {
+    //return res.status(400).send("缺少跳转URL");
+    redirect(host + '/redirect?url=', res, 60, 'here')
+    return
+  }
+  // 返回包含倒计时的HTML页面
+  redirect(targetUrl, res)
+});
+
+//
+
 //评论
 // 获取评论列表
 app.get("/comments", (req, res) => {
@@ -129,23 +148,6 @@ app.get(['/link', "/link/:shortUrl"], (req, res) => {
 });
 
 //
-
-//先定义动态路由
-app.get('/txt2m3u', async (req, res) => {
-  txt2m3uPage(req, res)
-});
-
-app.get('/redirect', (req, res) => {
-  const host = req.get('Host'); // 获取主机名和端口号
-  const targetUrl = req.query.url;  // 从URL查询参数中获取用户输入的URL
-  if (!targetUrl) {
-    //return res.status(400).send("缺少跳转URL");
-    redirect(host + '/redirect?url=', res, 60, 'here')
-    return
-  }
-  // 返回包含倒计时的HTML页面
-  redirect(targetUrl, res)
-});
 
 // 记事本
 // 获取所有文件列表
