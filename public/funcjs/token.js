@@ -33,15 +33,19 @@ function generateKey() {
     console.log("Modified Base64:", modifiedBase64);
 
     // Base64解码
-    const deBase64 = decodeBase64(modifiedBase64);
-    console.log("deBase64:", deBase64);
+    //const deBase64 = decodeBase64(modifiedBase64);
+    //console.log("deBase64:", deBase64);
 
-    // 将解码结果转换为十六进制
-    const hex = Array.from(deBase64).map(c =>
-        c.charCodeAt(0).toString(16).padStart(2, '0')
+    // 将解码结果转换为36进制 `2 -> 36`
+    const hex = Array.from(modifiedBase64).map(c =>
+        c.charCodeAt(0).toString(36).padStart(2, '0')
     ).join('');
     console.log("Hexadecimal:", hex);
-    return hex;
+
+    // 大写
+    const key = hex.toUpperCase();
+    console.log("Key:", key);
+    return key;
 }
 
 function encodeBase64(str) {// 编码
@@ -70,4 +74,4 @@ function decodeBase64(str) {// 解码
 
 
 // 示例
-//const key = generateKey();
+//generateKey()
