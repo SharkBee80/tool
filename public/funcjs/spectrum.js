@@ -98,8 +98,7 @@ function drawMeter() {
         case 2:
             if (frequencyArray.every(x => x === 0) && canvasObj.capYArray.every(c => c <= 7)) {
                 if (show && !isoff) {
-                    setTimeout(() => show = false, 2000);
-                    isoff = true
+                    isoff = setTimeout(() => show = false, 2000);
                 }
                 else if (!show && isoff) {
                     break;
@@ -124,8 +123,7 @@ function drawMeter() {
         case 4:
             if (frequencyArray.every(x => x === 0) && canvasObj.capYArray.every(c => c <= 7)) {
                 if (show && !isoff) {
-                    setTimeout(() => show = false, 2000);
-                    isoff = true
+                    isoff = setTimeout(() => show = false, 2000);
                 }
                 else if (!show && isoff) {
                     break;
