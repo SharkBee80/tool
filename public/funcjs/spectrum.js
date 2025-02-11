@@ -20,7 +20,7 @@ let transparent = 0.5;//透明度
  * @param {Number} transparents 透明度
  * @returns 
  */
-function spectrum({ width = 336 - 2, height = 600, top = `calc(100vh - ${height / 2}px)`, left = '50%', z_index = 1, style = 4, transparents = 0.5 }) {
+function spectrum({ width = 336 - 2, height = 258, top = `calc(100vh - ${height / 2}px)`, left = '50%', z_index = 1, style = 4, transparents = 0.5 }) {
     if (!context) {
         context = new (window.AudioContext || window.webkitAudioContext)();
     }
@@ -38,9 +38,9 @@ function spectrum({ width = 336 - 2, height = 600, top = `calc(100vh - ${height 
     }
     transparent = transparents;
     // 颜色
-    gradient = canvasObj.context.createLinearGradient(0, canvasObj.height * 0.5, 0, canvasObj.height) // x0,y0,x1,y1
+    gradient = canvasObj.context.createLinearGradient(0, 0, 0, canvasObj.height) // x0,y0,x1,y1
     gradient.addColorStop(1, `rgba(0,255,0,${transparent})`)
-    gradient.addColorStop(0.7, `rgba(255,255,0,${transparent})`)
+    gradient.addColorStop(0.3, `rgba(255,255,0,${transparent})`)
     gradient.addColorStop(0, `rgba(255,0,0,${transparent})`)
     // 设置样式
     canvasObj.style = style;
@@ -82,7 +82,7 @@ function drawMeter() {
             ctx.beginPath()
             ctx.moveTo(0, canvasObj.height)
             for (var i = Math.min(frequencyArray.length, 336) - 1; i >= 0; i--) {
-                ctx.lineTo(i, canvasObj.height - frequencyArray[i])
+                ctx.lineTo(i, canvasObj.height - frequencyArray[i] / 256 * canvasObj.height)
             }
             ctx.strokeStyle = "#ffff00" // 黄色
             ctx.stroke()
@@ -94,12 +94,12 @@ function drawMeter() {
                 ctx.fillStyle = `rgba(255,255,255,${transparent})`//加上帽子
                 for (var i = Math.min(frequencyArray.length, 336) - 1; i >= 0; i--) {
                     canvasObj.capYArray[i] = frequencyArray[i] < canvasObj.capYArray[i] ? canvasObj.capYArray[i] - 1 : frequencyArray[i]
-                    ctx.fillRect(i, canvasObj.height - canvasObj.capYArray[i], 1, 2)
+                    ctx.fillRect(i, canvasObj.height - canvasObj.capYArray[i] / 256 * canvasObj.height, 1, 2)
                 }
             }
             ctx.fillStyle = gradient
             for (var i = Math.min(frequencyArray.length, 336) - 1; i >= 0; i--) {
-                ctx.fillRect(i, canvasObj.height - Math.max(frequencyArray[i], 1), 1, canvasObj.height)
+                ctx.fillRect(i, canvasObj.height - Math.max(frequencyArray[i], 1) / 256 * (canvasObj.height - 2), 1, canvasObj.height)
             }
             break
         case 3:
@@ -109,47 +109,47 @@ function drawMeter() {
                 ctx.fillStyle = `rgba(255,255,255,${transparent})`//加上帽子
                 for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
                     canvasObj.capYArray[i] = frequencyArray[i * 12] < canvasObj.capYArray[i] ? canvasObj.capYArray[i] - 1 : frequencyArray[i * 12]
-                    ctx.fillRect(i * 12, canvasObj.height - canvasObj.capYArray[i], 10, 2)
+                    ctx.fillRect(i * 12, canvasObj.height - canvasObj.capYArray[i] / 256 * canvasObj.height, 10, 2)
                 }
             }
             ctx.fillStyle = gradient
             for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
-                ctx.fillRect(i * 12, canvasObj.height - Math.max(frequencyArray[i * 12], 5), 10, canvasObj.height); //x0,y0,+x,+y
+                ctx.fillRect(i * 12, canvasObj.height - Math.max(frequencyArray[i * 12], 5) / 256 * (canvasObj.height - 2), 10, canvasObj.height); //x0,y0,+x,+y
             }
             break
         case 5:
             ctx.fillStyle = `rgba(102,102,102,${transparent})`
             for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
-                ctx.fillRect(i * 12, canvasObj.height - frequencyArray[i * 12] - 250, 10, frequencyArray[i * 12])
+                ctx.fillRect(i * 12, canvasObj.height - frequencyArray[i * 12] / 256 * canvasObj.height / 2 - canvasObj.height / 2, 10, frequencyArray[i * 12] / 256 * canvasObj.height / 2)
             }
             ctx.fillStyle = `rgba(51,51,51,${transparent})`
             for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
-                ctx.fillRect(i * 12, canvasObj.height - 250, 10, frequencyArray[i * 12])
-            }
+                ctx.fillRect(i * 12, canvasObj.height - canvasObj.height / 2, 10, frequencyArray[i * 12] / 256 * canvasObj.height / 2)
+            }   
             break
         case 6:
-            circle(frequencyArray, "#ff0", ctx, 1)
-            circle(frequencyArray, "#f60", ctx, 0.9)
-            circle(frequencyArray, "#f30", ctx, 0.7)
-            circle(frequencyArray, "#333", ctx, 0.6)
-            break
+            circle(frequencyArray, "#ff0", ctx, 1);
+            circle(frequencyArray, "#f60", ctx, 0.9);
+            circle(frequencyArray, "#f30", ctx, 0.7);
+            circle(frequencyArray, "#333", ctx, 0.6);
+            break;
     }
     if (canvasObj.playIng) {
-        canvasObj.animation = requestAnimationFrame(drawMeter)
+        canvasObj.animation = requestAnimationFrame(drawMeter);
     }
 }
 
 // 圆大小
 function circle(array, color, ctx, size) {
-    ctx.moveTo(0, 0)
-    ctx.beginPath()
+    ctx.moveTo(0, 0);
+    ctx.beginPath();
     for (let i = 100, l = 0; i <= 459; i += 2, l += 2) {
         let radian = (2 * Math.PI / 360) * (l + 135)//手动移动90度
-        const x = 168 + Math.sin(radian) * (array[i] + 40) * size
-        const y = 300 - Math.cos(radian) * (array[i] + 40) * size
-        ctx.lineTo(x, y)
+        const x = canvasObj.width / 2 + Math.sin(radian) * (array[i] + 40) * size * 256 / canvasObj.height / 2;
+        const y = canvasObj.height / 2 - Math.cos(radian) * (array[i] + 40) * size * 256 / canvasObj.height / 2;
+        ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = color
-    ctx.closePath()
-    ctx.stroke()
+    ctx.strokeStyle = color;
+    ctx.closePath();
+    ctx.stroke();
 }
