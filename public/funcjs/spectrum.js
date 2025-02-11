@@ -127,7 +127,7 @@ function drawMeter() {
             ctx.fillStyle = `rgba(51,51,51,${transparent})`
             for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
                 ctx.fillRect(i * 12, canvasObj.height - canvasObj.height / 2, 10, frequencyArray[i * 12] / 256 * canvasObj.height / 2)
-            }   
+            }
             break
         case 6:
             circle(frequencyArray, "#ff0", ctx, 1);
