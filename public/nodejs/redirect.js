@@ -6,7 +6,7 @@
  * @param {Int} countdown 倒计时/s - 默认5秒
  * @param {URL} target 页面显示目标地址 - 默认 targetUrl
  */
-function redirect(targetUrl, res, countdown = 5, target = targetUrl) {
+function redirect(targetUrl, res, countdown = 5000, target = targetUrl) {
     // 检查 URL 是否以 http:// 或 https:// 开头，如果没有，则自动添加 http://
     if (!/^https?:\/\//i.test(targetUrl)) {
         if (targetUrl.startsWith('/')) {
@@ -26,8 +26,6 @@ function redirect(targetUrl, res, countdown = 5, target = targetUrl) {
             <title>页面跳转</title>
             <style>
                 body {
-                    font-family: Arial, sans-serif;
-                    background-color:rgba(0, 0, 0, 0);
                     margin: 0;
                     padding: 0;
                 }
@@ -35,10 +33,9 @@ function redirect(targetUrl, res, countdown = 5, target = targetUrl) {
                     text-align: center;
                     padding: 20px;
                     margin: 50px auto;
-                    max-width: 400px;
-                    width: 100%;
+                    max-width: 360px;
                     background-color: beige;
-                    border-radius: 10px;
+                    border-radius: 15px;
                     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
                 }
                 h2 {
@@ -51,7 +48,6 @@ function redirect(targetUrl, res, countdown = 5, target = targetUrl) {
                 #countdown {
                     font-weight: bold;
                     font-size: 24px;
-                    color: #f44336;
                 }
             </style>
             <script type="text/javascript">
@@ -76,7 +72,7 @@ function redirect(targetUrl, res, countdown = 5, target = targetUrl) {
             <div class="container">
                 <h2>页面即将跳转...</h2>
                 <p>如果没有自动跳转，<a href="${targetUrl}" rel="noopener noreferrer" target="_blank">点击这里</a>。</p>
-                <p>您将会在 <span id="countdown">${countdown}</span> 秒后被转到 <a style="color: red;">${target}</a>。</p>
+                <p>您将会在 <span id="countdown">${countdown}</span> 秒后被转到 <a style="color: red;">${target}</a></p>
             </div>
         </body>
         </html>
