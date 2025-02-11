@@ -91,11 +91,11 @@ function drawMeter() {
             break
         case 1:
         case 2:
-            if (frequencyArray.every(x => x === 0)) break;
+            if (frequencyArray.every(x => x === 0) && canvasObj.capYArray.every(c => c <= 7)) break;
             if (canvasObj.style === 2) {
                 ctx.fillStyle = `rgba(255,255,255,${transparent})`//加上帽子
                 for (var i = Math.min(frequencyArray.length, canvasObj.width) - 1; i >= 0; i--) {
-                    canvasObj.capYArray[i] = frequencyArray[i] < canvasObj.capYArray[i] ? canvasObj.capYArray[i] - 1 : frequencyArray[i]
+                    canvasObj.capYArray[i] = Math.max(frequencyArray[i] + 2, 7) < canvasObj.capYArray[i] ? canvasObj.capYArray[i] - 1 : Math.max(frequencyArray[i] + 2, 7);
                     ctx.fillRect(i, canvasObj.height - canvasObj.capYArray[i] / 256 * canvasObj.height, 1, 2)
                 }
             }
@@ -106,11 +106,11 @@ function drawMeter() {
             break
         case 3:
         case 4:
-            if (frequencyArray.every(x => x === 0)) break;
+            if (frequencyArray.every(x => x === 0) && canvasObj.capYArray.every(c => c <= 7)) break;
             if (canvasObj.style === 4) {
                 ctx.fillStyle = `rgba(255,255,255,${transparent})`//加上帽子
                 for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
-                    canvasObj.capYArray[i] = frequencyArray[i * 12] < canvasObj.capYArray[i] ? canvasObj.capYArray[i] - 1 : frequencyArray[i * 12]
+                    canvasObj.capYArray[i] = Math.max(frequencyArray[i * 12] + 2, 7) < canvasObj.capYArray[i] ? canvasObj.capYArray[i] - 1 : Math.max(frequencyArray[i * 12] + 2, 7);
                     ctx.fillRect(i * 12, canvasObj.height - canvasObj.capYArray[i] / 256 * canvasObj.height, 10, 2)
                 }
             }
