@@ -129,7 +129,7 @@ function playAudioSource(url) {
         player = videojs('audio');
     }
     if (!spectrumer && player) {
-        spectrumer = spectrum({});
+        spectrumer = spectra({});
     }
     // 在切换音频时重置计时
     const currentTimeElement = document.getElementById('current-time');

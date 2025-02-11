@@ -1,8 +1,8 @@
 /**
  * 为videojs使用的频谱spectrum
- * 1、<script src="spectrum.js"></script>  <!-- 引入 spectrum.js -->
+ * 1、<script src="spectra.js"></script>  <!-- 引入 spectra.js -->
  * 2、<audio crossorigin="anonymous"></audio>  <!-- 跨域访问 -->
- * 3、spectrum({}); //------注意{}
+ * 3、spectra({}); //------注意{}、注意引入时机
  */
 
 let analyser, context, canvas, canvasObj, gradient;
@@ -22,13 +22,13 @@ let transparent = 0.5;//透明度
  * @param {Number} initHeight 频谱柱子初始高度
  * @returns 
  */
-function spectrum({ width = 336 - 2, height = 258, top = `calc(100vh - ${height / 2}px)`, left = '50%', z_index = 1, style = 4, transparents = 0.5, capHeight = 2, initHeight = 3 }) {
+function spectra({ width = 336 - 2, height = 258, top = `calc(100vh - ${height / 2}px)`, left = '50%', z_index = 1, style = 4, transparents = 0.5, capHeight = 2, initHeight = 3 }) {
     if (!context) {
         context = new (window.AudioContext || window.webkitAudioContext)();
     }
     // canvas元素
-    document.body.insertAdjacentHTML('afterbegin', `<canvas id="canvas-spectrum" width="${width}" height="${height}" style="position: fixed; left: ${left};top: ${top};transform: translate(-50%, -50%);z-index: ${z_index}; pointer-events: none;"></canvas>`);
-    canvas = document.getElementById("canvas-spectrum")
+    document.body.insertAdjacentHTML('afterbegin', `<canvas id="canvas-spectra" width="${width}" height="${height}" style="position: fixed; left: ${left};top: ${top};transform: translate(-50%, -50%);z-index: ${z_index}; pointer-events: none;"></canvas>`);
+    canvas = document.getElementById("canvas-spectra")
     canvasObj = {
         width: canvas.width,
         height: canvas.height,
@@ -179,4 +179,9 @@ function circle(array, color, ctx, size) {
     ctx.strokeStyle = color;
     ctx.closePath();
     ctx.stroke();
+}
+
+// 修改参数
+function spectrum(){
+    
 }
