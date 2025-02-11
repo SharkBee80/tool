@@ -15,11 +15,32 @@
 		<div class="item list">
 			<!--  <a href=".html" target="_self"></a>  -->
 			<div class="child">
-				<a href="/redirect?url=https://yqnn.github.io/svg-path-editor/" target="_self">svg-path-editor</a>
+				<a href="https://yqnn.github.io/svg-path-editor/" target="_self">svg-path-editor</a>
 				<a href="https://www.bejson.com/ui/file_to_base64/" target="_self">任意文件转base64</a>
 				<a href="https://www.bejson.com/ui/base64_revert/" target="_self">base64还原成文件</a>
 			</div>
 		</div>
 	</div>
+	<script>
+		// 选择所有的 <a> 标签
+		document.querySelectorAll('a').forEach(function (link) {
+			// 监听点击事件
+			link.addEventListener('click', function (event) {
+				// 阻止默认的跳转行为
+				event.preventDefault();
+
+				// 获取原始的链接
+				let originalHref = link.getAttribute('href');
+
+				// 在这里添加你想要的重定向逻辑，比如：
+				// 将所有链接重定向到某个特定页面
+				let newHref = '/redirect?url=' + originalHref; // 你想跳转的目标网址
+
+				// 最后执行重定向
+				window.location.href = newHref;
+			});
+		});
+	</script>
 </body>
+
 </html>
