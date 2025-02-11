@@ -13,14 +13,16 @@ let transparent = 0.5;//透明度
  * 
  * @param {Number} width 宽
  * @param {Number} height 高
- * @param {String} top 上边距顶部位置
+ * @param {String} top 上边距顶部位置 `calc(100vh - ${height / 2}px)`
  * @param {String} left 中轴距左侧位置
  * @param {String} z_index 层次
  * @param {Number} style 样式 (0 -> N) '单线效果', '竖线效果', '竖线+帽子', '柱子效果', '柱子+帽子', '柱子倒影', '爆炸效果'
  * @param {Number} transparents 透明度
+ * @param {Number} capHeight 帽子高度
+ * @param {Number} initHeight 频谱柱子初始高度
  * @returns 
  */
-function spectrum({ width = 336 - 2, height = 258, top = `calc(100vh - ${height / 2}px)`, left = '50%', z_index = 1, style = 4, transparents = 0.5 }) {
+function spectrum({ width = 336 - 2, height = 258, top = `calc(100vh - ${height / 2}px)`, left = '50%', z_index = 1, style = 4, transparents = 0.5, capHeight = 2, initHeight = 3 }) {
     if (!context) {
         context = new (window.AudioContext || window.webkitAudioContext)();
     }
@@ -32,6 +34,8 @@ function spectrum({ width = 336 - 2, height = 258, top = `calc(100vh - ${height 
         height: canvas.height,
         context: canvas.getContext("2d"),
         capYArray: new Array(1024).fill(0),
+        capHeight: capHeight,
+        initHeight: initHeight,
         playIng: false,
         style: 4,
         animation: null
@@ -50,7 +54,7 @@ function spectrum({ width = 336 - 2, height = 258, top = `calc(100vh - ${height 
     return true
 }
 
-//指定序号播放歌曲
+// 开始动画
 function ani(context) {
     // 获取 video.js 播放器的音频元素
     const audioElement = player.el().querySelector('audio');
@@ -95,13 +99,13 @@ function drawMeter() {
             if (canvasObj.style === 2) {
                 ctx.fillStyle = `rgba(255,255,255,${transparent})`//加上帽子
                 for (var i = Math.min(frequencyArray.length, canvasObj.width) - 1; i >= 0; i--) {
-                    canvasObj.capYArray[i] = Math.max(frequencyArray[i] + 2, 7) < canvasObj.capYArray[i] ? canvasObj.capYArray[i] - 1 : Math.max(frequencyArray[i] + 2, 7);
-                    ctx.fillRect(i, canvasObj.height - canvasObj.capYArray[i] / 256 * canvasObj.height, 1, 2)
+                    canvasObj.capYArray[i] = Math.max(frequencyArray[i] + canvasObj.capHeight, canvasObj.initHeight + canvasObj.capHeight) < canvasObj.capYArray[i] ? canvasObj.capYArray[i] - 1 : Math.max(frequencyArray[i] + canvasObj.capHeight, canvasObj.initHeight + canvasObj.capHeight);
+                    ctx.fillRect(i, canvasObj.height - canvasObj.capYArray[i] / 256 * canvasObj.height, 1, canvasObj.capHeight)
                 }
             }
             ctx.fillStyle = gradient
             for (var i = Math.min(frequencyArray.length, canvasObj.width) - 1; i >= 0; i--) {
-                ctx.fillRect(i, canvasObj.height - Math.max(frequencyArray[i], 1) / 256 * (canvasObj.height - 2), 1, canvasObj.height)
+                ctx.fillRect(i, canvasObj.height - Math.max(frequencyArray[i], canvasObj.initHeight) / 256 * (canvasObj.height - canvasObj.capHeight), 1, canvasObj.height)
             }
             break
         case 3:
@@ -110,13 +114,13 @@ function drawMeter() {
             if (canvasObj.style === 4) {
                 ctx.fillStyle = `rgba(255,255,255,${transparent})`//加上帽子
                 for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
-                    canvasObj.capYArray[i] = Math.max(frequencyArray[i * 12] + 2, 7) < canvasObj.capYArray[i] ? canvasObj.capYArray[i] - 1 : Math.max(frequencyArray[i * 12] + 2, 7);
-                    ctx.fillRect(i * 12, canvasObj.height - canvasObj.capYArray[i] / 256 * canvasObj.height, 10, 2)
+                    canvasObj.capYArray[i] = Math.max(frequencyArray[i * 12] + canvasObj.capHeight, canvasObj.initHeight + canvasObj.capHeight) < canvasObj.capYArray[i] ? canvasObj.capYArray[i] - 1 : Math.max(frequencyArray[i * 12] + canvasObj.capHeight, canvasObj.initHeight + canvasObj.capHeight);
+                    ctx.fillRect(i * 12, canvasObj.height - canvasObj.capYArray[i] / 256 * canvasObj.height, 10, canvasObj.capHeight)
                 }
             }
             ctx.fillStyle = gradient
             for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
-                ctx.fillRect(i * 12, canvasObj.height - Math.max(frequencyArray[i * 12], 5) / 256 * (canvasObj.height - 2), 10, canvasObj.height); //x0,y0,+x,+y
+                ctx.fillRect(i * 12, canvasObj.height - Math.max(frequencyArray[i * 12], canvasObj.initHeight) / 256 * (canvasObj.height - canvasObj.capHeight), 10, canvasObj.height); //x0,y0,+x,+y
             }
             break
         case 5:
