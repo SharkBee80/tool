@@ -180,8 +180,3 @@ function circle(array, color, ctx, size) {
     ctx.closePath();
     ctx.stroke();
 }
-
-// 修改参数
-function spectrum(){
-    
-}
