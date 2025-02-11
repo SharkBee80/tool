@@ -74,6 +74,7 @@ function ani(context) {
     }
 }
 
+let show, isoff;
 //绘画音乐动画
 function drawMeter() {
     analyser.getByteFrequencyData(frequencyArray)
@@ -95,7 +96,18 @@ function drawMeter() {
             break
         case 1:
         case 2:
-            if (frequencyArray.every(x => x === 0) && canvasObj.capYArray.every(c => c <= 7)) break;
+            if (frequencyArray.every(x => x === 0) && canvasObj.capYArray.every(c => c <= 7)) {
+                if (show && !isoff) {
+                    setTimeout(() => show = false, 2000);
+                    isoff = true
+                }
+                else if (!show && isoff) {
+                    break;
+                }
+            } else if (!show) {
+                show = true;
+                isoff = false;
+            };
             if (canvasObj.style === 2) {
                 ctx.fillStyle = `rgba(255,255,255,${transparent})`//加上帽子
                 for (var i = Math.min(frequencyArray.length, canvasObj.width) - 1; i >= 0; i--) {
@@ -110,7 +122,18 @@ function drawMeter() {
             break
         case 3:
         case 4:
-            if (frequencyArray.every(x => x === 0) && canvasObj.capYArray.every(c => c <= 7)) break;
+            if (frequencyArray.every(x => x === 0) && canvasObj.capYArray.every(c => c <= 7)) {
+                if (show && !isoff) {
+                    setTimeout(() => show = false, 2000);
+                    isoff = true
+                }
+                else if (!show && isoff) {
+                    break;
+                }
+            } else if (!show) {
+                show = true;
+                isoff = false;
+            };
             if (canvasObj.style === 4) {
                 ctx.fillStyle = `rgba(255,255,255,${transparent})`//加上帽子
                 for (var i = Math.min(frequencyArray.length, 48) - 1; i >= 0; i--) {
