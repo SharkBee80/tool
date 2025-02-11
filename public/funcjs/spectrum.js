@@ -81,9 +81,11 @@ function drawMeter() {
             if (frequencyArray.every(x => x === 0)) break;
             ctx.beginPath()
             ctx.moveTo(0, canvasObj.height)
-            for (var i = Math.min(frequencyArray.length, 336) - 1; i >= 0; i--) {
+            ctx.lineTo(canvasObj.width, canvasObj.height)
+            for (var i = Math.min(frequencyArray.length, canvasObj.width) - 1; i >= 0; i--) {
                 ctx.lineTo(i, canvasObj.height - frequencyArray[i] / 256 * canvasObj.height)
             }
+            ctx.lineTo(0, canvasObj.height)
             ctx.strokeStyle = "#ffff00" // 黄色
             ctx.stroke()
             break
