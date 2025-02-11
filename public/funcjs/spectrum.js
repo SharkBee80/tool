@@ -39,9 +39,9 @@ function spectrum({ width = 336 - 2, height = 258, top = `calc(100vh - ${height 
     transparent = transparents;
     // 颜色
     gradient = canvasObj.context.createLinearGradient(0, 0, 0, canvasObj.height) // x0,y0,x1,y1
-    gradient.addColorStop(1, `rgba(0,255,0,${transparent})`)
-    gradient.addColorStop(0.3, `rgba(255,255,0,${transparent})`)
-    gradient.addColorStop(0, `rgba(255,0,0,${transparent})`)
+    gradient.addColorStop(1, `rgba(0,255,0,${transparent})`) // green 
+    gradient.addColorStop(0.4, `rgba(255,255,0,${transparent})`) // yellow 
+    gradient.addColorStop(0.1, `rgba(255,0,0,${transparent})`) // red
     // 设置样式
     canvasObj.style = style;
 
@@ -94,13 +94,13 @@ function drawMeter() {
             if (frequencyArray.every(x => x === 0)) break;
             if (canvasObj.style === 2) {
                 ctx.fillStyle = `rgba(255,255,255,${transparent})`//加上帽子
-                for (var i = Math.min(frequencyArray.length, 336) - 1; i >= 0; i--) {
+                for (var i = Math.min(frequencyArray.length, canvasObj.width) - 1; i >= 0; i--) {
                     canvasObj.capYArray[i] = frequencyArray[i] < canvasObj.capYArray[i] ? canvasObj.capYArray[i] - 1 : frequencyArray[i]
                     ctx.fillRect(i, canvasObj.height - canvasObj.capYArray[i] / 256 * canvasObj.height, 1, 2)
                 }
             }
             ctx.fillStyle = gradient
-            for (var i = Math.min(frequencyArray.length, 336) - 1; i >= 0; i--) {
+            for (var i = Math.min(frequencyArray.length, canvasObj.width) - 1; i >= 0; i--) {
                 ctx.fillRect(i, canvasObj.height - Math.max(frequencyArray[i], 1) / 256 * (canvasObj.height - 2), 1, canvasObj.height)
             }
             break
