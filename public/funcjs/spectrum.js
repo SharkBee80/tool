@@ -41,7 +41,7 @@ function spectrum({ width = 336 - 2, height = 258, top = `calc(100vh - ${height 
     gradient = canvasObj.context.createLinearGradient(0, 0, 0, canvasObj.height) // x0,y0,x1,y1
     gradient.addColorStop(1, `rgba(0,255,0,${transparent})`) // green 
     gradient.addColorStop(0.4, `rgba(255,255,0,${transparent})`) // yellow 
-    gradient.addColorStop(0.1, `rgba(255,0,0,${transparent})`) // red
+    gradient.addColorStop(0.05, `rgba(255,0,0,${transparent})`) // red
     // 设置样式
     canvasObj.style = style;
 
