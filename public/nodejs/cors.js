@@ -116,7 +116,12 @@ async function mode1(req, res) {
         const response = await axios.get(m3u8Url);
         let m3u8Content = response.data;
 
-        const host = 'https://' + req.get('host');
+        let host = req.get('host');
+        if (host.includes('localhost', '127.0.0.1')) {
+            host = 'http://' + host;
+        } else {
+            host = 'https://' + host;
+        }
 
         // 替换 m3u8 中的片段 URL，使其通过服务器代理
         m3u8Content = m3u8Content.replace(/(https?:\/\/.*?\/)(.*?\.(ts|aac|mp4|webm|m4s|m4a))/gi, (match, baseUrl, segmentPath) => {
