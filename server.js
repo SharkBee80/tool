@@ -16,7 +16,7 @@ const comment_admin = require('./public/nodejs/comment_admin');
 const link = require('./public/nodejs/link');
 const note = require('./public/nodejs/note');
 const N404 = require('./public/nodejs/N404');
-
+const cors = require('./public/nodejs/cors');
 
 const app = express();
 
@@ -186,6 +186,11 @@ app.post('/gitpull', (req, res) => {
 
 app.post('/img2ico', upload.single('image'), async (req, res) => {
   img2ico(req, res)
+});
+
+// cors
+app.get('/cors/:path', async (req, res) => {
+  cors(req, res);
 });
 
 //
