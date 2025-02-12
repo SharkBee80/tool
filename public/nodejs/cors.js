@@ -138,8 +138,11 @@ async function mode1(req, res) {
 }
 
 async function ts(req, res) {
-    const tsUrl = req.query.url;
-    const filename = crypto.createHash('md5').update(tsUrl).digest('hex') + '.ts';
+    const url = req.query.url;
+    // 正则表达式匹配文件扩展名
+    const extension = url.split('.').pop().split('?')[0];
+
+    const filename = crypto.createHash('md5').update(url).digest('hex') + '.' + extension;
     const filePath = path.join(CACHE_DIR, filename);
 
     // 如果文件已缓存，直接返回
@@ -148,10 +151,10 @@ async function ts(req, res) {
         return res.sendFile(filePath);
     }
 
-    console.log('Downloading TS:', tsUrl);
+    console.log('Downloading TS:', url);
     try {
         const response = await axios({
-            url: tsUrl,
+            url: url,
             method: 'GET',
             responseType: 'stream',
         });
