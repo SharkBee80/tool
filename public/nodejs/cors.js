@@ -26,7 +26,12 @@ if (!fs.existsSync(CACHE_DIR)) {
  * @returns 
  */
 async function cors(req, res) {
-    res.header('Access-Control-Allow-Origin', '*'); // 允许所有来源
+
+    // 设置 CORS 响应头
+    const origin = req.get('Origin');
+    if (origin) {
+        res.header('Access-Control-Allow-Origin', origin); // 动态设置 Origin
+    }
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
@@ -111,7 +116,7 @@ async function mode1(req, res) {
         const response = await axios.get(m3u8Url);
         let m3u8Content = response.data;
 
-        const host = 'http://' + req.get('host');
+        const host = 'https://' + req.get('host');
 
         // 替换 m3u8 中的片段 URL，使其通过服务器代理
         m3u8Content = m3u8Content.replace(/(https?:\/\/.*?\/)(.*?\.(ts|aac|mp4|webm|m4s|m4a))/gi, (match, baseUrl, segmentPath) => {

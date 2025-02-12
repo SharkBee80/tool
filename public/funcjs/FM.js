@@ -29,7 +29,7 @@ const audioSources = [
     { fm: "9999", name: "顺德音乐之声", url: "https://lhttp.qingting.fm/live/20500150/64k.mp3", img: "./img/FM/10003.jpeg" },
     { fm: "9999", name: "AsiaFM HD音乐台", url: "https://lhttp-hw.qtfm.cn/live/15318341/64k.mp3", img: "./img/FM/10004.jpeg" },
     { fm: "9999", name: "AsiaFM 亚洲音乐台", url: "https://lhttp-hw.qtfm.cn/live/5022405/64k.mp3", img: "./img/FM/10005.jpeg" },
-    { fm: "9999", name: "xmly", url: `http://${host}/cors/666.m3u8?mode=1&url=https://live.ximalaya.com/radio-first-page-app/live/1427/64.m3u8`, img: "./img/FM/record.png" },
+    { fm: "9999", name: "xmly", url: `https://${host}/cors/666.m3u8?mode=1&url=https://live.ximalaya.com/radio-first-page-app/live/1427/64.m3u8`, img: "./img/FM/record.png" },
 ];
 
 // SVG
