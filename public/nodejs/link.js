@@ -7,6 +7,26 @@ const redirect = require("./redirect").redirect;
 
 module.exports = link;
 
+/*
+//短链
+// 获取短链列表
+app.get("/links", (req, res) => {
+  link(req, res, 'get')
+});
+// 添加新短链
+app.post("/links", (req, res) => {
+  link(req, res, 'post')
+});
+// 删除短链
+app.delete("/links/:id", (req, res) => {
+  link(req, res, 'delete');
+});
+// 跳转
+app.get(['/link', "/link/:shortUrl"], (req, res) => {
+  link(req, res, 'red')
+});
+*/
+
 function link(req, res, a) {
     if (a === undefined) return;
     if (a === 'get') get(res);

@@ -3,6 +3,25 @@ const fs = require("fs");
 const path = require('path');
 
 module.exports = note;
+/*
+// 记事本
+// 获取所有文件列表
+app.get('/files', (req, res) => {
+  note(req, res, 'list');
+});
+// 获取指定文件内容
+app.get('/file/:filename', (req, res) => {
+  note(req, res, 'get')
+});
+// 保存文件
+app.post('/file/:filename', (req, res) => {
+  note(req, res, 'post')
+});
+// 删除文件
+app.delete('/file/:filename', (req, res) => {
+  note(req, res, 'delete')
+});
+*/
 
 // 创建文件夹以存储记事本
 const notesDir = path.join(__dirname, '..', '..', 'notes'); // @root/notes

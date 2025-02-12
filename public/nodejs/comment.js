@@ -75,3 +75,19 @@ function comment(req, res, a) {
 
 
 module.exports = comment;
+
+/*
+//评论
+// 获取评论列表
+app.get("/comments", (req, res) => {
+  comment(req, res, 'get')
+});
+// 添加新评论
+app.post("/comments", (req, res) => {
+  comment(req, res, 'post')
+});
+// 删除评论
+app.delete("/comments/:id", (req, res) => {
+  comment(req, res, 'delete');
+});
+*/
