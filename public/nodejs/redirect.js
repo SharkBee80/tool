@@ -79,4 +79,25 @@ function redirect(targetUrl, res, countdown = 5, target = targetUrl) {
     `);
 }
 
-module.exports = redirect;
+// 定义red函数，接收req和res两个参数
+/**
+ * 
+ * @description ?url= [(&cd=&target=)]
+ * @returns 
+ */
+function red(req, res) {
+    const host = req.get('Host'); // 获取主机名和端口号
+    const targetUrl = req.query.url;  // 从URL查询参数中获取用户输入的URL
+    const countdown = req.query.cd || undefined;  // 从URL查询参数中获取倒计时时间，默认为空
+    const target = req.query.target || undefined;  // 从URL查询参数中获取目标URL，默认为空
+    if (!targetUrl) {
+        //return res.status(400).send("缺少跳转URL");
+        redirect(host + '/redirect?url=', res, 60, 'here')
+        return
+    }
+    // 返回包含倒计时的HTML页面
+    redirect(targetUrl, res, countdown, target)
+}
+
+module.exports.red = red;
+module.exports.redirect = redirect;

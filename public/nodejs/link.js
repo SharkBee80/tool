@@ -3,7 +3,7 @@ const path = require("path");
 const axios = require('axios');
 const cheerio = require('cheerio');
 const N404 = require("./N404");
-const redirect = require("./redirect");
+const redirect = require("./redirect").redirect;
 
 module.exports = link;
 

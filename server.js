@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 
 const txt2m3uPage = require('./public/nodejs/txt2m3uPage');
 const img2ico = require('./public/nodejs/img2ico');
-const redirect = require('./public/nodejs/redirect');
+const redirect = require('./public/nodejs/redirect').red;
 const comment = require('./public/nodejs/comment');
 const comment_admin = require('./public/nodejs/comment_admin');
 const link = require('./public/nodejs/link');
@@ -90,15 +90,7 @@ app.get('/txt2m3u', async (req, res) => {
 });
 
 app.get('/redirect', (req, res) => {
-  const host = req.get('Host'); // 获取主机名和端口号
-  const targetUrl = req.query.url;  // 从URL查询参数中获取用户输入的URL
-  if (!targetUrl) {
-    //return res.status(400).send("缺少跳转URL");
-    redirect(host + '/redirect?url=', res, 60, 'here')
-    return
-  }
-  // 返回包含倒计时的HTML页面
-  redirect(targetUrl, res)
+  redirect(req, res);
 });
 
 //
