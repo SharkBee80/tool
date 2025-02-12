@@ -470,7 +470,6 @@ window.addEventListener('keydown', function (event) {
         event.preventDefault();  // 阻止默认行为（如页面滚动）
         audioList.classList.toggle('active');;
     }
-
     else if (event.code === 'Tab' || event.code === 'Backspace') {
         event.preventDefault();  // 阻止默认行为（如页面滚动）
         togglemute();
