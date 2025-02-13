@@ -8,15 +8,15 @@ const { exec } = require('child_process');
 const bodyParser = require('body-parser');
 
 
-const txt2m3uPage = require('./public/nodejs/txt2m3uPage');
-const img2ico = require('./public/nodejs/img2ico');
-const redirect = require('./public/nodejs/redirect').red;
-const comment = require('./public/nodejs/comment');
-const comment_admin = require('./public/nodejs/comment_admin');
-const link = require('./public/nodejs/link');
-const note = require('./public/nodejs/note');
-const N404 = require('./public/nodejs/N404');
-const cors = require('./public/nodejs/cors');
+const txt2m3uPage = require('./nodejs/txt2m3uPage');
+const img2ico = require('./nodejs/img2ico');
+const redirect = require('./nodejs/redirect').red;
+const comment = require('./nodejs/comment');
+const comment_admin = require('./nodejs/comment_admin');
+const link = require('./nodejs/link');
+const note = require('./nodejs/note');
+const N404 = require('./nodejs/N404');
+const cors = require('./nodejs/cors');
 
 const app = express();
 
@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // 配置文件上传存储 [ico]
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, 'cache/ico/uploads');
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname)); // 时间戳 + 原始扩展名

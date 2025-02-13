@@ -3,13 +3,13 @@ const path = require('path');
 const fs = require('fs');
 
 // 创建文件夹以存储ico
-const uploadDir = path.join(__dirname, '../..', 'uploads'); // @root/uploads
+const uploadDir = path.join(__dirname, '../cache/ico', 'uploads'); // @root/cache/ico/uploads
 if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir); // 如果没有该目录，创建它
+    fs.mkdirSync(uploadDir, { recursive: true }); // 确保递归创建父目录
 }
-const outputDir = path.join(__dirname, '../..', 'outputs'); // @root/outputs
+const outputDir = path.join(__dirname, '../cache/ico', 'outputs'); // @root/cache/ico/outputs
 if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir); // 如果没有该目录，创建它
+    fs.mkdirSync(outputDir, { recursive: true }); // 如果没有该目录，创建它
 }
 
 function emptyDir(path) {
@@ -31,8 +31,8 @@ async function img2ico(req, res) {
         if (!req.file) {
             return res.status(400).send('未上传文件');
         }
-        const inputFilePath = path.join(__dirname, '../..', req.file.path);
-        const outputFilePath = path.join(__dirname, '../../outputs', 'output.ico');
+        const inputFilePath = path.join(__dirname, '..', req.file.path); // @root/cache/ico/uploads/...
+        const outputFilePath = path.join(outputDir, 'output.ico'); // @root/cache/ico/outputs/output.ico
         const size = Number(req.body.size)
         //console.log(size)
         //console.log('上传的文件:', inputFilePath);

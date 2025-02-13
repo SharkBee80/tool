@@ -11,11 +11,11 @@ module.exports = cors;
 });
 */
 
-const CACHE_DIR = path.join(__dirname, '../..', 'cache');
+const CACHE_DIR = path.join(__dirname, '../cache/cors'); // @:root/cache/cors
 
 // 确保缓存目录存在
 if (!fs.existsSync(CACHE_DIR)) {
-    fs.mkdirSync(CACHE_DIR);
+    fs.mkdirSync(CACHE_DIR, { recursive: true }); // 确保递归创建父目录
 }
 
 /**
