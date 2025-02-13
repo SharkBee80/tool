@@ -39,16 +39,16 @@ async function cors(req, res) {
         return res.sendStatus(200);
     }
 
+    const path = req.params.path || 'index.xxx';
+    // 获取片段文件
+    if (path === 'live') {
+        return live(req, res);
+    }
+
     const url = req.query.url;
 
     if (!url) {
         return res.status(400).json({ error: 'Missing URL parameter' });
-    }
-
-    const path = req.params.path || 'index.xxx';
-    // 获取片段文件
-    if (path === 'ts') {
-        return ts(req, res);
     }
 
     /*
@@ -59,7 +59,7 @@ async function cors(req, res) {
     }
     */
 
-    const mode = req.query.mode || 0;
+    const mode = req.query.mode || 1;
 
     switch (Number(mode)) {
         case 0:
@@ -116,6 +116,9 @@ async function mode1(req, res) {
         const response = await axios.get(m3u8Url);
         let m3u8Content = response.data;
 
+        //const m3u8Name = req.params.path || getFileName(m3u8Url);
+        //const m3u8Path = path.join(CACHE_DIR, m3u8Name);
+
         let host = req.get('host');
         if (host.includes('localhost', '127.0.0.1')) {
             host = 'http://' + host;
@@ -125,52 +128,21 @@ async function mode1(req, res) {
 
         // 替换 m3u8 中的片段 URL，使其通过服务器代理
         m3u8Content = m3u8Content.replace(/(https?:\/\/.*?\/)(.*?\.(ts|aac|mp4|webm|m4s|m4a))/gi, (match, baseUrl, segmentPath) => {
-            return `${host}/cors/ts?url=${encodeURIComponent(baseUrl + segmentPath)}`;
+            const url = baseUrl + segmentPath;
+            const fileName = getFileName(url);
+            downloadLive(url, fileName);
+            return `${host}/cors/live/${fileName}`;
         });
 
-
         res.setHeader('Content-Type', 'application/vnd.apple.mpegurl');
+
         res.send(m3u8Content);
+
     } catch (error) {
-        console.error('Error fetching m3u8:', error);
+        console.error('获取 m3u8 文件失败:', error);
         res.status(500).send('Error fetching m3u8');
     }
 }
-
-async function ts(req, res) {
-    const url = req.query.url;
-    // 正则表达式匹配文件扩展名
-    const extension = url.split('.').pop().split('?')[0];
-
-    const filename = crypto.createHash('md5').update(url).digest('hex') + '.' + extension;
-    const filePath = path.join(CACHE_DIR, filename);
-
-    // 如果文件已缓存，直接返回
-    if (fs.existsSync(filePath)) {
-        console.log('Serving from cache:', filePath);
-        return res.sendFile(filePath);
-    }
-
-    console.log('Downloading TS:', url);
-    try {
-        const response = await axios({
-            url: url,
-            method: 'GET',
-            responseType: 'stream',
-        });
-
-        // 以流方式保存并传输
-        const fileStream = fs.createWriteStream(filePath);
-        response.data.pipe(fileStream);
-        response.data.pipe(res);
-
-        fileStream.on('finish', () => console.log('Download finished:', filePath));
-    } catch (error) {
-        console.error('Error fetching ts:', error);
-        res.status(500).send('Error fetching ts');
-    }
-}
-
 
 // mp3、mp4 代理
 async function mode2(req, res) {
@@ -180,7 +152,7 @@ async function mode2(req, res) {
 
     // 如果文件已缓存，直接返回
     if (fs.existsSync(filePath)) {
-        console.log('Serving from cache:', filePath);
+        console.log('获取缓存文件:', filePath);
         return res.sendFile(filePath);
     }
 
@@ -207,20 +179,78 @@ async function mode2(req, res) {
     }
 };
 
-// 定期删除 1 小时前的旧文件
+
+async function live(req, res) {
+    const fileName = req.params.filename;
+    try {
+        const filePath = path.join(CACHE_DIR, fileName);
+        if (!filePath) {
+            console.error('文件不存在:', filePath);
+            return res.status(500).send('下载错误');
+        }
+        res.sendFile(filePath);
+    } catch (error) {
+        console.error('获取ts文件失败:', error);
+        res.status(500).send('Error fetching live');
+    }
+}
+
+async function downloadLive(url, fileName) {
+    // 正则表达式匹配文件扩展名
+    const extension = url.split('.').pop().split('?')[0];
+    const filename = fileName || crypto.createHash('md5').update(url).digest('hex') + '.' + extension;
+    const filePath = path.join(CACHE_DIR, filename);
+
+    // 如果文件已缓存，直接返回
+    if (fs.existsSync(filePath)) {
+        // console.log('获取缓存文件:', filePath);
+        return filePath;
+    }
+
+    console.log('开始下载:', url);
+    try {
+        const response = await axios({
+            url: url,
+            method: 'GET',
+            responseType: 'stream',
+        });
+
+        // 以流方式保存并传输
+        const fileStream = fs.createWriteStream(filePath);
+        response.data.pipe(fileStream);
+
+        fileStream.on('finish', () => console.log('下载完成:', filePath));
+        return filePath;
+    } catch (error) {
+        console.error('下载错误:', error);
+        return null;
+    }
+}
+
+// 定期删除 time 前的旧文件
 setInterval(() => {
     const now = Date.now();
     fs.readdir(CACHE_DIR, (err, files) => {
-        if (err) return console.error('Error reading cache dir:', err);
+        if (err) return console.error('没有找到缓存目录:', err);
         files.forEach(file => {
             const filePath = path.join(CACHE_DIR, file);
             fs.stat(filePath, (err, stats) => {
-                if (err) return console.error('Error stating file:', err);
-                if (now - stats.mtimeMs > 300000) { // 5分钟
-                    fs.unlink(filePath, err => {
-                        if (err) console.error('Error deleting file:', err);
-                        else console.log('Deleted old file:', filePath);
-                    });
+                if (err) return console.error('没有找到缓存文件:', err);
+                if (file.endsWith('.m3u8')) {
+                    if (now - stats.mtimeMs > 3600000) { // 1小时
+                        fs.unlink(filePath, err => {
+                            if (err) console.error('删除文件错误:', err);
+                            //else console.log('删除文件:', filePath);
+                        })
+                    }
+                }
+                else {
+                    if (now - stats.mtimeMs > 60000) { // 1分钟
+                        fs.unlink(filePath, err => {
+                            if (err) console.error('删除文件错误:', err);
+                            //else console.log('删除文件:', filePath);
+                        });
+                    }
                 }
             });
         });
@@ -236,4 +266,16 @@ function getRandomUA(deviceType = 'desktop') {
     };
     // 返回随机UserAgent
     return new UserAgent(options).toString();
+}
+
+// 函数getFileName用于获取url中的文件名
+function getFileName(url) {
+    // 将url按照'/'分割，并过滤掉空字符串
+    const nonEmptyParts = url.split('/').filter(part => part !== '');
+    // 如果分割后的数组为空，则返回空字符串
+    if (nonEmptyParts.length === 0) return '';
+    // 获取分割后的数组的最后一个元素
+    const lastPart = nonEmptyParts[nonEmptyParts.length - 1];
+    // 将最后一个元素按照'?'或'#'分割，并返回第一个元素
+    return lastPart.split(/[?#]/)[0];
 }
