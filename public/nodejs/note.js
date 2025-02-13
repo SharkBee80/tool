@@ -24,7 +24,7 @@ app.delete('/file/:filename', (req, res) => {
 */
 
 // 创建文件夹以存储记事本
-const notesDir = path.join(__dirname, '..', '..', 'notes'); // @root/notes
+const notesDir = path.join(__dirname, '..', 'note', 'notes'); // @root/public/note/notes
 if (!fs.existsSync(notesDir)) {
     fs.mkdirSync(notesDir);
 }

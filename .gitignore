@@ -3,8 +3,8 @@ package-lock.json
 tempCodeRunnerFile.js
 .github/*
 other/*
+public/note/notes/*
 .md
-notes/*
 public/nodejs/comments.json
 public/nodejs/links.json
 cache/*
