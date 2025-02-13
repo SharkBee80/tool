@@ -15,7 +15,6 @@ function loadComments() {
 
 // 写入评论到文件
 function saveComments(comments) {
-    console.log(comments)
     fs.writeFileSync(commentsFile, JSON.stringify(comments, null, 2));
 }
 
