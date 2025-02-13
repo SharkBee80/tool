@@ -12,18 +12,24 @@ if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true }); // 如果没有该目录，创建它
 }
 
-function emptyDir(path) {
-    const files = fs.readdirSync(path);
-    files.forEach(file => {
-        const filePath = `${path}/${file}`;
-        const stats = fs.statSync(filePath);
-        if (stats.isDirectory()) {
-            emptyDir(filePath);
-        } else {
-            fs.unlinkSync(filePath);
-            // console.log(`删除${file}文件成功`);
+// 递归清空目录
+async function emptyDir(directory) {
+    try {
+        const files = await fsPromises.readdir(directory);
+        for (const file of files) {
+            const filePath = path.join(directory, file);
+            const stats = await fsPromises.stat(filePath);
+            if (stats.isDirectory()) {
+                await emptyDir(filePath); // 递归删除子目录
+                await fsPromises.rmdir(filePath); // 删除空目录
+            } else {
+                await fsPromises.unlink(filePath); // 删除文件
+                console.log(`已删除文件: ${file}`);
+            }
         }
-    });
+    } catch (err) {
+        console.error(`清空目录失败: ${directory}`, err);
+    }
 }
 
 async function img2ico(req, res) {
@@ -50,8 +56,18 @@ async function img2ico(req, res) {
         // 返回转换后的文件
         res.sendFile(outputFilePath, () => {
             // 文件发送后，删除临时上传的文件
-            fs.unlinkSync(inputFilePath);
-            fs.unlinkSync(outputFilePath);
+            fs.unlinkSync(inputFilePath, (err) => {
+                if (err) {
+                    console.error('删除临时文件失败:', err);
+                    throw new Error('删除临时文件失败');
+                }
+            });
+            fs.unlinkSync(outputFilePath,( err) => {
+                if (err) {
+                    console.error('删除临时文件失败:', err);
+                    throw new Error('删除临时文件失败');
+                }
+            });
         });
     } catch (error) {
         emptyDir('uploads')
@@ -60,5 +76,6 @@ async function img2ico(req, res) {
         res.status(500).send('转换失败: ' + error.message);
     }
 }
+
 
 module.exports = img2ico;

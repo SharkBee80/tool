@@ -5,9 +5,10 @@ tempCodeRunnerFile.js
 other/*
 public/note/notes/*
 .md
-public/nodejs/comments.json
-public/nodejs/links.json
+nodejs/comments.json
+nodejs/links.json
 cache/*
+
 public/decoratejs/SimHei.ttf
 public/src/js/cacheStorage.js
 public/src/js/comment.js
