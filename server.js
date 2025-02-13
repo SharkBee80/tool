@@ -39,7 +39,7 @@ const upload = multer({ storage });
 
 // 中间件：拦截所有请求，插入 <script> 标签
 // 中间件：拦截对 HTML 文件的请求，插入 <script> 标签
-const ignoredFiles = ['clock.html', 'FM.html']
+const ignoredFiles = ['clock.html', 'FM']
 
 app.use((req, res, next) => {
   let host = req.get('Host');
@@ -50,11 +50,22 @@ app.use((req, res, next) => {
 
   const spt = drag + foot + '</body>';
 
-  if (req.path.endsWith('.html')) {
-    if (ignoredFiles.some(file => req.path.endsWith(file))) {
-      return next();
-    };
-    const filePath = path.join(__dirname, 'public', req.path);
+  // 检查请求路径是否以 .html 结尾或是文件夹路径
+  if (req.path.endsWith('.html') || req.path === '/' || req.path.endsWith('/')) {
+    // 如果请求的路径在忽略列表中，直接跳过
+    if (ignoredFiles.some(file => req.path.includes(file))) {
+      return next(); // 跳过该请求，继续执行下一个中间件
+    }
+
+    let filePath;
+
+    // 如果请求的是文件夹路径，自动添加 index.html
+    if (req.path.endsWith('/')) {
+      filePath = path.join(__dirname, 'public', req.path, 'index.html');
+    } else {
+      filePath = path.join(__dirname, 'public', req.path);
+    }
+
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
         return next(); // 如果读取文件出错，继续处理下一个中间件
@@ -69,12 +80,9 @@ app.use((req, res, next) => {
   } else {
     const originalSend = res.send;
     res.send = function (body) {
-      if (typeof body === 'string') {
+      if (typeof body === 'string' && body.includes('</body>')) {
         // 在 </body> 标签前插入 <script> 标签
-        body = body.replace(
-          /<\/body>/i,
-          spt
-        );
+        body = body.replace(/<\/body>/i, spt);
       }
       originalSend.call(res, body);
     };
@@ -189,7 +197,7 @@ app.post('/img2ico', upload.single('image'), async (req, res) => {
 });
 
 // cors
-app.get(['/cors/:path','/cors/:path/:filename'], async (req, res) => {
+app.get(['/cors/:path', '/cors/:path/:filename'], async (req, res) => {
   cors(req, res);
 });
 
