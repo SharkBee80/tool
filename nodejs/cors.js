@@ -235,7 +235,26 @@ function modifyOrAddHeader(m3u8Content, header, value, force = false) {
         }
     } else {
         // 如果头信息不存在，则添加它
-        m3u8Content = m3u8Content + header + ':' + value + '\n';
+        m3u8Content = insertHeaderAtPosition(m3u8Content, header, value);
+    }
+
+    return m3u8Content;
+}
+
+// 插入头信息到 #EXTM3U 后和 #EXTINF 前
+function insertHeaderAtPosition(m3u8Content, header, value) {
+    // 查找 #EXTM3U 的位置
+    const extm3uIndex = m3u8Content.indexOf('#EXTM3U') + '#EXTM3U'.length;
+    // 查找 #EXTINF 的位置
+    const extinfIndex = m3u8Content.indexOf('#EXTINF');
+
+    // 如果找到了 #EXTM3U 和 #EXTINF
+    if (extm3uIndex !== -1 && extinfIndex !== -1) {
+        // 在 #EXTM3U 后和 #EXTINF 前插入新头信息
+        m3u8Content = m3u8Content.slice(0, extm3uIndex) + '\n' + header + ':' + value + '\n' + m3u8Content.slice(extm3uIndex);
+    } else {
+        // 如果没有找到 #EXTINF 或 #EXTM3U，默认为添加到文件的开头
+        m3u8Content = header + ':' + value + '\n' + m3u8Content;
     }
 
     return m3u8Content;
