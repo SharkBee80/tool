@@ -32,7 +32,7 @@ async function cors(req, res) {
     if (origin) {
         res.header('Access-Control-Allow-Origin', origin); // 动态设置 Origin
     }
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'GET, HEAD, POST, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
     if (req.method === 'OPTIONS') {
@@ -131,7 +131,7 @@ async function mode1(req, res) {
         }
 
         // 获取所有需要下载的片段
-        const segments = await collectSegments(m3u8Content);
+        const segments = collectSegments(m3u8Content);
 
         // 替换掉所有 URL 为占位符
         m3u8Content = replaceWithPlaceholders(m3u8Content, segments, host);
