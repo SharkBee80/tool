@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../tool"
+		}
+	],
+	"settings": {
+		"Codegeex.GenerationPreference": "automatic",
+		"Codegeex.CommitMessageStyle": "Auto",
+		"Codegeex.CompletionDelay": 0.1,
+		"Codegeex.RepoIndex": true,
+		"Codegeex.SidebarUI.LanguagePreference": "中文"
+	}
+}
