@@ -3,17 +3,17 @@ const choices = [
     {
         id: 1,
         name: "石头",
-        image: "./img/Rock Paper Scissors/rock.png"
+        image: "./img/rock.png"
     },
     {
         id: 2,
         name: "布",
-        image: "./img/Rock Paper Scissors/paper.png"
+        image: "./img/paper.png"
     },
     {
         id: 3,
         name: "剪刀",
-        image: "./img/Rock Paper Scissors/scissors.png"
+        image: "./img/scissors.png"
     }]
 
 
@@ -33,8 +33,8 @@ playerPoints.textContent = points[0];
 computerPoints.textContent = points[1];
 draw.textContent = points[2];
 
-playerChoiceImg.src = "./img/Rock Paper Scissors/gif.gif"
-computerChoiceImg.src = "./img/Rock Paper Scissors/gif.gif"
+playerChoiceImg.src = "./img/gif.gif"
+computerChoiceImg.src = "./img/gif.gif"
 
 // EVENT LISTENERS
 buttons.forEach((button) => {
@@ -58,7 +58,7 @@ buttons.forEach((button) => {
 // FUNCTIONS
 function getComputerChoice() {
     buttons.forEach((button) => { button.disabled = true; button.style.pointerEvents = 'none' });
-    computerChoiceImg.src = "./img/Rock Paper Scissors/gif.gif"
+    computerChoiceImg.src = "./img/gif.gif"
     setTimeout(() => {
         randomNumber = Math.floor(Math.random() * 3);
         computerChoiceImg.src = choices[randomNumber].image;
