@@ -123,6 +123,9 @@ async function mode1(req, res) {
         //const m3u8Name = req.params.path || getFileName(m3u8Url);
         //const m3u8Path = path.join(CACHE_DIR, m3u8Name);
 
+        // 设置或修改文件头信息
+        m3u8Content = setOrModifyFileHeader(m3u8Content);
+
         let host = req.get('host');
         if (host.includes('localhost', '127.0.0.1')) {
             host = 'http://' + host;
@@ -205,7 +208,38 @@ async function live(req, res) {
         res.status(500).send('Error fetching live');
     }
 }
+// 设置或修改文件头信息
+function setOrModifyFileHeader(m3u8Content) {
+    // 如果文件头不存在，添加 #EXTM3U
+    if (!m3u8Content.startsWith('#EXTM3U')) {
+        m3u8Content = '#EXTM3U\n' + m3u8Content;
+    }
 
+    // 修改或添加其他头信息
+    m3u8Content = modifyOrAddHeader(m3u8Content, '#EXT-X-VERSION', '4', false); // 不强制修改 版本号
+    m3u8Content = modifyOrAddHeader(m3u8Content, '#EXT-X-ALLOW-CACHE', 'NO', false); // 不强制修改 允许缓存
+    //m3u8Content = modifyOrAddHeader(m3u8Content, '#EXT-X-TARGETDURATION', '7', false); // 不强制修改 目标时长
+    m3u8Content = modifyOrAddHeader(m3u8Content, '#EXT-X-MEDIA-SEQUENCE', '1', false); // 不强制修改 媒体序列
+
+    return m3u8Content;
+}
+
+// 修改或添加文件头信息
+function modifyOrAddHeader(m3u8Content, header, value, force = false) {
+    const regex = new RegExp(`^${header}:.*`, 'm'); // 使用正则表达式匹配行头，忽略行尾空白
+
+    if (regex.test(m3u8Content)) {
+        if (force) {
+            // 如果 force 为 true，则强制替换该头信息
+            m3u8Content = m3u8Content.replace(regex, `${header}:${value}`);
+        }
+    } else {
+        // 如果头信息不存在，则添加它
+        m3u8Content = m3u8Content + header + ':' + value + '\n';
+    }
+
+    return m3u8Content;
+}
 
 // 收集 M3U8 文件中的所有视频片段信息
 function collectSegments(m3u8Content) {
