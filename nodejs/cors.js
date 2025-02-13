@@ -89,7 +89,7 @@ async function mode0(req, res) {
         res.set({
             'Header': response.headers['header'] || 'application/octet-stream',
             'Content-Type': response.headers['content-type'] || 'application/octet-stream',
-            'Cache-Control': 'no-cache',
+            //'Cache-Control': 'no-cache',
         });
 
         // 使用流传输数据，避免占用过多内存
