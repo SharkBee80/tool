@@ -197,7 +197,7 @@ app.post('/img2ico', upload.single('image'), async (req, res) => {
 });
 
 // cors
-app.get(['/cors/:path', '/cors/:path/:filename'], async (req, res) => {
+app.get(['/cors','/cors/:path', '/cors/:path/:filename'], async (req, res) => {
   cors(req, res);
 });
 

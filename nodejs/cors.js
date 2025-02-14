@@ -40,14 +40,14 @@ async function cors(req, res) {
         return res.sendStatus(200);
     }
 
-    const path = req.params.path || 'index.xxx';
-    // 获取片段文件
-    if (path === 'live') return live(req, res);
-
+    let path = req.params.path;
     const url = req.query.url;
 
-    if (!url) return res.status(400).json({ error: 'Missing URL parameter' });
+    // 获取片段文件
+    if (path === 'live') return live(req, res);
+    else if (!path && !url) return res.status(400).json({ info: 'Home', cors: '?mode=&url=', live: 'live/example.ts' });
 
+    else if (!url) return res.status(400).json({ error: 'Missing URL parameter' });
 
     /*
     const ALLOWED_HOSTS = ['example.com', 'api.example.com'];// 允许访问的域名列表
@@ -103,7 +103,7 @@ async function mode0(req, res) {
         // 使用流传输数据，避免占用过多内存
         response.data.pipe(res);
     } catch (error) {
-        console.error('Proxy request error:', error.message);
+        console.error('代理请求失败:', error.message);
 
         if (error.response) {
             // 服务器响应了错误状态
@@ -242,7 +242,7 @@ async function live(req, res) {
         res.sendFile(filePath);
     } catch (error) {
         console.error('获取ts文件失败:', error);
-        res.status(500).send('Error fetching live');
+        res.status(500).json({ error: 'error fetching file' });
     }
 }
 // 设置或修改文件头信息
