@@ -26,17 +26,20 @@ const audioSources = [
     { fm: "953", name: "FM95.3-股市广播", url: "https://lhttp.qingting.fm/live/4847/64k.mp3", img: "./img/953.jpg" },
     { fm: "1077", name: "FM107.7-文体广播", url: "https://lhttp.qingting.fm/live/471/64k.mp3", img: "./img/1077.jpg" },
     { fm: "1057", name: "FM105.7-珠江之声", url: "https://lhttp.qingting.fm/live/470/64k.mp3", img: "./img/1057.jpg" },
-    // 更多音源...   { fm: "", name: "", url: "", img: "./img/" },
+    //
     { fm: "9999", name: "AsiaFM 亚洲粤语台", url: "https://lhttp.qingting.fm/live/15318569/64k.mp3", img: "./img/10001.jpeg" },
     { fm: "9999", name: "两广之声音乐台", url: "https://lhttp.qingting.fm/live/20500149/64k.mp3", img: "./img/10002.jpeg" },
     { fm: "9999", name: "顺德音乐之声", url: "https://lhttp.qingting.fm/live/20500150/64k.mp3", img: "./img/10003.jpeg" },
     { fm: "9999", name: "AsiaFM HD音乐台", url: "https://lhttp-hw.qtfm.cn/live/15318341/64k.mp3", img: "./img/10004.jpeg" },
     { fm: "9999", name: "AsiaFM 亚洲音乐台", url: "https://lhttp-hw.qtfm.cn/live/5022405/64k.mp3", img: "./img/10005.jpeg" },
-    //{ fm: "9999", name: "喜马拉雅", url: `${host}/cors/666.m3u8?mode=2&url=https://live.ximalaya.com/radio-first-page-app/live/1427/64.m3u8?transcode=ts`, img: "./img/record.png" },
     { fm: "9999", name: "AsiaFM 亚洲经典台", url: `https://lhttp-hw.qtfm.cn/live/5021912/64k.mp3`, img: "./img/10006.jpeg" },
     { fm: "9999", name: "AsiaFM 亚洲天空台", url: `https://lhttp-hw.qtfm.cn/live/20071/64k.mp3`, img: "./img/10007.png" },
     { fm: "9999", name: "AsiaFM 亚洲热歌台", url: `https://lhttp-hw.qtfm.cn/live/20500208/64k.mp3`, img: "./img/10008.jpeg" },
     { fm: "9999", name: "AsiaFM 亚洲音乐成都FM96.5", url: `https://lhttp-hw.qtfm.cn/live/4581/64k.mp3`, img: "./img/10009.jpeg" },
+    // 更多音源...   { fm: "", name: "", url: "", img: "./img/" },
+
+    // Cors代理
+    //{ fm: "9999", name: "喜马拉雅", url: `${host}/cors/666.m3u8?mode=2&url=https://live.ximalaya.com/radio-first-page-app/live/1427/64.m3u8?transcode=ts`, img: "./img/record.png" },
 ];
 
 // SVG
