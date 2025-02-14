@@ -45,7 +45,7 @@ async function cors(req, res) {
 
     // 获取片段文件
     if (path === 'live') return live(req, res);
-    else if (!path && !url) return res.status(400).json({ info: 'Home', cors: '?mode=&url=', live: 'live/example.ts' });
+    else if (!path && !url) return res.status(400).json({ "info": "Home", "cors": "?mode=&url=", "mode": { "mode0": "default", "mode1": "m3u8+ts", "mode2": "only m3u8 file", "mode3": "long stream" }, "url": { "example": "https://example.com/index.m3u8", "?maybe": "https://example.com/index.mp4" }, "live": { "return": "live/example.ts", "describe": "working with mode'1" }, "end": "https://your-domains/cors/xxx.m3u8?mode=&url=https://example.com/index.m3u8" });
 
     else if (!url) return res.status(400).json({ error: 'Missing URL parameter' });
 
@@ -139,7 +139,7 @@ async function mode1(req, res) {
 
         let host = req.get('host');
         host = (host.includes('localhost') || host.includes('127.0.0.1')) ? `http://${host}` : `https://${host}`;
-        
+
 
         // 获取所有需要下载的片段
         const segments = collectSegments(m3u8Content, m3u8Url);
