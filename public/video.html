@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频播放器</title>
+    <!-- 引入 Video.js 样式 -->
+    <link href="src/css/videojs_7.21.0.min.css" rel="stylesheet">
+    <!-- 引入 Video.js 脚本 -->
+    <script src="src/js/videojs_7.21.0.min.js"></script>
+    <style>
+        /* 通用重置和基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .player {
+            width: 100%;
+            max-width: 80%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 输入框样式 */
+        input[type="file"],
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            width: 80%;
+            max-width: 600px;
+            background-color: #fff;
+            outline: none;
+        }
+
+        input[type="file"]:hover,
+        input[type="text"]:hover {
+            border-color: #007bff;
+        }
+
+        input[type="file"] {
+            cursor: pointer;
+        }
+
+        /* 容器内的按钮样式 */
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            margin-inline: auto;
+        }
+
+        .input-container .input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        .input-container .input input {
+            margin-right: 5px;
+            max-width: 100%;
+            width: 100%;
+        }
+
+
+        .input-container .input #play-button {
+            padding: 10px;
+            font-size: 1rem;
+            white-space: nowrap;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* 视频播放器容器样式 */
+        #video-player {
+            width: 100%;
+            max-width: 80%;
+            height: 500px;
+            background-color: #000;
+            margin-bottom: 20px;
+            margin-inline: auto;
+        }
+
+        .history {
+            margin-top: 20px;
+        }
+
+        .history h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .history ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .history ul li {
+            margin-bottom: 10px;
+        }
+
+        .history ul li a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .history ul li a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* 适应小屏幕 */
+        @media (max-width: 768px) {
+            #video-player {
+                height: 300px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>视频播放器</h1>
+        <div class="player">
+            <!-- 视频播放器容器 -->
+            <video id="video-player" class="video-js vjs-default-skin" controls>
+                <source id="video-source" />
+            </video>
+            <div class="input-container">
+                <div class="input">
+                    <!-- 文件选择输入框 -->
+                    <input type="file" id="file-input" accept="video/*" />
+                    <button id="play-button" onclick="playVideo('file-input')">播放</button>
+                </div>
+                <div class="input">
+                    <!-- 输入视频链接 -->
+                    <input type="text" id="url-input" placeholder="输入视频链接" />
+                    <button id="play-button" onclick="playVideo('url-input')">播放</button>
+                </div>
+            </div>
+        </div>
+        <div class="history">
+            <h2>播放历史</h2>
+            <ul id="history-list"></ul>
+        </div>
+
+
+    </div>
+
+    <script>
+        // 初始化视频播放器
+        const player = videojs('video-player', {
+            bigPlayButton: true, // 显示大按钮
+            textTrackDisplay: false, // 禁用字幕
+            posterImage: false, // 禁用封面图
+            errorDisplay: false, // 禁用错误提示
+            controlBar: {
+                children: [
+                    'playToggle', // 播放/暂停按钮
+                    'currentTimeDisplay', // 当前时间显示
+                    'progressControl', // 进度条
+                    'timeDivider', // 时间分隔符
+                    'durationDisplay', // 总时长显示
+                    'remainingTimeDisplay', // 剩余时间显示
+                    'volumePanel', // 音量控制
+                    'fullscreenToggle' // 全屏按钮
+                ]
+            },
+            // 配置选项
+            techOrder: ['html5'] // 使用 HTML5 播放器，自动支持 HLS 和 DASH 流媒体
+        });
+
+        function playVideo(inputId) {
+            const input = document.getElementById(inputId);
+
+            if (inputId === 'file-input') {
+                const file = input.files[0];
+                const url = URL.createObjectURL(file);
+                player.src({ type: file.type, src: url });
+                player.play();
+            } else if (inputId === 'url-input') {
+                const url = input.value;
+                player.src({ type: 'application/x-mpegURL', src: url }); // 支持 HLS 流媒体
+                player.play();
+                addToHistory(url);
+            }
+            
+        }
+        // 播放历史
+        const historyList = document.getElementById('history-list');
+        const history = JSON.parse(localStorage.getItem('history')) || [];
+
+        function addToHistory(url) {
+            if (!history.includes(url)) {
+                history.push(url);
+                localStorage.setItem('history', JSON.stringify(history));
+                updateHistoryList();
+            }
+        }
+
+        function updateHistoryList() {
+            historyList.innerHTML = '';
+            history.forEach((url) => {
+                const li = document.createElement('li');
+                li.textContent = url;
+                li.onclick = () => {
+                    playVideo('url-input'); // 使用播放按钮的函数来播放历史记录中的视频
+                };
+                historyList.appendChild(li);
+            });
+        }
+
+        updateHistoryList();
+    </script>
+</body>
+
+</html>
