@@ -4,19 +4,19 @@ host = (host.includes('localhost') || host.includes('127.0.0.1')) ? `http://${ho
 
 // 音源列表数组
 const audioSources = [
-    // 佛山电台
+    // 佛山电台 https://www.radiofoshan.com.cn/
     { fm: "924", name: "FM92.4-南海广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_42_audio.m3u8", img: "./img/924.jpg" },
     { fm: "946", name: "FM94.6-佛山综合广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_46_audio.m3u8", img: "./img/946.jpg" },
     { fm: "883", name: "FM88.3-高明广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_43_audio.m3u8", img: "./img/883.jpg" },
     { fm: "901", name: "FM90.1-顺德广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_44_audio.m3u8", img: "./img/901.jpg" },
     { fm: "906", name: "FM90.6-三水广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_45_audio.m3u8", img: "./img/906.jpg" },
     { fm: "985", name: "FM98.5-佛山音乐广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_41_audio.m3u8", img: "./img/985.jpg" },
-    // 广州电台
+    // 广州电台 https://www.gztv.com/#/channel
     { fm: "880", name: "FM88.0-广州都市生活", url: "https://tencentplay.gztv.com/live/fm880.m3u8?txSecret=43e759eb546ad0658f0903e5ac8d7733&txTime=18ed764ce11", img: "./img/880.jpg" },
     { fm: "1061", name: "FM106.1-广州交通广播", url: "https://tencentplay.gztv.com/live/fm1061.m3u8?txSecret=cc7b1a4166f1d00d8d9e64717b5a6cc4&txTime=18ed7702c5a", img: "./img/1061.jpg" },
     { fm: "962", name: "FM96.2-广州新闻资讯", url: "https://tencentplay.gztv.com/live/fm962.m3u8?txSecret=6c9997d52e9fbe1c3a10e83f28570f27&txTime=18ed775ec73", img: "./img/962.jpg" },
     { fm: "1027", name: "FM102.7-广州汽车音乐", url: "https://tencentplay.gztv.com/live/fm1027.m3u8?txSecret=cf78ef371503e3544e3db79b399e9a64&txTime=18ed7783401", img: "./img/1027.jpg" },
-    // 蜻蜓
+    // 蜻蜓FM https://www.qtfm.cn/
     { fm: "914", name: "FM91.4-广东新闻广播", url: "https://lhttp.qingting.fm/live/1254/64k.mp3", img: "./img/914.jpg" },
     { fm: "974", name: "FM97.4-珠江经济台", url: "https://lhttp.qingting.fm/live/1259/64k.mp3", img: "./img/974.jpg" },
     { fm: "993", name: "FM99.3-音乐之声", url: "https://lhttp.qingting.fm/live/1260/64k.mp3", img: "./img/993.jpg" },
@@ -32,8 +32,11 @@ const audioSources = [
     { fm: "9999", name: "顺德音乐之声", url: "https://lhttp.qingting.fm/live/20500150/64k.mp3", img: "./img/10003.jpeg" },
     { fm: "9999", name: "AsiaFM HD音乐台", url: "https://lhttp-hw.qtfm.cn/live/15318341/64k.mp3", img: "./img/10004.jpeg" },
     { fm: "9999", name: "AsiaFM 亚洲音乐台", url: "https://lhttp-hw.qtfm.cn/live/5022405/64k.mp3", img: "./img/10005.jpeg" },
-    { fm: "9999", name: "喜马拉雅", url: `${host}/cors/666.m3u8?mode=2&url=https://live.ximalaya.com/radio-first-page-app/live/1427/64.m3u8?transcode=ts`, img: "./img/record.png" },
-    { fm: "9999", name: "央广网", url: `${host}/cors/666.m3u8?mode=1&url=https://ngcdn001.cnr.cn/live/zgzs/index.m3u8`, img: "./img/record.png" },
+    //{ fm: "9999", name: "喜马拉雅", url: `${host}/cors/666.m3u8?mode=2&url=https://live.ximalaya.com/radio-first-page-app/live/1427/64.m3u8?transcode=ts`, img: "./img/record.png" },
+    { fm: "9999", name: "AsiaFM 亚洲经典台", url: `https://lhttp-hw.qtfm.cn/live/5021912/64k.mp3`, img: "./img/10006.jpeg" },
+    { fm: "9999", name: "AsiaFM 亚洲天空台", url: `https://lhttp-hw.qtfm.cn/live/20071/64k.mp3`, img: "./img/10007.png" },
+    { fm: "9999", name: "AsiaFM 亚洲热歌台", url: `https://lhttp-hw.qtfm.cn/live/20500208/64k.mp3`, img: "./img/10008.jpeg" },
+    { fm: "9999", name: "AsiaFM 亚洲音乐成都FM96.5", url: `https://lhttp-hw.qtfm.cn/live/4581/64k.mp3`, img: "./img/10009.jpeg" },
 ];
 
 // SVG
