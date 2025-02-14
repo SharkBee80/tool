@@ -1,9 +1,6 @@
 let host = window.location.host;
-if (host.includes('localhost','127.0.0.1')) {
-    host = 'http://' + host;
-} else {
-    host = 'https://' + host;
-}
+host = (host.includes('localhost') || host.includes('127.0.0.1')) ? `http://${host}` : `https://${host}`;
+
 
 // 音源列表数组
 const audioSources = [
@@ -183,7 +180,7 @@ function playAudioSource(url) {
     player.on('error', (error) => {
         console.error('VideoJS 错误:', error);
     });
-    
+
     player.on('loadeddata', () => {
         console.log('视频数据加载完成');
     });
