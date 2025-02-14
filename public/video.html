@@ -28,7 +28,7 @@
             color: #333;
             margin-block: 5px;
         }
-        
+
         #title {
             text-align: center;
         }
@@ -38,15 +38,15 @@
             background-color: #f4f4f4;
             display: flex;
             flex-direction: column;
-            
+
             align-items: center;
-            
+
             min-height: 100vh;
-           
+
             text-align: center;
         }
 
-       
+
 
         .player,
         .history {
@@ -278,32 +278,49 @@
     <script>
         // 初始化视频播放器
         const player = videojs('video-player', {
-            bigPlayButton: true, // 显示大按钮
-            textTrackDisplay: false, // 禁用字幕
-            posterImage: false, // 禁用封面图
-            errorDisplay: false, // 禁用错误提示
-            controls: true, // 显示控制栏
+            bigPlayButton: false, // 播放按钮
+            textTrackDisplay: false, // 字幕
+            posterImage: true, // 封面图
+            errorDisplay: false, // 错误提示
+            autoplay: false,// 自动播放：true/false
+            controls: true, // 是否显示底部控制栏：true/false
+            //aspectRatio: "16:9", // 将播放器置于流体模式下（如“16:9”或“4:3”）
+            loop: false, // 是否循环播放:true/false
+            muted: false, // 静音
+            preload: "auto",
+            //fluid: true, // 是否自适应布局
+            inactivityTimeout: 0, // 闲置超时
+            nativeControlsForTouch: false, // 是否使用浏览器原生的控件
+            language: 'zh-CN',
             controlBar: {
                 children: [
                     { name: 'playToggle' }, // 播放按钮
                     { name: 'currentTimeDisplay' }, // 当前已播放时间
-                    { name: 'timeDivider' }, // 时间分隔符
-                    { name: 'durationDisplay' }, // 总时间
                     { name: 'progressControl' }, // 播放进度条
-                    { // 倍数播放
-                        name: 'playbackRateMenuButton',
-                        'playbackRates': [0.5, 1, 1.5, 2, 2.5]
-                    },
+                    { name: 'durationDisplay' }, // 总时间
                     {
                         name: 'volumePanel', // 音量控制
                         inline: false, // 不使用水平方式
                         vertical: true // 使用垂直方式
                     },
-                    { name: 'fullscreenToggle' } // 全屏按钮
-                ],
+                    { name: 'fullscreenToggle' } // 全屏
+                ]
             },
             // 配置选项
             techOrder: ['html5'] // 使用 HTML5 播放器，自动支持 HLS 和 DASH 流媒体
+        });
+        player.on('play', function () {
+            console.log('播放');
+        });
+        player.on('pause', function () {
+            console.log('暂停');
+        });
+        player.on('error', (error) => {
+            console.error('VideoJS 错误:', error);
+        });
+
+        player.on('loadeddata', () => {
+            console.log('视频数据加载完成');
         });
 
         function playVideo(inputId) {
@@ -328,7 +345,7 @@
         let history = JSON.parse(localStorage.getItem('video-play-history')) || [];
 
         function addToHistory(url, playable = true) {
-            if (!document.getElementById('auto-save').checked) {
+            if (!document.getElementById('auto-save').checked || !url) {
                 return;
             }
             const history = JSON.parse(localStorage.getItem('video-play-history')) || [];
