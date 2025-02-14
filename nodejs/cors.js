@@ -124,7 +124,7 @@ async function mode1(req, res) {
         //const m3u8Path = path.join(CACHE_DIR, m3u8Name);
 
         // 设置或修改文件头信息
-        m3u8Content = setOrModifyFileHeader(m3u8Content);
+        // m3u8Content = setOrModifyFileHeader(m3u8Content);
 
         let host = req.get('host');
         if (host.includes('localhost', '127.0.0.1')) {
@@ -134,7 +134,7 @@ async function mode1(req, res) {
         }
 
         // 获取所有需要下载的片段
-        const segments = collectSegments(m3u8Content);
+        const segments = collectSegments(m3u8Content, m3u8Url);
 
         // 替换掉所有 URL 为占位符
         m3u8Content = replaceWithPlaceholders(m3u8Content, segments, host);
@@ -261,10 +261,11 @@ function insertHeaderAtPosition(m3u8Content, header, value) {
 }
 
 // 收集 M3U8 文件中的所有视频片段信息
-function collectSegments(m3u8Content) {
+function collectSegments(m3u8Content, m3u8Url) {
     const segments = [];
-    m3u8Content.replace(/(https?:\/\/.*?\/)(.*?\.(ts|aac|mp4|webm|m4s|m4a))/gi, (match, baseUrl, segmentPath) => {
-        const url = baseUrl + segmentPath;
+    const baseUrl = m3u8Url.substring(0, m3u8Url.lastIndexOf('/')) + '/'; // 提取 URL 的路径部分
+    m3u8Content.replace(/(https?:\/\/.*?\/|\/)?(.*?\.(ts|aac|mp4|webm|m4s|m4a))/gi, (match, base, segmentPath) => {
+        const url = (base ? base : baseUrl) + segmentPath;
         const fileName = getFileName(url);
         segments.push({ url, fileName });
     });
@@ -273,8 +274,8 @@ function collectSegments(m3u8Content) {
 
 // 替换 M3U8 中的 URL 为占位符
 function replaceWithPlaceholders(m3u8Content, segments, host) {
-    return m3u8Content.replace(/(https?:\/\/.*?\/)(.*?\.(ts|aac|mp4|webm|m4s|m4a))/gi, (match, baseUrl, segmentPath) => {
-        const fileName = getFileName(baseUrl + segmentPath);
+    return m3u8Content.replace(/(https?:\/\/.*?\/|\/)?(.*?\.(ts|aac|mp4|webm|m4s|m4a))/gi, (match, baseUrl, segmentPath) => {
+        const fileName = getFileName((baseUrl ? baseUrl : '') + segmentPath);
         // 返回一个占位符，稍后会替换为真实的代理 URL
         return `${host}/cors/live/${fileName}`;
     });
@@ -291,6 +292,7 @@ function replaceWithActualUrls(m3u8Content, segments, host) {
     });
     return m3u8Content;
 }
+
 // 用于保存正在下载的任务
 const downloadQueue = new Set(); // 使用 Set 来避免重复请求
 
