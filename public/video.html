@@ -30,16 +30,24 @@
         h1 {
             font-size: 2rem;
             color: #333;
-            margin-bottom: 20px;
+            margin-block: 10px;
         }
 
-        .player {
+        h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-block: 5px;
+        }
+
+        .player,
+        .history {
             width: 100%;
             max-width: 80%;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 5px;
         }
 
         /* 输入框样式 */
@@ -70,7 +78,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 80%;
+            width: 90%;
             margin-inline: auto;
         }
 
@@ -88,7 +96,6 @@
             width: 100%;
         }
 
-
         .input-container .input #play-button {
             padding: 10px;
             font-size: 1rem;
@@ -103,51 +110,102 @@
 
         /* 视频播放器容器样式 */
         #video-player {
-            width: 100%;
-            max-width: 80%;
-            height: 500px;
+            width: 90%;
+            height: calc(100vw * 9 / 16 * 0.6);
             background-color: #000;
             margin-bottom: 20px;
             margin-inline: auto;
         }
 
         .history {
+            max-width: 100%;
+            width: 80%;
+            margin-inline: auto;
+        }
+
+        /* 历史记录表格样式 */
+        table {
+            width: 100%;
             margin-top: 20px;
+            border-collapse: collapse;
         }
 
-        .history h2 {
-            font-size: 1.5rem;
-            color: #333;
-            margin-bottom: 10px;
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
         }
 
-        .history ul {
-            list-style: none;
-            padding: 0;
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
         }
 
-        .history ul li {
-            margin-bottom: 10px;
+        th {
+            background-color: #f2f2f2;
         }
 
-        .history ul li a {
+        td a {
             color: #007bff;
             text-decoration: none;
         }
 
-        .history ul li a:hover {
+        td a:hover {
             text-decoration: underline;
         }
 
+        .history-controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
 
-        /* 适应小屏幕 */
-        @media (max-width: 768px) {
-            #video-player {
-                height: 300px;
-            }
+        .history-controls .check {
+            margin-right: 10px;
+            margin-block: auto;
+        }
+
+        .history-controls #delete-all {
+            padding: 5px 10px;
+            background-color: #ff4c4c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .history-controls #delete-all:hover {
+            background-color: #e60000;
+        }
+
+        .play-button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .play-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 删除按钮样式 */
+        .delete-button {
+            padding: 5px 10px;
+            background-color: #ff4c4c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #e60000;
         }
     </style>
-
 </head>
 
 <body>
@@ -161,22 +219,41 @@
             <div class="input-container">
                 <div class="input">
                     <!-- 文件选择输入框 -->
-                    <input type="file" id="file-input" accept="video/*" />
+                    <input type="file" id="file-input" accept="*" onchange="playVideo('file-input')" />
                     <button id="play-button" onclick="playVideo('file-input')">播放</button>
                 </div>
                 <div class="input">
                     <!-- 输入视频链接 -->
-                    <input type="text" id="url-input" placeholder="输入视频链接" />
+                    <input type="text" id="url-input" placeholder="输入视频链接" autocomplete="off" />
                     <button id="play-button" onclick="playVideo('url-input')">播放</button>
                 </div>
             </div>
         </div>
         <div class="history">
-            <h2>播放历史</h2>
-            <ul id="history-list"></ul>
+            <div class="history-controls">
+                <div class="check">
+                    <input type="checkbox" name="auto-save" id="auto-save" checked>
+                    <label for="auto-save">自动保存</label>
+                </div>
+                <button id="delete-all" onclick="deleteAllHistory()">全部删除</button>
+            </div>
+            <table id="history-table">
+                <colgroup>
+                    <col style="width: 10%;" />
+                    <col style="width: 60%;" />
+                    <col style="width: 10%;" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>视频链接</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="history-list"></tbody>
+            </table>
+
         </div>
-
-
     </div>
 
     <script>
@@ -186,17 +263,25 @@
             textTrackDisplay: false, // 禁用字幕
             posterImage: false, // 禁用封面图
             errorDisplay: false, // 禁用错误提示
+            controls: true, // 显示控制栏
             controlBar: {
                 children: [
-                    'playToggle', // 播放/暂停按钮
-                    'currentTimeDisplay', // 当前时间显示
-                    'progressControl', // 进度条
-                    'timeDivider', // 时间分隔符
-                    'durationDisplay', // 总时长显示
-                    'remainingTimeDisplay', // 剩余时间显示
-                    'volumePanel', // 音量控制
-                    'fullscreenToggle' // 全屏按钮
-                ]
+                    { name: 'playToggle' }, // 播放按钮
+                    { name: 'currentTimeDisplay' }, // 当前已播放时间
+                    { name: 'timeDivider' }, // 时间分隔符
+                    { name: 'durationDisplay' }, // 总时间
+                    { name: 'progressControl' }, // 播放进度条
+                    { // 倍数播放
+                        name: 'playbackRateMenuButton',
+                        'playbackRates': [0.5, 1, 1.5, 2, 2.5]
+                    },
+                    {
+                        name: 'volumePanel', // 音量控制
+                        inline: false, // 不使用水平方式
+                        vertical: true // 使用垂直方式
+                    },
+                    { name: 'fullscreenToggle' } // 全屏按钮
+                ],
             },
             // 配置选项
             techOrder: ['html5'] // 使用 HTML5 播放器，自动支持 HLS 和 DASH 流媒体
@@ -210,40 +295,105 @@
                 const url = URL.createObjectURL(file);
                 player.src({ type: file.type, src: url });
                 player.play();
+                addToHistory(file.name, false);
             } else if (inputId === 'url-input') {
                 const url = input.value;
                 player.src({ type: 'application/x-mpegURL', src: url }); // 支持 HLS 流媒体
                 player.play();
                 addToHistory(url);
             }
-            
         }
-        // 播放历史
-        const historyList = document.getElementById('history-list');
-        const history = JSON.parse(localStorage.getItem('history')) || [];
 
-        function addToHistory(url) {
-            if (!history.includes(url)) {
-                history.push(url);
+        // 播放历史
+        const historyTableBody = document.getElementById('history-list');
+        let history = JSON.parse(localStorage.getItem('history')) || [];
+
+        function addToHistory(url, playable = true) {
+            if (!document.getElementById('auto-save').checked) {
+                return;
+            }
+            const history = JSON.parse(localStorage.getItem('history')) || [];
+            const date = new Date().toLocaleString();
+            const historyItem = { url, date, playable };
+
+            // 如果历史记录超过 25 条，删除多余的记录
+            const maxHistoryCount = 25;
+            if (history.length >= maxHistoryCount) {
+                const excessCount = history.length - maxHistoryCount + 1;
+                history.splice(0, excessCount); // 删除最旧的多余记录
+            }
+
+            if (!history.some(item => item.url === url)) {
+                history.push(historyItem);
                 localStorage.setItem('history', JSON.stringify(history));
-                updateHistoryList();
+                updateHistoryTable();
             }
         }
 
-        function updateHistoryList() {
-            historyList.innerHTML = '';
-            history.forEach((url) => {
-                const li = document.createElement('li');
-                li.textContent = url;
-                li.onclick = () => {
-                    playVideo('url-input'); // 使用播放按钮的函数来播放历史记录中的视频
-                };
-                historyList.appendChild(li);
+        function updateHistoryTable() {
+            history = JSON.parse(localStorage.getItem('history')) || [];
+            historyTableBody.innerHTML = '';
+            if (history.length === 0) {
+                historyTableBody.innerHTML = '<tr><td colspan="3">暂无播放历史</td></tr>';
+                return;
+            }
+            history.reverse(); // 反转数组，使最新的记录显示在最上面
+            history.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.date}</td>
+                    <td><a href="${item.url}" target="_blank">${item.url}</a></td>
+                    <td>
+                        ${item.playable ? `<button class="play-button" onclick="playHistoryVideo('${item.url}')">播放</button>` : ''}
+                        <button class="delete-button" onclick="deleteHistoryItem(${index})">删除</button>
+                    </td>
+                `;
+                historyTableBody.appendChild(row);
             });
         }
 
-        updateHistoryList();
+        function playHistoryVideo(url) {
+            player.src({ type: 'application/x-mpegURL', src: url }); // 支持 HLS 流媒体
+            player.play();
+        }
+
+        function deleteHistoryItem(index) {
+            history.splice(index, 1);
+            localStorage.setItem('history', JSON.stringify(history));
+            updateHistoryTable();
+        }
+
+        let lastClickedTime = 0; // 记录上次点击的时间
+        const cooldownTime = 5000; // 冷却时间，单位是毫秒（5秒）
+        let clickCount = 0; // 记录点击次数
+
+        function deleteAllHistory() {
+            const currentTime = new Date().getTime(); // 获取当前时间戳
+
+            // 如果超过冷却时间，重置点击计数
+            if (currentTime - lastClickedTime > cooldownTime) {
+                clickCount = 0;
+            }
+
+            if (clickCount === 0) {
+                lastClickedTime = currentTime; // 记录第一次点击时间
+                clickCount = 1; // 设置点击次数为1
+                noty('再次点击按钮确认删除历史');
+                return;
+            }
+
+            // 如果是在冷却时间内，第二次点击执行删除
+            if (clickCount === 1) {
+                localStorage.removeItem('history'); // 删除历史
+                updateHistoryTable(); // 更新表格显示
+                noty('历史已删除');
+                clickCount = 0; // 重置点击次数
+            }
+        }
+
+        updateHistoryTable();
     </script>
+    <script src="src/js/noty.js"></script>
 </body>
 
 </html>
