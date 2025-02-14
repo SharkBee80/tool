@@ -42,15 +42,12 @@ async function cors(req, res) {
 
     const path = req.params.path || 'index.xxx';
     // 获取片段文件
-    if (path === 'live') {
-        return live(req, res);
-    }
+    if (path === 'live') return live(req, res);
 
     const url = req.query.url;
 
-    if (!url) {
-        return res.status(400).json({ error: 'Missing URL parameter' });
-    }
+    if (!url) return res.status(400).json({ error: 'Missing URL parameter' });
+
 
     /*
     const ALLOWED_HOSTS = ['example.com', 'api.example.com'];// 允许访问的域名列表
@@ -60,15 +57,26 @@ async function cors(req, res) {
     }
     */
 
-    const mode = req.query.mode || 1;
+    let mode = req.query.mode;
+    if (!mode) {
+        if (url.includes('m3u8')) {
+            mode = '2';
+        } else {
+            mode = '0';
+        }
+    }
 
-    switch (Number(mode)) {
-        case 0:
+    switch (mode) {
+        case '0':
             return mode0(req, res);
-        case 1:
+        case '1':
             return mode1(req, res);
-        case 2:
+        case '2' || 'm3u8':
             return mode2(req, res);
+        case '3':
+            return mode3(req, res);
+        default:
+            return mode0(req, res);
     }
 }
 
@@ -113,15 +121,18 @@ async function mode0(req, res) {
     }
 }
 
-// m3u8 代理
+// m3u8 代理 Download
 async function mode1(req, res) {
     try {
         const m3u8Url = req.query.url;
-        const response = await axios.get(m3u8Url);
+        const response = await axios.get(m3u8Url, {
+            //responseType: 'stream', // 以流的方式传输数据
+            headers: {
+                'User-Agent': getRandomUA('mobile'),
+            },
+            timeout: 5000, // 设置 5 秒超时
+        });
         let m3u8Content = response.data;
-
-        //const m3u8Name = req.params.path || getFileName(m3u8Url);
-        //const m3u8Path = path.join(CACHE_DIR, m3u8Name);
 
         // 设置或修改文件头信息
         // m3u8Content = setOrModifyFileHeader(m3u8Content);
@@ -158,8 +169,32 @@ async function mode1(req, res) {
     }
 }
 
-// mp3、mp4 代理
+// m3u8 代理 only m3u8
 async function mode2(req, res) {
+    try {
+        const m3u8Url = req.query.url;
+        const response = await axios.get(m3u8Url, {
+            headers: {
+                'User-Agent': getRandomUA('mobile'),
+            },
+            timeout: 5000, // 设置 5 秒超时
+        });
+        let m3u8Content = response.data;
+        const baseUrl = m3u8Url.substring(0, m3u8Url.lastIndexOf('/')) + '/'; // 提取 URL 的路径部分
+        m3u8Content = m3u8Content.replace(/(https?:\/\/.*?\/|\/)?(.*?\.(ts|aac|mp4|webm|m4s|m4a))/gi, (match, base, segmentPath) => {
+            const url = base ? base : baseUrl + segmentPath;
+            return url;
+        });
+        res.setHeader('Content-Type', 'application/x-mpegURL');
+        res.send(m3u8Content);
+    } catch (error) {
+        console.error('获取 m3u8 文件失败:', error);
+        res.status(500).send({ error: 'Error fetching m3u8 file' });
+    }
+}
+
+// longStream 代理 Download
+async function mode3(req, res) {
     const videoUrl = req.query.url;
     const filename = path.basename(videoUrl).split('?')[0]; // 获取文件名
     const filePath = path.join(CACHE_DIR, filename);
@@ -176,6 +211,9 @@ async function mode2(req, res) {
             url: videoUrl,
             method: 'GET',
             responseType: 'stream', // 以流的方式下载
+            headers: {
+                'User-Agent': getRandomUA('mobile'),
+            }
         });
 
         // 设置正确的 Content-Type
@@ -192,7 +230,6 @@ async function mode2(req, res) {
         res.status(500).send('Error fetching video');
     }
 };
-
 
 async function live(req, res) {
     const fileName = req.params.filename;
