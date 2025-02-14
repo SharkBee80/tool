@@ -137,8 +137,9 @@ async function mode1(req, res) {
         // 设置或修改文件头信息
         // m3u8Content = setOrModifyFileHeader(m3u8Content);
 
-        let host = window.location.host;
+        let host = req.get('host');
         host = (host.includes('localhost') || host.includes('127.0.0.1')) ? `http://${host}` : `https://${host}`;
+        
 
         // 获取所有需要下载的片段
         const segments = collectSegments(m3u8Content, m3u8Url);
