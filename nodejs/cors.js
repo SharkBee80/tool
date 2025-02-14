@@ -182,7 +182,7 @@ async function mode2(req, res) {
         let m3u8Content = response.data;
         const baseUrl = m3u8Url.substring(0, m3u8Url.lastIndexOf('/')) + '/'; // 提取 URL 的路径部分
         m3u8Content = m3u8Content.replace(/(https?:\/\/.*?\/|\/)?(.*?\.(ts|aac|mp4|webm|m4s|m4a))/gi, (match, base, segmentPath) => {
-            const url = base ? base : baseUrl + segmentPath;
+            const url = (base ? base : baseUrl) + segmentPath;
             return url;
         });
         res.setHeader('Content-Type', 'application/x-mpegURL');
