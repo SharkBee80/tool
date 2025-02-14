@@ -17,16 +17,6 @@
             box-sizing: border-box;
         }
 
-        .container {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            align-items: center;
-            min-height: 100vh;
-            flex-direction: column;
-            text-align: center;
-        }
-
         h1 {
             font-size: 1.5rem;
             color: #333;
@@ -38,6 +28,25 @@
             color: #333;
             margin-block: 5px;
         }
+        
+        #title {
+            text-align: center;
+        }
+
+        .container {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            
+            align-items: center;
+            
+            min-height: 100vh;
+           
+            text-align: center;
+        }
+
+       
 
         .player,
         .history {
@@ -46,7 +55,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px;
+            margin-block: 0.5rem;
             margin-inline: 1rem;
         }
 
@@ -110,8 +119,8 @@
 
         /* 视频播放器容器样式 */
         #video-player {
-            width: 90%;
-            height: calc(100vw * 9 / 16 * 0.6);
+            width: 80%;
+            height: calc(100vw * 3 / 4 * 0.8 * 0.5);
             background-color: #000;
             margin-bottom: 20px;
             margin-inline: auto;
@@ -161,6 +170,10 @@
             margin-bottom: 10px;
         }
 
+        .history-controls h2 {
+            margin-right: auto;
+        }
+
         .history-controls .check {
             margin-right: 10px;
             margin-block: auto;
@@ -205,12 +218,18 @@
         .delete-button:hover {
             background-color: #e60000;
         }
+
+        @media (max-width: 768px) {
+            #video-player {
+                height: calc(100vw * 9 / 16 * 0.8);
+            }
+        }
     </style>
 </head>
 
 <body>
+    <h1 id="title">视频播放器</h1>
     <div class="container">
-        <h1>视频播放器</h1>
         <div class="player">
             <!-- 视频播放器容器 -->
             <video id="video-player" class="video-js vjs-default-skin" controls>
@@ -231,6 +250,7 @@
         </div>
         <div class="history">
             <div class="history-controls">
+                <h2>历史记录</h2>
                 <div class="check">
                     <input type="checkbox" name="auto-save" id="auto-save" checked>
                     <label for="auto-save">自动保存</label>
