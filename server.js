@@ -137,25 +137,8 @@ app.get(['/link', "/link/:shortUrl"], (req, res) => {
 //
 
 // 记事本
-// 获取所有文件列表
-app.get('/files', (req, res) => {
-  note(req, res, 'list');
-});
-
-// 获取指定文件内容
-app.get('/file/:filename', (req, res) => {
-  note(req, res, 'get')
-});
-
-// 保存文件
-app.post('/file/:filename', (req, res) => {
-  note(req, res, 'post')
-});
-
-// 删除文件
-app.delete('/file/:filename', (req, res) => {
-  note(req, res, 'delete')
-});
+app.use('/files', note.files)
+app.use('/file', note.file);
 
 //
 
