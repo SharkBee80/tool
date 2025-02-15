@@ -1,6 +1,6 @@
 //const N = '<h1 style="display: flex;justify-content: center;">404 Not Found</h1>';
 
-const N =`
+const N = `
 <!DOCTYPE html>
 <html>
 
@@ -40,7 +40,13 @@ const N =`
 
 `
 
-function N404(req,res,next) {
+/**
+ *  404页面
+ *  @param {Object} req 
+ *  @param {Object} res 
+ *  @param {Object} next 
+*/
+function N404(req, res, next) {
     res.status(404).send(N);
 }
 

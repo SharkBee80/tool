@@ -128,7 +128,7 @@ app.get(['/comment_admin/:token', '/comment_admin'], (req, res) => {
 
 // 短链
 // 路由
-app.use('/links',link.router)
+app.use('/links', link.router)
 // 跳转
 app.get(['/link', "/link/:shortUrl"], (req, res) => {
   link.red(req, res);
@@ -184,7 +184,7 @@ app.post('/img2ico', upload.single('image'), async (req, res) => {
 });
 
 // cors
-app.get(['/cors','/cors/:path', '/cors/:path/:filename'], async (req, res) => {
+app.get(['/cors', '/cors/:path', '/cors/:path/:filename'], async (req, res) => {
   cors(req, res);
 });
 

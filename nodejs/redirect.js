@@ -99,5 +99,4 @@ function red(req, res) {
     redirect(targetUrl, res, countdown, target)
 }
 
-module.exports.red = red;
-module.exports.redirect = redirect;
+module.exports = { red, redirect };
