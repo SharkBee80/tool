@@ -10,6 +10,7 @@ const redirect = require("./redirect").redirect;
 module.exports = { router, red };
 
 /*
+const link = require("./link");
 // 短链
 // 路由
 app.use('/links',link.router)
