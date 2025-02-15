@@ -1,6 +1,13 @@
 const fs = require('fs')
 const path = require('path')
 
+module.exports = admin;
+/*
+// 进入管理员页面
+app.get(['/comment_admin/:token', '/comment_admin'], (req, res) => {
+  comment_admin(req, res);
+});
+*/
 const tokens = ['sb', 'ad'];
 
 const ban = `
@@ -23,5 +30,3 @@ function admin(req, res) {
         res.send(`${data}`);
     });
 }
-
-module.exports = admin;

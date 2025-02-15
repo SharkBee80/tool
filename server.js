@@ -103,21 +103,9 @@ app.get('/redirect', (req, res) => {
 
 //
 
-//评论
-// 获取评论列表
-app.get("/comments", (req, res) => {
-  comment(req, res, 'get')
-});
-
-// 添加新评论
-app.post("/comments", (req, res) => {
-  comment(req, res, 'post')
-});
-
-// 删除评论
-app.delete("/comments/:id", (req, res) => {
-  comment(req, res, 'delete');
-});
+// 评论
+// 路由
+app.use('/comments', comment);
 
 // 进入管理员页面
 app.get(['/comment_admin/:token', '/comment_admin'], (req, res) => {

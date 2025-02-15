@@ -1,5 +1,28 @@
 const fs = require("fs");
 const path = require("path");
+const express = require("express");
+const router = express.Router();
+
+module.exports = router;
+
+/*
+const conmment = require('./comment');
+//评论
+app.use('/comment', conmment);
+*/
+
+// 获取评论列表
+router.get("/", (req, res) => {
+    get(req, res);
+})
+// 添加新评论
+router.post("/", (req, res) => {
+    post(req, res);
+})
+// 删除评论
+router.delete("/:id", (req, res) => {
+    deleteComment(req, res);
+})
 
 // 文件存储路径
 const commentsFile = path.join(__dirname, "comments.json");
@@ -21,13 +44,13 @@ function saveComments(comments) {
 // 初始化评论列表
 let comments = loadComments();
 
-function get(res) {
+function get(req, res) {
     comments.sort((a, b) => new Date(b.time) - new Date(a.time)); // 倒序排列
     res.json(comments);
 }
 
-function post(req,res) {
-    const { comment,name } = req.body;
+function post(req, res) {
+    const { comment, name } = req.body;
 
     // 检查评论长度
     if (!comment || comment.length > 200) {
@@ -36,7 +59,7 @@ function post(req,res) {
 
     if (!req.get('Referer').includes('comment_admin') && name.includes('admin')) {
         return res.status(400).send("你不是管理员！");
-      }
+    }
 
     const newComment = {
         id: Date.now().toString(),  // 为每个评论生成唯一的 ID
@@ -65,28 +88,3 @@ function deleteComment(req, res) {
 }
 
 
-function comment(req, res, a) {
-    if (a === undefined) return;
-    if (a === 'get') get(res);
-    if (a === 'post') post(req,res);
-    if (a === 'delete') deleteComment(req, res);
-}
-
-
-module.exports = comment;
-
-/*
-//评论
-// 获取评论列表
-app.get("/comments", (req, res) => {
-  comment(req, res, 'get')
-});
-// 添加新评论
-app.post("/comments", (req, res) => {
-  comment(req, res, 'post')
-});
-// 删除评论
-app.delete("/comments/:id", (req, res) => {
-  comment(req, res, 'delete');
-});
-*/
