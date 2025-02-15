@@ -126,25 +126,12 @@ app.get(['/comment_admin/:token', '/comment_admin'], (req, res) => {
 
 //
 
-//短链
-// 获取短链列表
-app.get("/links", (req, res) => {
-  link(req, res, 'get')
-});
-
-// 添加新短链
-app.post("/links", (req, res) => {
-  link(req, res, 'post')
-});
-
-// 删除短链
-app.delete("/links/:id", (req, res) => {
-  link(req, res, 'delete');
-});
-
+// 短链
+// 路由
+app.use('/links',link.router)
 // 跳转
 app.get(['/link', "/link/:shortUrl"], (req, res) => {
-  link(req, res, 'red')
+  link.red(req, res);
 });
 
 //

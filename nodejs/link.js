@@ -1,39 +1,38 @@
 const fs = require("fs");
+const express = require("express");
+const router = express.Router();
 const path = require("path");
 const axios = require('axios');
 const cheerio = require('cheerio');
 const N404 = require("./N404");
 const redirect = require("./redirect").redirect;
 
-module.exports = link;
+module.exports = { router, red };
 
 /*
-//短链
-// 获取短链列表
-app.get("/links", (req, res) => {
-  link(req, res, 'get')
-});
-// 添加新短链
-app.post("/links", (req, res) => {
-  link(req, res, 'post')
-});
-// 删除短链
-app.delete("/links/:id", (req, res) => {
-  link(req, res, 'delete');
-});
+// 短链
+// 路由
+app.use('/links',link.router)
 // 跳转
 app.get(['/link', "/link/:shortUrl"], (req, res) => {
-  link(req, res, 'red')
+  link.red(req, res);
 });
 */
 
-function link(req, res, a) {
-    if (a === undefined) return;
-    if (a === 'get') get(res);
-    if (a === 'post') post(req, res);
-    if (a === 'delete') del(req, res);
-    if (a === 'red') red(req, res)
-}
+// 获取
+router.get("/", (req, res) => {
+    get(req, res);
+});
+
+// 添加
+router.post("/", (req, res) => {
+    post(req, res);
+});
+
+// 删除
+router.delete("/:id", (req, res) => {
+    del(req, res);
+})
 
 // 文件存储路径
 const linkFile = path.join(__dirname, "links.json");
@@ -99,13 +98,13 @@ function generateRandomId() {
 // 初始化链接列表
 let links = loadLinks();
 
-function get(res) {
+function get(req, res) {
     links.sort((a, b) => new Date(b.time) - new Date(a.time)); // 倒序排列
     res.json(links);
 }
 
 async function post(req, res) {
-    const { name, originalUrl, toggle } = req.body;
+    var { name, originalUrl, toggle } = req.body;
 
     // 检查链接
     if (!originalUrl) {
