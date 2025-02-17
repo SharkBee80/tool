@@ -105,14 +105,14 @@ function login(username, password, timelimit = 1) {
 
 // 中间件：验证 JWT
 /**
- * Headers: { 'x-api-key': 'your_token' }
+ * Headers: { 'fykAuthToken': 'your_token' }
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
  * @returns 
  */
 function authenticateH(req, res, next) {
-    const token = req.headers['x-api-key'];
+    const token = req.headers['fykAuthToken'];
     if (!token) {
         return res.status(403).json({ error: 'without token' });
     }
