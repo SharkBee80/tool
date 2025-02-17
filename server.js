@@ -17,6 +17,7 @@ const link = require('./nodejs/link');
 const note = require('./nodejs/note');
 const N404 = require('./nodejs/N404');
 const cors = require('./nodejs/cors');
+const auth = require('./nodejs/auth').router;
 
 const app = express();
 
@@ -127,6 +128,11 @@ app.get(['/link', "/link/:shortUrl"], (req, res) => {
 // 记事本
 app.use('/files', note.files)
 app.use('/file', note.file);
+
+//
+
+// 账号
+app.use('/auth', auth);
 
 //
 

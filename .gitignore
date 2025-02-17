@@ -8,6 +8,7 @@ public/note/notes/*
 nodejs/comments.json
 nodejs/links.json
 cache/*
+nodejs/users.json
 
 public/decoratejs/SimHei.ttf
 public/src/js/cacheStorage.js
