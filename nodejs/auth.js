@@ -10,7 +10,12 @@ const config = {
     secretKey: 'Sharkbee',  // 用于身份验证
 };
 
-
+/*
+const app = express();
+const auth = require('./auth');
+// 账号
+app.use('/auth', auth);
+*/
 
 router.get('/', (req, res) => {
     const path = req.originalUrl;  // 获取请求路径
