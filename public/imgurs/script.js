@@ -1,9 +1,16 @@
 function uploadImage() {
     const fileInput = document.getElementById('fileInput');
     const files = fileInput.files;
+    const token = localStorage.getItem('fyk-auth-token');
 
     if (files.length === 0) {
         noty('至少选择一张图片');
+        return;
+    }
+
+    if (!token) {
+        noty('Not logged in');
+        document.getElementById('userInfo').innerHTML = '<a href="/auth">未登录</a>';
         return;
     }
 
@@ -15,7 +22,7 @@ function uploadImage() {
     fetch('/imgur/api', {
         method: 'POST',
         headers: {
-            'fyk-auth-token': localStorage.getItem('fyk-auth-token')
+            'fyk-auth-token': token
         },
         body: formData
     })
@@ -48,6 +55,7 @@ async function fetchImages() {
         .then(data => {
             if (data.error) {
                 noty(data.error);
+                document.getElementById('userInfo').innerHTML = '<a href="/auth">未登录</a>';
                 return;
             }
             noty('Image fetched successfully');
@@ -88,6 +96,7 @@ function deleteImage(id) {
     const token = localStorage.getItem('fyk-auth-token');
     if (!token) {
         noty('Not logged in');
+        document.getElementById('userInfo').innerHTML = '<a href="/auth">未登录</a>';
         return;
     }
 
