@@ -29,6 +29,7 @@ button {
     color: white;
     border: none;
     cursor: pointer;
+    word-break: keep-all;
 }
 
 button:hover {
