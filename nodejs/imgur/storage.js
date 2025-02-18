@@ -27,7 +27,7 @@ const store = multer.diskStorage({
     filename: function (req, file, cb) {
         //cb(null, Date.now() + '_' + file.originalname); // 文件名
         //cb(null, Date.now() + path.extname(file.originalname)); // 文件名
-        cb(null, Date.now() + '_' + Math.random().toString(62).substring(2, 8) + path.extname(file.originalname)); // 文件名
+        cb(null, Date.now() + '_' + Math.random().toString(36).substring(2, 8) + path.extname(file.originalname)); // 文件名
     }
 });
 
