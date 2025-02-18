@@ -22,6 +22,7 @@ function login() {
         .then(data => {
             if (data.token) {
                 localStorage.setItem("fykAuthToken", data.token);  // 保存 Token
+                noty("登录成功");
                 //window.location.href = "/";  // 跳转到首页
             } else if (data.error === "WRONG") {
                 noty("密码错误");
