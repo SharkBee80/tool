@@ -3,7 +3,7 @@ function uploadImage() {
     const files = fileInput.files;
 
     if (files.length === 0) {
-        noty('Please select at least one file.');
+        noty('至少选择一张图片');
         return;
     }
 
@@ -66,9 +66,10 @@ async function fetchImages() {
                         ${images.map(img => `
                             <div class="img-container" id="${img.id}">
                                 <div class="text">        
-                                    <p>图片Id: ${img.id}</p>
+                                    <p>图片Id: <a href="/imgur/${img.id}">${img.id}</a></p>
                                     <p>图片名: ${img.originalname}</p>
-                                    <p>图片链接: ${img.path}</p>   
+                                    <p>图片链接: <a href="${img.path}">${img.path}</a></p>   
+                                    <p>上传时间: ${img.uploadTime}</p>
                                 </div>
                                 <img src="/imgur/${img.id}" alt="${img.originalname}" width='64'/>
                                 <button onclick="deleteImage('${img.id}')">删除</button>
@@ -117,13 +118,15 @@ function updateDelete(id) {
 
 function updatePost(images) {
     const imageList = document.getElementById('imageList');
+    images.reverse(); // 反转图片数组以显示最新的图片在顶部
     imageList.innerHTML = `
         ${images.map(img => `
             <div class="img-container" id="${img.id}">
                 <div class="text">        
-                    <p>图片Id: ${img.id}</p>
+                    <p>图片Id: <a href="/imgur/${img.id}">${img.id}</a></p>
                     <p>图片名: ${img.originalname}</p>
-                    <p>图片链接: ${img.path}</p>   
+                    <p>图片链接: <a href="${img.path}">${img.path}</a></p>   
+                    <p>上传时间: ${img.uploadTime}</p>
                 </div>
                 <img src="/imgur/${img.id}" alt="${img.originalname}" width='64'/>
                 <button onclick="deleteImage('${img.id}')">删除</button>

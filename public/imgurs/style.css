@@ -67,6 +67,12 @@ h1 {
     word-break: break-all;
 }
 
+.img-container .text p a {
+    text-decoration: none;
+    cursor: pointer;
+    color: rgb(0, 0, 133);
+}
+
 .img-container img {
     max-width: 100%;
     height: auto;

@@ -93,7 +93,7 @@ async function saveImage(username, files) {
             filename: newName,  // 新文件名
             uploadname: file.filename, // 上传文件名
             originalname: file.originalname, // 原始文件名
-            uploadDate: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }), // 上传日期
+            uploadTime: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }), // 上传日期
             size: file.size, // 文件大小
             mimetype: file.mimetype, // 文件类型
             path: path_  // 更新文件的存储路径

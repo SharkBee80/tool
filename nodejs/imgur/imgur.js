@@ -37,10 +37,11 @@ router.post('/api', auth.authenticateH, storage.upload.array('files', 10), async
         let images = await storage.saveImage(req.user.username, req.files);
         images = images.map(image => ({
             id: image.id, // 文件ID
-            filename: image.filename, // 临时文件名
+            //filename: image.filename, // 临时文件名
             originalname: image.originalname, // 原始文件名
-            size: image.size, // 文件大小
-            mimetype: image.mimetype, // 文件类型
+            uploadTime: image.uploadTime, // 上传时间
+            //size: image.size, // 文件大小
+            //mimetype: image.mimetype, // 文件类型
             path: image.path, // 文件路径
         }))
 
