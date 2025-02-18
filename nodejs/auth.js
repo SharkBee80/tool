@@ -44,14 +44,12 @@ router.post('/register', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-    const { username, password, timelimit } = req.body;
+    const { username, password, _7days } = req.body;
     if (!username || !password) {
         return res.status(400).json({ error: (username ? '' : '用户名') + ((username + password) ? '' : '和') + (password ? '' : '密码') + '不能为空' });
     }
     try {
-        let times;
-        if (timelimit) times = 24 * 7;  // 7天
-        const result = login(username, password, times);  // 调用登录函数
+        const result = login(username, password, _7days ? 24 * 7 : 1);  // 调用登录函数
         res.json(result);
     } catch (err) {
         res.status(400).json({ error: err.message });
