@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imgur</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div class="main">
+    <h1>Imgur</h1>
+    <div id="userInfo">未知用户</div>
+    <div class="upload-container">
+      <input type="file" id="fileInput" accept="image/*" multiple>
+      <button id="uploadButton" onclick="uploadImage()">Upload</button>
+    </div>
+    <div id="imageList">
+      <div class="img-container">
+        <div class="text">
+          <p>图片Id: Example</p>
+          <p>图片名: favicon.ico</p>
+          <p>图片链接: /imgur/114514.ico</p>
+        </div>
+        <img src="../favicon.ico" alt="favicon.ico" width="64">
+        <button onclick="deleteImage()">删除</button>
+      </div>
+
+    </div>
+  </div>
+  <script src="./script.js"></script>
+  <script src="../src/js/noty.js"></script>
+</body>
+
+</html>

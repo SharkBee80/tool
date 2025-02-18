@@ -18,6 +18,7 @@ const note = require('./nodejs/note');
 const N404 = require('./nodejs/N404');
 const cors = require('./nodejs/cors');
 const auth = require('./nodejs/auth').router;
+const imgur = require('./nodejs/imgur/imgur');
 
 const app = express();
 
@@ -136,6 +137,12 @@ app.use('/auth', auth);
 
 //
 
+// 图床
+app.use('/imgur', imgur.router);
+
+//
+
+// git pull
 app.post('/gitpull', (req, res) => {
   // 执行系统命令-在服务器运行~/tool-重新拉取github
   const command = "~/tool"
