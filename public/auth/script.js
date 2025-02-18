@@ -1,4 +1,4 @@
-//const fykAuthToken = localStorage.getItem("fykAuthToken");  // 获取存储的身份验证 Token
+//const fyk-auth-token = localStorage.getItem("fyk-auth-token");  // 获取存储的身份验证 Token
 
 // 登录
 function login() {
@@ -21,7 +21,7 @@ function login() {
         .then(response => response.json())
         .then(data => {
             if (data.token) {
-                localStorage.setItem("fykAuthToken", data.token);  // 保存 Token
+                localStorage.setItem("fyk-auth-token", data.token);  // 保存 Token
                 noty("登录成功");
                 //window.location.href = "/";  // 跳转到首页
             } else if (data.error === "WRONG") {
@@ -83,6 +83,6 @@ function register() {
 
 // 注销
 function logout() {
-    localStorage.removeItem("fykAuthToken");  // 移除 Token
+    localStorage.removeItem("fyk-auth-token");  // 移除 Token
     window.location.href = "login.html";  // 跳转到登录页面
 }
