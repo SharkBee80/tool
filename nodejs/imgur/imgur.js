@@ -33,7 +33,7 @@ router.get('/:filename', (req, res) => {
 })
 
 // 发送图片 API
-router.post('/api', auth.authenticateH, storage.upload.array('files', 10), (req, res) => {  // 需要验证 JWT
+router.post('/api', auth.authenticateH, storage.upload.array('files', 10), async (req, res) => {  // 需要验证 JWT
     // 'files' 是前端表单中文件输入字段的 name 属性
     // 10 是允许上传的最大文件数量
     try {
@@ -41,21 +41,14 @@ router.post('/api', auth.authenticateH, storage.upload.array('files', 10), (req,
             return res.status(400).json({ error: 'No files uploaded.' });
         }
 
-        const files = req.files.map(file => ({
-            filename: file.filename, // 临时文件名
-            originalname: file.originalname, // 原始文件名
-            size: file.size, // 文件大小
-            mimetype: file.mimetype, // 文件类型
-            path: file.path // 文件路径
-        }));
-        let images = storage.saveImage(req.user.username, files);
+        let images = await storage.saveImage(req.user.username, req.files);
         images = images.map(image => ({
-            id: image.id,
-            filename: image.filename,
-            originalname: image.originalname,
-            size: image.size,
-            mimetype: image.mimetype,
-            path: image.path,
+            id: image.id, // 文件ID
+            filename: image.filename, // 临时文件名
+            originalname: image.originalname, // 原始文件名
+            size: image.size, // 文件大小
+            mimetype: image.mimetype, // 文件类型
+            path: image.path, // 文件路径
         }))
 
         res.status(200).json({ message: 'Files uploaded successfully!', images, success: true });

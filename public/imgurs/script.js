@@ -61,20 +61,20 @@ async function fetchImages() {
                 userInfo.innerHTML = `User: ${userId}`;
                 // 反转图片数组以显示最新的图片在顶部
                 images.reverse();
-                imageList.innerHTML =
+                imageList.innerHTML = images[0] ?
                     `
-                    ${images.map(img => `
-                        <div class="img-container" id="${img.id}">
-                            <div class="text">        
-                                <p>图片Id: ${img.id}</p>
-                                <p>图片名: ${img.originalname}</p>
-                                <p>图片链接: ${img.path}</p>   
+                        ${images.map(img => `
+                            <div class="img-container" id="${img.id}">
+                                <div class="text">        
+                                    <p>图片Id: ${img.id}</p>
+                                    <p>图片名: ${img.originalname}</p>
+                                    <p>图片链接: ${img.path}</p>   
+                                </div>
+                                <img src="/imgur/${img.id}" alt="${img.originalname}" width='64'/>
+                                <button onclick="deleteImage('${img.id}')">删除</button>
                             </div>
-                            <img src="/imgur/${img.id}" alt="${img.originalname}" width='64'/>
-                            <button onclick="deleteImage('${img.id}')">删除</button>
-                        </div>
-                    `).join('')}
-                `
+                        `).join('')}
+                    ` : `<p id="noImage">No image found.</p>`;
             }).join('');
         })
 }
@@ -136,5 +136,8 @@ function updatePost(images) {
 window.onload = () => {
     if (localStorage.getItem('fyk-auth-token')) {
         fetchImages();
+    } else {
+        noty('Not logged in');
+        document.getElementById('UserInfo').innerHTML = '未登录';
     }
 };

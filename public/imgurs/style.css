@@ -2,58 +2,90 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-  }
-  
-  .main {
+}
+
+.main {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-  }
-  
-  h1 {
+    width: calc(100% - 40px);
+}
+
+h1 {
     text-align: center;
-  }
-  
-  .upload-container {
+}
+
+.upload-container {
     margin-top: 20px;
-  }
-  
-  #userInfo {
+}
+
+.upload-container input[type="file"] {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    word-break: keep-all;
+}
+
+.upload-container button {
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(0, 190, 0);
+    color: white;
+    cursor: pointer;
+    word-break: keep-all;
+}
+
+.upload-container button:hover {
+    background-color: rgb(0, 105, 0);
+}
+
+#userInfo {
     margin-top: 20px;
     font-weight: bold;
-  }
-  
-  .img-container {
+}
+
+#noImage {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 2rem;
+    color: darkgray;
+}
+
+.img-container {
     margin-top: 10px;
     border: 1px solid #ccc;
     padding: 10px;
     display: flex;
-    width: auto;
+    width: calc(100% - 20px);
     align-items: center;
-  }
-  
-  .img-container .text p {
+}
+
+
+.img-container .text p {
     margin: 0;
-  }
-  
-  .img-container img {
+    word-break: break-all;
+}
+
+.img-container img {
     max-width: 100%;
     height: auto;
     width: 64px;
     margin-left: auto;
-  }
-  
-  .img-container button {
-      margin-right: 0;
-      padding: 5px;
-      height: 30px;
-      border-radius: 10px;
-      border: none;
-      background-color: rgb(255, 0, 0);
-      color: white;
-      cursor: pointer;
-  }
+}
 
-  .img-container button:hover {
-      background-color: rgb(180, 0, 0);
-  }
+.img-container button {
+    margin-right: 0;
+    padding: 5px;
+    height: 30px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(255, 0, 0);
+    color: white;
+    cursor: pointer;
+    word-break: keep-all;
+}
+
+.img-container button:hover {
+    background-color: rgb(180, 0, 0);
+}

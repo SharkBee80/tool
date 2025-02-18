@@ -26,7 +26,8 @@ const store = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         //cb(null, Date.now() + '_' + file.originalname); // 文件名
-        cb(null, Date.now() + path.extname(file.originalname)); // 文件名
+        //cb(null, Date.now() + path.extname(file.originalname)); // 文件名
+        cb(null, Date.now() + '_' + Math.random().toString(62).substring(2, 8) + path.extname(file.originalname)); // 文件名
     }
 });
 
@@ -47,24 +48,29 @@ function getUserMessage(username) {
     if (userEntry) {
         return userEntry;
     } else {
-        return null;
+        return { [username]: [] };
     }
 }
 
 // 保存图片函数
-function saveImage(username, files) {
+async function saveImage(username, files) {
     let data = fs.readFileSync(database, "utf-8");
     data = JSON.parse(data);
 
     // 获取所有现有的ID
     let existingIds = new Set(data.flatMap(item => Object.values(item).flatMap(arr => arr.map(obj => obj.id.toLowerCase()))));
 
+    // 找到对应的 username 对象
+    let userEntry = data.find(entry => entry[username]);
+
     // 规范json
     const image = files.map(file => {
         // 生成新的路径
         const oldPath = path.join(upload_dir, file.filename); // @:root/cache/imgur/uploads/:filename
-        const newPath = path.join(CACHE_DIR, file.filename);  // @:root/cache/imgur/:filename
-        const path_ = '/imgur/' + file.filename;  // @:root/cache/imgur/:filename
+        const newName = Date.now() + path.extname(file.originalname); // 新文件名
+        const newPath = path.join(CACHE_DIR, newName);  // @:root/cache/imgur/:filename
+        // 移动文件到 imgur 目录
+        const path_ = '/imgur/' + newName;  // @:root/cache/imgur/:filename
         // 移动文件到 imgur 目录
         if (!fs.existsSync(newPath) && fs.existsSync(oldPath)) {
             fs.renameSync(oldPath, newPath);
@@ -73,25 +79,28 @@ function saveImage(username, files) {
         }
 
         // 返回更新后的文件信息
-        return {
+        file = {
             id: generateId(existingIds),  // 新文件 ID
-            filename: file.filename,  // 新文件名
+            filename: newName,  // 新文件名
+            uploadname: file.filename, // 上传文件名
             originalname: file.originalname, // 原始文件名
+            uploadDate: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }), // 上传日期
             size: file.size, // 文件大小
             mimetype: file.mimetype, // 文件类型
             path: path_  // 更新文件的存储路径
         };
+
+        if (!userEntry) {
+            data.push({ [username]: [file] });
+            userEntry = data.find(entry => entry[username]);
+        } else {
+            userEntry[username].push(file);
+        }
+        return file;
     });
 
-
-    // 找到对应的 username 对象
-    const userEntry = data.find(entry => entry[username]);
-    if (userEntry) {
-        userEntry[username].push(...image);
-    } else {
-        data.push({ [username]: image });
-    }
-    fs.writeFileSync(database, JSON.stringify(data, null, 2));
+    // 写入文件
+    fs.writeFileSync(database, JSON.stringify(data, null, 4));
     return image;
 }
 
