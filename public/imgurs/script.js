@@ -138,6 +138,6 @@ window.onload = () => {
         fetchImages();
     } else {
         noty('Not logged in');
-        document.getElementById('UserInfo').innerHTML = '未登录';
+        document.getElementById('userInfo').innerHTML = '<a href="/auth">未登录</a>';
     }
 };

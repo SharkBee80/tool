@@ -64,7 +64,7 @@ async function saveImage(username, files) {
     let userEntry = data.find(entry => entry[username]);
 
     // 规范json
-    const image = files.map(file => {
+    const image = await files.map(file => {
         // 生成新的路径
         const oldPath = path.join(upload_dir, file.filename); // @:root/cache/imgur/uploads/:filename
         const newName = Date.now() + path.extname(file.originalname); // 新文件名
