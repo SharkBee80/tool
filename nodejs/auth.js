@@ -1,4 +1,5 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
+//const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 //const config = require('./config');
 const path = require('path');
