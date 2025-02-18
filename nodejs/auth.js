@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs');
 const express = require('express');
+const { time } = require('console');
 const router = express.Router();
 
 const config = {
@@ -48,7 +49,9 @@ router.post('/login', (req, res) => {
         return res.status(400).json({ error: (username ? '' : '用户名') + ((username + password) ? '' : '和') + (password ? '' : '密码') + '不能为空' });
     }
     try {
-        const result = login(username, password, timelimit);  // 调用登录函数
+        let times;
+        if (timelimit) times = 24 * 7;  // 7天
+        const result = login(username, password, times);  // 调用登录函数
         res.json(result);
     } catch (err) {
         res.status(400).json({ error: err.message });

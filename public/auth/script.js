@@ -4,6 +4,7 @@
 function login() {
     const username = document.getElementById("loginUsername").value;
     const password = document.getElementById("loginPassword").value;
+    const _7days = document.getElementById("_7days").checked;
 
     if (!username || !password) {
         noty((username ? '' : '用户名') + ((username + password) ? '' : '和') + (password ? '' : '密码') + '不能为空')
@@ -16,7 +17,7 @@ function login() {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password, _7days})
     })
         .then(response => response.json())
         .then(data => {
