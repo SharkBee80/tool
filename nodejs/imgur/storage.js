@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
 
-const CACHE_DIR = path.join(__dirname, '../../cache/imgur'); // @:root/cache/cors
+const CACHE_DIR = path.join(__dirname, '../../cache/imgur'); // @:root/cache/imgur
 
 // 确保缓存目录存在
 if (!fs.existsSync(CACHE_DIR)) {
