@@ -30,43 +30,67 @@ function getValidPaths(data) {
     return validPaths;
 }
 
-// 删除不在 JSON 数据中的文件
-function cleanUpFiles() {
-    const jsonData = readJsonData();
-    const validPaths = getValidPaths(jsonData);
-
-    // 读取 /imgur 目录下的文件
-    fs.readdir(imgurDirectory, (err, files) => {
+// 递归遍历目录并删除无效文件
+function cleanUpFiles(dir, validPaths) {
+    // 读取目录内容
+    fs.readdir(dir, (err, files) => {
         if (err) {
-            console.error('Error reading imgur directory:', err);
+            console.error('Error reading directory:', dir, err);
             return;
         }
 
         files.forEach(file => {
-            const filePath = path.join(imgurDirectory, file);
+            const filePath = path.join(dir, file);
 
             // 忽略 database.json 文件
             if (file === 'database.json') {
                 return;
             }
 
-            // 如果文件不在 JSON 数据中，则删除
-            if (!validPaths.has(filePath)) {
-                fs.unlink(filePath, err => {
-                    if (err) {
-                        console.error('Error deleting file:', filePath, err);
-                    } else {
-                        console.log('Deleted:', filePath);
+            // 检查是文件还是文件夹
+            fs.stat(filePath, (err, stats) => {
+                if (err) {
+                    console.error('Error getting file stats:', filePath, err);
+                    return;
+                }
+
+                if (stats.isDirectory()) {
+                    // 如果是文件夹，递归遍历
+                    cleanUpFiles(filePath, validPaths);
+                } else if (stats.isFile()) {
+                    // 如果是文件，检查是否在有效路径中
+                    if (!validPaths.has(filePath)) {
+                        fs.unlink(filePath, err => {
+                            if (err) {
+                                console.error('Error deleting file:', filePath, err);
+                            } else {
+                                console.log('Deleted:', filePath);
+                            }
+                        });
                     }
-                });
-            }
+                }
+            });
         });
     });
 }
 
-// 定时任务（每 5 分钟执行一次）
-const interval = 5 * 60 * 1000; // 5 分钟
-setInterval(cleanUpFiles, interval);
+// 主函数
+function main() {
+    const jsonData = readJsonData();
+    const validPaths = getValidPaths(jsonData);
 
-// 初始执行一次
-cleanUpFiles();
+    // 开始清理
+    cleanUpFiles(imgurDirectory, validPaths);
+}
+
+// 定时任务（每 60 分钟执行一次）
+//const interval = 60 * 60 * 1000 * 12; // 12 小时
+//setInterval(main, interval);
+
+function startInterval(clearIntervalId, interval) {
+    if (!clearIntervalId) {
+        clearIntervalId = setInterval(main, interval);
+    }
+}
+
+module.exports = { main, startInterval };

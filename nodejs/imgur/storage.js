@@ -2,6 +2,10 @@ const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
 
+const clear = require("./clear");
+let clearIntervalId = null;
+const interval = 1000 * 60 * 60 * 24; // 24小时
+
 const CACHE_DIR = path.join(__dirname, '../../cache/imgur'); // @:root/cache/imgur
 
 // 确保缓存目录存在
@@ -54,6 +58,11 @@ function getUserMessage(username) {
 
 // 保存图片函数
 async function saveImage(username, files) {
+    if (clearIntervalId) {
+        clearInterval(clearIntervalId);
+        clearIntervalId = null;
+    }
+    // 读取 JSON 数据
     let data = fs.readFileSync(database, "utf-8");
     data = JSON.parse(data);
 
@@ -96,6 +105,7 @@ async function saveImage(username, files) {
         } else {
             userEntry[username].push(file);
         }
+        if (!clearIntervalId) clear.startInterval(clearIntervalId, interval);
         return file;
     });
 
@@ -174,6 +184,8 @@ function deleteImage(username, id) {
     }
     return { error: '图片删除失败' };
 }
+
+clear.startInterval(clearIntervalId, interval);
 
 module.exports = {
     getUserMessage,
