@@ -25,6 +25,8 @@ function login() {
                 localStorage.setItem("fyk-auth-token", data.token);  // 保存 Token
                 noty("登录成功");
                 //window.location.href = "/";  // 跳转到首页
+                //window.history.back();
+                window.location.replace(document.referrer);  // 使用 referrer 返回上一页并刷新
             } else if (data.error === "WRONG") {
                 noty("密码错误");
             } else if (data.error === "NOTEXIST") {
@@ -69,7 +71,8 @@ function register() {
             if (data.message === "SUCCESS") {
                 noty("注册成功");
                 setTimeout(() => {
-                    window.location.href = "login.html";  // 注册成功，跳转到登录页面
+                    //window.location.href = "login.html";  // 跳转到登录页面
+                    window.history.back();
                 }, 1000);
             }
             else if (data.error === "EXISTING") {
@@ -85,7 +88,8 @@ function register() {
 // 注销
 function logout() {
     localStorage.removeItem("fyk-auth-token");  // 移除 Token
-    window.location.href = "login.html";  // 跳转到登录页面
+    //window.location.href = "login.html";  // 跳转到登录页面
+    window.location.reload();
 }
 
 function unregister() {
