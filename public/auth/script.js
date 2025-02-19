@@ -24,9 +24,12 @@ function login() {
             if (data.token) {
                 localStorage.setItem("fyk-auth-token", data.token);  // 保存 Token
                 noty("登录成功");
-                //window.location.href = "/";  // 跳转到首页
-                //window.history.back();
-                window.location.replace(document.referrer);  // 使用 referrer 返回上一页并刷新
+
+                setTimeout(() => {
+                    //window.location.href = "/";  // 跳转到首页
+                    //window.history.back();
+                    window.location.replace(document.referrer);  // 使用 referrer 返回上一页并刷新
+                }, 1000);
             } else if (data.error === "WRONG") {
                 noty("密码错误");
             } else if (data.error === "NOTEXIST") {
@@ -85,13 +88,14 @@ function register() {
         .catch(error => console.error("Error:", error));
 }
 
-// 注销
+// 退出登录
 function logout() {
     localStorage.removeItem("fyk-auth-token");  // 移除 Token
     //window.location.href = "login.html";  // 跳转到登录页面
     window.location.reload();
 }
 
+// 注销
 function unregister() {
     const username = document.getElementById("unregisterUsername").value;
     const password = document.getElementById("unregisterPassword").value;
@@ -118,5 +122,36 @@ function unregister() {
                 noty("用户不存在");
             else
                 noty("注销失败");
+        })
+}
+
+// 修改密码
+function changePassword() {
+    const username = document.getElementById("changePasswordUsername").value;
+    const oldPassword = document.getElementById("changePasswordOldPassword").value;
+    const newPassword = document.getElementById("changePasswordNewPassword").value;
+
+    if (!username || !oldPassword || !newPassword) {
+        noty((username ? '' : '用户名') + ((username + oldPassword) ? '' : '和') + (oldPassword ? '' : '旧密码') + ((username + oldPassword + newPassword) ? '' : '和') + (newPassword ? '' : '新密码') + '不能为空');
+        return;
+    }
+
+    fetch("/auth/changePassword", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, oldPassword, newPassword })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "SUCCESS") {
+                noty("修改密码成功");
+            } else if (data.error === "WRONG")
+                noty("密码错误");
+            else if (data.error === "NOTEXIST")
+                noty("用户不存在");
+            else
+                noty("修改密码失败");
         })
 }

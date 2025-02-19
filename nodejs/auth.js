@@ -24,6 +24,7 @@ router.get('/', (req, res) => {
     res.redirect(path + '/login.html')
 });
 
+// 注册
 router.post('/register', (req, res) => {
     const { username, password } = req.body;
 
@@ -44,6 +45,7 @@ router.post('/register', (req, res) => {
     }
 })
 
+// 登录
 router.post('/login', (req, res) => {
     const { username, password, _7days } = req.body;
     if (!username || !password) {
@@ -73,6 +75,29 @@ router.delete('/unregister', (req, res) => {
             throw new Error('WRONG');
         }
         users = users.filter(u => u.username !== username);
+        saveUsers();
+        res.json({ message: 'SUCCESS' });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+})
+
+// 修改密码
+router.put('/changePassword', (req, res) => {
+    const { username, oldPassword, newPassword } = req.body;
+    if (!username || !oldPassword || !newPassword) {
+        return res.status(400).json({ error: (username ? '' : '用户名') + ((username + oldPassword) ? '' : '和') + (oldPassword ? '' : '旧密码') + ((username + oldPassword + newPassword) ? '' : '和') + (newPassword ? '' : '新密码') + '不能为空' });
+    }
+    try {
+        const user = users.find(u => u.username === username);
+        if (!user) {
+            throw new Error('NOTEXIST');
+        }
+        const isPasswordValid = bcrypt.compareSync(oldPassword, user.password);
+        if (!isPasswordValid) {
+            throw new Error('WRONG');
+        }
+        user.password = bcrypt.hashSync(newPassword, 8);  // 对密码进行加密
         saveUsers();
         res.json({ message: 'SUCCESS' });
     } catch (err) {
