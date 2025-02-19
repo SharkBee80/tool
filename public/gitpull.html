@@ -39,12 +39,14 @@
         document.getElementById('Button').addEventListener('click', async () => {
             const url = '/gitpull'; // 替换为你的目标地址
             const resultElement = document.getElementById('result');
+            if (!localStorage.getItem('fyk-auth-token')) resultElement.textContent = `请先登录`;
             resultElement.textContent = `等待发送`;
             try {
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'fyk-auth-token': localStorage.getItem('fyk-auth-token'),
                     },
                     body: JSON.stringify({ message: 'Connection' }),
                 });
