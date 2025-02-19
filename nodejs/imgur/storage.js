@@ -116,7 +116,7 @@ async function saveImage(username, files) {
 
 function getImage(filename) {
     let filePath;
-    if (!filename.extname) {
+    if (!path.extname(filename)) {
         filename = getImageById(filename);
     }
     filePath = path.join(CACHE_DIR, filename);
