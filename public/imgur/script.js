@@ -16,9 +16,9 @@ function uploadImage() {
 
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
-        formData.append('files', files[i]); // 'files' 是后端接收的字段名
-        //formData.append(`fileNames`, files[i].name); // 添加文件名
-        //formData.append(`fileTypes`, files[i].type); // 添加文件类型
+        const file = files[i];
+        const encodedName = btoa(encodeURIComponent(file.name)); // 将文件名编码URI并转换为Base64
+        formData.append('files', file, encodedName); // 添加文件到 FormData
     }
 
     fetch('/imgur/api', {
@@ -50,7 +50,9 @@ async function fetchImages() {
     const response = await fetch('/imgur/api', {
         method: 'GET',
         headers: {
-            'fyk-auth-token': token
+            'fyk-auth-token': token,
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data; charset=UTF-8' // 确保编码为 UTF-8
         }
     })
         .then(response => response.json())

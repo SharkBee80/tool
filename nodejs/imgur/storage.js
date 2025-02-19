@@ -31,6 +31,7 @@ const store = multer.diskStorage({
     filename: function (req, file, cb) {
         // 将文件名转换为 UTF-8 编码
         const extname = path.extname(file.originalname); // 获取文件扩展名
+        file.originalname = decodeURIComponent(Buffer.from(file.originalname, 'base64').toString('utf8')); // 解码文件名base64-URI
         //const basename = path.basename(originalName, extname); // 获取文件名（不包含扩展名）
 
         //cb(null, Date.now() + '_' + file.originalname); // 文件名
