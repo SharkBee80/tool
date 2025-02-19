@@ -17,7 +17,7 @@ function login() {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, password, _7days})
+        body: JSON.stringify({ username, password, _7days })
     })
         .then(response => response.json())
         .then(data => {
@@ -50,7 +50,7 @@ function register() {
     if (username.length > 10) {
         noty("用户名不能超过10个字符！")
         return;
-    } 
+    }
     if (password.length > 20) {
         noty("密码不能超过20个字符！")
         return;
@@ -86,4 +86,33 @@ function register() {
 function logout() {
     localStorage.removeItem("fyk-auth-token");  // 移除 Token
     window.location.href = "login.html";  // 跳转到登录页面
+}
+
+function unregister() {
+    const username = document.getElementById("unregisterUsername").value;
+    const password = document.getElementById("unregisterPassword").value;
+
+    if (!username || !password) {
+        noty((username ? '' : '用户名') + ((username + password) ? '' : '和') + (password ? '' : '密码') + '不能为空');
+        return;
+    }
+
+    fetch("/auth/unregister", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "SUCCESS") {
+                noty("注销成功");
+            } else if (data.error === "WRONG")
+                noty("密码错误");
+            else if (data.error === "NOTEXIST")
+                noty("用户不存在");
+            else
+                noty("注销失败");
+        })
 }

@@ -49,3 +49,7 @@ a {
     color: #4CAF50;
     text-decoration: none;
 }
+
+p {
+    margin-block: 10px 0;
+}
