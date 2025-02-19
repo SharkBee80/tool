@@ -38,8 +38,6 @@ const store = multer.diskStorage({
         //cb(null, Date.now() + path.extname(file.originalname)); // 文件名
         // 生成新的文件名
         const newFilename = Date.now() + '_' + Math.random().toString(36).substring(2, 10) + extname;
-        // 将文件名中的中文字符进行编码转换
-        //const encodedFilename = iconv.encode(basename, 'utf8').toString('binary') + extname;
 
         cb(null, newFilename);
     }
