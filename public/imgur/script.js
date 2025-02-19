@@ -148,7 +148,7 @@ function zoomImage(imageId) {
             img.classList.remove('zoomed');
         }
     });
-    
+
     const image = document.getElementById(imageId);
     if (image) {
         image.classList.toggle('zoomed');
