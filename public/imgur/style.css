@@ -60,6 +60,7 @@ h1 {
     display: flex;
     width: calc(100% - 20px);
     align-items: center;
+    justify-content: space-between;
 }
 
 
@@ -81,8 +82,19 @@ h1 {
     margin-left: auto;
 }
 
+.img-container img.zoomed {
+    max-width: 90%;
+    width: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    cursor: pointer;
+}
+
+
 .img-container button {
-    margin-right: 0;
     padding: 5px;
     height: 30px;
     border-radius: 10px;

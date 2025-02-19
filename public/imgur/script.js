@@ -131,7 +131,7 @@ function update(data, method) {
                                 <p>图片链接: <a href="${img.path}">${img.path}</a></p>   
                                 <p>上传时间: ${img.uploadTime}</p>
                             </div>
-                            <img src="/imgur/${img.id}" alt="${img.originalname}" width='64'/>
+                            <img src="/imgur/${img.id}" alt="${img.originalname}" onclick="zoomImage('_${img.id}')" id='_${img.id}'/>
                             <button onclick="deleteImage('${img.id}')">删除</button>
                         </div>
                     `).join('')}
@@ -139,6 +139,33 @@ function update(data, method) {
             + ((method === 'POST') ? imageList.innerHTML : '');
     }).join('');
 }
+
+// 点击图片放大或缩小的函数
+function zoomImage(imageId) {
+    const images = document.querySelectorAll('img.zoomed');
+    images.forEach(function (img) {
+        if (img.id !== imageId) {
+            img.classList.remove('zoomed');
+        }
+    });
+    
+    const image = document.getElementById(imageId);
+    if (image) {
+        image.classList.toggle('zoomed');
+    }
+}
+
+// 点击页面其他区域时，取消所有图片的放大效果
+document.addEventListener('click', function (event) {
+    if (!event.target.matches('img')) {
+        const images = document.querySelectorAll('img.zoomed');
+        images.forEach(function (img) {
+            img.classList.remove('zoomed');
+        });
+    }
+});
+
+
 
 // 页面加载时检查是否已登录
 window.onload = () => {
