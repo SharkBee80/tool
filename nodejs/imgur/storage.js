@@ -105,13 +105,13 @@ async function saveImage(username, files) {
         } else {
             userEntry[username].push(file);
         }
-        if (!clearIntervalId) clear.startInterval(clearIntervalId, interval);
         return file;
     });
 
     // 写入文件
     fs.writeFileSync(database, JSON.stringify(data, null, 4));
-    return image;
+    if (!clearIntervalId) clear.startInterval(clearIntervalId, interval);
+    return {[username]: image};
 }
 
 function getImage(filename) {
@@ -179,7 +179,7 @@ function deleteImage(username, id) {
             fs.unlinkSync(path.join(CACHE_DIR, image.filename));
             // 保存更改后的数据
             fs.writeFileSync(database, JSON.stringify(data, null, 2));
-            return { success: true, message: '图片删除成功' };
+            return { success: true, message: '图片删除成功', image: image };
         }
     }
     return { error: '图片删除失败' };

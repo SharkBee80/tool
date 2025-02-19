@@ -14,7 +14,10 @@ module.exports = { router };
 // 获取消息 API
 router.get('/api', auth.authenticateH, (req, res) => {  // 需要验证 JWT
     const messages = storage.getUserMessage(req.user.username);
-    res.json(messages);
+
+    const result = filter(messages);
+
+    res.json(result);
 });
 
 // 获取图片 API
@@ -35,15 +38,7 @@ router.post('/api', auth.authenticateH, storage.upload.array('files', 10), async
         }
 
         let images = await storage.saveImage(req.user.username, req.files);
-        images = images.map(image => ({
-            id: image.id, // 文件ID
-            //filename: image.filename, // 临时文件名
-            originalname: image.originalname, // 原始文件名
-            uploadTime: image.uploadTime, // 上传时间
-            //size: image.size, // 文件大小
-            //mimetype: image.mimetype, // 文件类型
-            path: image.path, // 文件路径
-        }))
+        images = filter(images);
 
         res.status(200).json({ message: 'Files uploaded successfully!', images, success: true });
     } catch (error) {
@@ -58,3 +53,24 @@ router.delete('/api/:id', auth.authenticateH, (req, res) => {  // 需要验证 J
     const result = storage.deleteImage(req.user.username, id);
     res.status(200).json(result);
 })
+
+// 筛选
+function filter(messages) {
+    const result = {};
+    // 遍历对象的键
+    for (const key in messages) {
+        if (messages.hasOwnProperty(key)) {
+            // 提取每个键对应的数组中的 id、filename 和 path
+            result[key] = messages[key].map(item => ({
+                id: item.id,
+                //filename: item.filename,
+                originalname: item.originalname,
+                uploadTime: item.uploadTime,
+                //size: item.size,
+                //mimetype: item.mimetype,
+                path: item.path
+            }));
+        }
+    }
+    return result;
+}

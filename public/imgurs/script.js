@@ -31,7 +31,7 @@ function uploadImage() {
             if (data.success) {
                 noty('Image uploaded successfully');
                 //fetchImages();
-                updatePost(data.images);
+                update(data.images, 'POST');
             } else {
                 noty('Error uploading image');
             }
@@ -59,32 +59,7 @@ async function fetchImages() {
                 return;
             }
             noty('Image fetched successfully');
-            const userInfo = document.getElementById('userInfo');
-            const imageList = document.getElementById('imageList');
-            // 遍历所有用户（所有键）
-            const userEntries = Object.entries(data); // 返回 [userId, images] 的数组
-
-            // 渲染所有用户的图片
-            userEntries.map(([userId, images]) => {
-                userInfo.innerHTML = `User: ${userId}`;
-                // 反转图片数组以显示最新的图片在顶部
-                images.reverse();
-                imageList.innerHTML = images[0] ?
-                    `
-                        ${images.map(img => `
-                            <div class="img-container" id="${img.id}">
-                                <div class="text">        
-                                    <p>图片Id: <a href="/imgur/${img.id}">${img.id}</a></p>
-                                    <p>图片名: ${img.originalname}</p>
-                                    <p>图片链接: <a href="${img.path}">${img.path}</a></p>   
-                                    <p>上传时间: ${img.uploadTime}</p>
-                                </div>
-                                <img src="/imgur/${img.id}" alt="${img.originalname}" width='64'/>
-                                <button onclick="deleteImage('${img.id}')">删除</button>
-                            </div>
-                        `).join('')}
-                    ` : `<p id="noImage">No image found.</p>`;
-            }).join('');
+            update(data, 'GET');
         })
 }
 
@@ -125,23 +100,44 @@ function updateDelete(id) {
     element.remove();
 }
 
-function updatePost(images) {
+let userInfoId;
+function update(data, method) {
+    const userInfo = document.getElementById('userInfo');
     const imageList = document.getElementById('imageList');
-    images.reverse(); // 反转图片数组以显示最新的图片在顶部
-    imageList.innerHTML = `
-        ${images.map(img => `
-            <div class="img-container" id="${img.id}">
-                <div class="text">        
-                    <p>图片Id: <a href="/imgur/${img.id}">${img.id}</a></p>
-                    <p>图片名: ${img.originalname}</p>
-                    <p>图片链接: <a href="${img.path}">${img.path}</a></p>   
-                    <p>上传时间: ${img.uploadTime}</p>
-                </div>
-                <img src="/imgur/${img.id}" alt="${img.originalname}" width='64'/>
-                <button onclick="deleteImage('${img.id}')">删除</button>
-            </div>
-        `).join('')}
-        ` + imageList.innerHTML;
+    // 遍历所有用户（所有键）
+    const userEntries = Object.entries(data); // 返回 [userId, images] 的数组
+
+    // 渲染所有用户的图片
+    userEntries.map(([userId, images]) => {
+        if (!userInfoId) {
+            userInfoId = userId;
+            userInfo.innerHTML = `User: ${userId}`;
+        } else if (userInfoId !== userId) {
+            noty('User changed');
+            noty('刷新重试')
+            return;
+        }
+
+        // 反转图片数组以显示最新的图片在顶部
+        images.reverse();
+        imageList.innerHTML =
+            (images[0] ?
+                `
+                    ${images.map(img => `
+                        <div class="img-container" id="${img.id}">
+                            <div class="text">        
+                                <p>图片Id: <a href="/imgur/${img.id}">${img.id}</a></p>
+                                <p>图片名: ${img.originalname}</p>
+                                <p>图片链接: <a href="${img.path}">${img.path}</a></p>   
+                                <p>上传时间: ${img.uploadTime}</p>
+                            </div>
+                            <img src="/imgur/${img.id}" alt="${img.originalname}" width='64'/>
+                            <button onclick="deleteImage('${img.id}')">删除</button>
+                        </div>
+                    `).join('')}
+                ` : ((method === 'GET') ? (imageList.innerHTML + `<p id="noImage">No image found.</p>`) : ''))
+            + ((method === 'POST') ? imageList.innerHTML : '');
+    }).join('');
 }
 
 // 页面加载时检查是否已登录
