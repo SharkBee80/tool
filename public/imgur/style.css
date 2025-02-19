@@ -83,8 +83,8 @@ h1 {
 }
 
 .img-container img.zoomed {
-    max-width: 90%;
-    max-height: 90%;
+    max-width: calc(100vw - 1rem);
+    max-height: calc(100vh - 1rem);
     height: auto;
     position: absolute;
     top: 50%;
@@ -92,6 +92,7 @@ h1 {
     transform: translate(-50%, -50%);
     z-index: 1000;
     cursor: pointer;
+    margin-inline: auto;
 }
 
 
