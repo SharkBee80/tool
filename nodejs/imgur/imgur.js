@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../auth');
 const storage = require('./storage');
+const fs = require('fs');
+const path = require('path');
 
 /*
 const imgur = require('imgur');
@@ -23,7 +25,11 @@ router.get('/api', auth.authenticateH, (req, res) => {  // 需要验证 JWT
 // 获取图片 API
 router.get('/:filename', (req, res) => {
     const filename = req.params.filename;
-
+    const imgur_html = path.join(__dirname, '../../public/imgur');
+    if (!filename) return res.sendFile(path.join(imgur_html, 'index.html'));
+    if (fs.existsSync(path.join(imgur_html, filename))) {
+        return res.sendFile(path.join(imgur_html, filename));
+    }
     const imagePath = storage.getImage(filename);
     res.sendFile(imagePath);
 })

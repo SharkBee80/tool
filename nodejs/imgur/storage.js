@@ -111,16 +111,21 @@ async function saveImage(username, files) {
     // 写入文件
     fs.writeFileSync(database, JSON.stringify(data, null, 4));
     if (!clearIntervalId) clear.startInterval(clearIntervalId, interval);
-    return {[username]: image};
+    return { [username]: image };
 }
 
+// 根据文件名获取图片路径
 function getImage(filename) {
+    // 定义文件路径变量
     let filePath;
+    // 如果文件名没有扩展名
     if (!path.extname(filename)) {
         filename = getImageById(filename);
     }
+    // 将文件名与缓存目录拼接成文件路径
     filePath = path.join(CACHE_DIR, filename);
 
+    // 返回文件路径
     return filePath;
 }
 
