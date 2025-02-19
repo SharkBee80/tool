@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs');
 const express = require('express');
-const { time } = require('console');
 const router = express.Router();
 
 const config = {
