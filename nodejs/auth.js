@@ -57,6 +57,29 @@ router.post('/login', (req, res) => {
     }
 })
 
+// 删除用户
+router.delete('/unregister', (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return res.status(400).json({ error: (username ? '' : '用户名') + ((username + password) ? '' : '和') + (password ? '' : '密码') + '不能为空' });
+    }
+    try {
+        const user = users.find(u => u.username === username);
+        if (!user) {
+            throw new Error('NOTEXIST');
+        }
+        const isPasswordValid = bcrypt.compareSync(password, user.password);
+        if (!isPasswordValid) {
+            throw new Error('WRONG');
+        }
+        users = users.filter(u => u.username !== username);
+        saveUsers();
+        res.json({ message: 'SUCCESS' });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+})
+
 // 模拟的用户数据存储（实际应用中可以使用数据库）
 const users_file = path.join(__dirname, 'users.json');
 let users = getUsers();  // 初始化用户数据
