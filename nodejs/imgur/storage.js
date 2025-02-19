@@ -29,9 +29,18 @@ const store = multer.diskStorage({
         cb(null, 'cache/imgur/uploads'); // 文件存储目录 @:root/cache/imgur/uploads
     },
     filename: function (req, file, cb) {
+        // 将文件名转换为 UTF-8 编码
+        const extname = path.extname(file.originalname); // 获取文件扩展名
+        //const basename = path.basename(originalName, extname); // 获取文件名（不包含扩展名）
+
         //cb(null, Date.now() + '_' + file.originalname); // 文件名
         //cb(null, Date.now() + path.extname(file.originalname)); // 文件名
-        cb(null, Date.now() + '_' + Math.random().toString(36).substring(2, 8) + path.extname(file.originalname)); // 文件名
+        // 生成新的文件名
+        const newFilename = Date.now() + '_' + Math.random().toString(36).substring(2, 10) + extname;
+        // 将文件名中的中文字符进行编码转换
+        //const encodedFilename = iconv.encode(basename, 'utf8').toString('binary') + extname;
+
+        cb(null, newFilename);
     }
 });
 
@@ -184,7 +193,7 @@ function deleteImage(username, id) {
             fs.unlinkSync(path.join(CACHE_DIR, image.filename));
             // 保存更改后的数据
             fs.writeFileSync(database, JSON.stringify(data, null, 2));
-            return { success: true, message: '图片删除成功', image: image };
+            return { success: true, message: '图片删除成功', image:image };
         }
     }
     return { error: '图片删除失败' };

@@ -17,12 +17,14 @@ function uploadImage() {
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
         formData.append('files', files[i]); // 'files' 是后端接收的字段名
+        //formData.append(`fileNames`, files[i].name); // 添加文件名
+        //formData.append(`fileTypes`, files[i].type); // 添加文件类型
     }
 
     fetch('/imgur/api', {
         method: 'POST',
         headers: {
-            'fyk-auth-token': token
+            'fyk-auth-token': token,
         },
         body: formData
     })

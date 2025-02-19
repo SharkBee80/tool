@@ -57,17 +57,28 @@ router.post('/api', auth.authenticateH, storage.upload.array('files', 10), async
 router.delete('/api/:id', auth.authenticateH, (req, res) => {  // 需要验证 JWT
     const id = req.params.id;
     const result = storage.deleteImage(req.user.username, id);
+    
+    const item = result.image;
+    result.image = {
+        id: item.id, // 文件ID
+        //filename: item.filename, // 文件名
+        originalname: item.originalname, // 原始文件名
+        uploadTime: item.uploadTime, // 上传时间
+        //size: item.size, // 文件大小
+        //mimetype: item.mimetype, // 文件类型
+        path: item.path // 文件路径
+    }
     res.status(200).json(result);
 })
 
 // 筛选
-function filter(messages) {
+function filter(data) {
     const result = {};
     // 遍历对象的键
-    for (const key in messages) {
-        if (messages.hasOwnProperty(key)) {
+    for (const key in data) {
+        if (data.hasOwnProperty(key)) {
             // 提取每个键对应的数组中的 id、filename 和 path
-            result[key] = messages[key].map(item => ({
+            result[key] = data[key].map(item => ({
                 id: item.id,
                 //filename: item.filename,
                 originalname: item.originalname,
