@@ -104,6 +104,20 @@ router.put('/changePassword', (req, res) => {
     }
 })
 
+// 检查时效
+router.get('/check', (req, res) => {
+    const token = req.headers['fyk-auth-token'];
+    if (!token) {
+        return res.status(401).json({ error: 'NOAUTH' });
+    }
+    try {
+        const decoded = jwt.verify(token, config.secretKey);
+        res.json({ success: 'SUCCESS', user: decoded.username }); // 返回用户名
+    } catch (err) {
+        res.status(401).json({ error: 'EXPIRED' });
+    }
+})
+
 // 模拟的用户数据存储（实际应用中可以使用数据库）
 const users_file = path.join(__dirname, 'users.json');
 let users = getUsers();  // 初始化用户数据

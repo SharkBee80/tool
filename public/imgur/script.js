@@ -1,4 +1,4 @@
-function uploadImage() {
+async function uploadImage() {
     const fileInput = document.getElementById('fileInput');
     const files = fileInput.files;
     const token = localStorage.getItem('fyk-auth-token');
@@ -21,7 +21,7 @@ function uploadImage() {
         formData.append('files', file, encodedName); // 添加文件到 FormData
     }
 
-    fetch('/imgur/api', {
+    await fetch('/imgur/api', {
         method: 'POST',
         headers: {
             'fyk-auth-token': token,
@@ -67,7 +67,7 @@ async function fetchImages() {
         })
 }
 
-function deleteImage(id) {
+async function deleteImage(id) {
     if (!id) {
         noty('Please select an image to delete.');
         return;
@@ -79,7 +79,7 @@ function deleteImage(id) {
         return;
     }
 
-    fetch(`/imgur/api/${id}`, {
+    await fetch(`/imgur/api/${id}`, {
         method: 'DELETE',
         headers: {
             'fyk-auth-token': token
@@ -169,11 +169,39 @@ document.addEventListener('click', function (event) {
     }
 });
 
-
+// 检查auth
+async function isauth() {
+    const token = localStorage.getItem('fyk-auth-token');
+    if (token) {
+        await fetch('/auth/check', {
+            method: 'GET',
+            headers: {
+                'fyk-auth-token': token
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    //...
+                    return true;
+                } else if (data.error) {
+                    localStorage.removeItem('fyk-auth-token');
+                    //...
+                    return false;
+                } else return false;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                return false;
+            })
+    } else {
+        return false;
+    }
+}
 
 // 页面加载时检查是否已登录
 window.onload = () => {
-    if (localStorage.getItem('fyk-auth-token')) {
+    if (isauth()) {
         fetchImages();
     } else {
         noty('Not logged in');
