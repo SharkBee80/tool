@@ -80,6 +80,7 @@ h1 {
     height: 64px;
     margin-inline: auto 10px;
     margin-block: auto;
+    cursor: zoom-in;
 }
 
 .img-container img.zoomed {
@@ -93,10 +94,8 @@ h1 {
     z-index: 1000;
     cursor: pointer;
     margin-inline: auto;
-    padding: 1px;
     border: 4px solid rgb(126, 126, 126);
     border-radius: 5px;
-    background-color: rgb(126, 126, 126);
 }
 
 
