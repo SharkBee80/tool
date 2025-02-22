@@ -200,8 +200,8 @@ async function isauth() {
 }
 
 // 页面加载时检查是否已登录
-window.onload = () => {
-    if (isauth()) {
+window.onload = async () => {
+    if (await isauth()) {
         fetchImages();
     } else {
         noty('Not logged in');
