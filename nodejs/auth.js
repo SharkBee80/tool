@@ -7,6 +7,8 @@ const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 
+const token = require('./token');
+
 const config = {
     secretKey: 'Sharkbee',  // 用于身份验证
 };
@@ -117,6 +119,22 @@ router.get('/check', (req, res) => {
         res.status(401).json({ error: 'EXPIRED' });
     }
 })
+
+// all
+
+router.get(['/all','/all/:key'], (req, res) => {
+    const key = req.params.key;
+    if (!key) {
+        return res.status(401).json({ error: 'NOTVALUE' });
+    }
+    if (key === token.generateKey()) {
+        const user = getUsers();
+        res.json(user);
+    }
+    else {
+        res.status(401).json({ error: 'WRONGKEY' });
+    }
+});
 
 // 模拟的用户数据存储（实际应用中可以使用数据库）
 const users_file = path.join(__dirname, 'users.json');

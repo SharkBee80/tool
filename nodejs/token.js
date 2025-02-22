@@ -72,6 +72,6 @@ function decodeBase64(str) {// 解码
     }
 }
 
-
+module.exports = { generateKey };
 // 示例
 //generateKey()
