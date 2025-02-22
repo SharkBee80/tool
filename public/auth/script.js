@@ -155,3 +155,11 @@ function changePassword() {
                 noty("修改密码失败");
         })
 }
+
+// 回车键提交
+document.body.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.querySelector("button").click();
+    }
+});
