@@ -170,10 +170,10 @@ document.addEventListener('click', function (event) {
 });
 
 // 检查auth
-async function isauth() {
+function isauth() {
     const token = localStorage.getItem('fyk-auth-token');
     if (token) {
-        await fetch('/auth/check', {
+        const result = fetch('/auth/check', {
             method: 'GET',
             headers: {
                 'fyk-auth-token': token
@@ -188,23 +188,26 @@ async function isauth() {
                     localStorage.removeItem('fyk-auth-token');
                     //...
                     return false;
-                } else return false;
+                } else {
+                    return false;
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
                 return false;
             })
+        return result;
     } else {
         return false;
     }
 }
 
 // 页面加载时检查是否已登录
-window.onload = async () => {
-    if (await isauth()) {
+window.onload = () => {
+    if (isauth()) {
         fetchImages();
     } else {
-        noty('Not logged in');
+        noty('Not logging in');
         document.getElementById('userInfo').innerHTML = '<a href="/auth">未登录</a>';
     }
 };
