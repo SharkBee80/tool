@@ -181,7 +181,7 @@ async function mode2(req, res) {
         m3u8Content = m3u8Content.replace(/(https?:\/\/.*?\/|\/)?(.*?\.(ts|aac|mp4|webm|m4s|m4a))/gi, (match, base, segmentPath) => {
             console.log('base:', base, 'segmentPath:', segmentPath);
             //*
-            if (segmentPath.includes('#EXT-X-PREFETCH:')) { 
+            if (segmentPath.includes('#EXT-X-PREFETCH:')) {
                 //segmentPath = segmentPath.replace('#EXT-X-PREFETCH:', '');
                 return '';
             }
