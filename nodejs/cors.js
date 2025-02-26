@@ -297,14 +297,34 @@ function insertHeaderAtPosition(m3u8Content, header, value) {
 // 收集 M3U8 文件中的所有视频片段信息
 function collectSegments(m3u8Content, m3u8Url) {
     const segments = [];
-    const baseUrl = m3u8Url.substring(0, m3u8Url.lastIndexOf('/')) + '/'; // 提取 URL 的路径部分
+    
     m3u8Content.replace(/(https?:\/\/.*?\/|\/)?(.*?\.(ts|aac|mp4|webm|m4s|m4a))/gi, (match, base, segmentPath) => {
-        const url = (base ? base : baseUrl) + segmentPath;
+        //const url = (base ? base : baseUrl) + segmentPath;
+        if (base && base !== '/') {
+            url = base + segmentPath;
+        } 
+        else if (base && base === '/') {
+            const baseUrl = getDomainWithHttp(m3u8Url) + '/'; // 提取 URL 的路径部分
+            url = baseUrl + segmentPath;
+        }
+        else {
+            const baseUrl = m3u8Url.substring(0, m3u8Url.lastIndexOf('/')) + '/'; // 提取 URL 的路径部分
+            url = baseUrl + segmentPath;
+        }
+
+        //console.log('url:', url);
         const fileName = getFileName(url);
         segments.push({ url, fileName });
     });
     return segments;
 }
+
+// 获取m3u8Url域名，并加上http://前缀
+function getDomainWithHttp(m3u8Url) {
+    const match = m3u8Url.match(/^(https?:\/\/[^\/]+)/);
+    return match ? match[0] : null;
+}
+
 
 // 替换 M3U8 中的 URL 为占位符
 function replaceWithPlaceholders(m3u8Content, segments, host) {
