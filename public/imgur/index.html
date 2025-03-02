@@ -24,7 +24,10 @@
           <p>图片链接: <a>/imgur/114514.ico</a></p>
           <p>上传时间: 2000/01/01 11:45:14</p>
         </div>
-        <img src="../favicon.ico" alt="favicon.ico" loading="lazy" onclick="zoomImage('_${img.id}')" id='_${img.id}' />
+        <div class="img-box img-bg">
+          <img src="../favicon.ico" alt="favicon.ico" loading="lazy" onclick="zoomImage('_${img.id}')"
+            id='_${img.id}' />
+        </div>
         <button onclick="deleteImage()">删除</button>
       </div>
 

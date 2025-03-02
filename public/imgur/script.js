@@ -135,7 +135,9 @@ function update(data, method) {
                                 <p>图片链接: <a href="${img.path}">${img.path}</a></p>   
                                 <p>上传时间: ${img.uploadTime}</p>
                             </div>
-                            <img src="/imgur/${img.id}" alt="${img.originalname}" loading="lazy" onclick="zoomImage('_${img.id}')" id='_${img.id}'/>
+                            <div class="img-box img-bg">
+                                <img src="/imgur/${img.id}" alt="${img.originalname}" loading="lazy" onclick="zoomImage('_${img.id}')" id='_${img.id}'/>
+                            </div>
                             <button onclick="deleteImage('${img.id}')">删除</button>
                         </div>
                     `).join('')}
