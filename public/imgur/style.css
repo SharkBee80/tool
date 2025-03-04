@@ -77,7 +77,7 @@ h1 {
 
 .img-container .img-box {
     /* 容器样式 */
-    width: fit-content;
+    min-width: fit-content;
     padding: 0;
     margin-inline: auto 10px;
     margin-block: auto;
