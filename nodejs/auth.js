@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
 
 // 注册
 router.post('/register', (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, invitationCode } = req.body;
 
     if (!username || !password) {
         return res.status(400).json({ error: (username ? '' : '用户名') + ((username + password) ? '' : '和') + (password ? '' : '密码') + '不能为空' });
@@ -37,6 +37,10 @@ router.post('/register', (req, res) => {
     }
     if (password.length > 20) {
         return res.status(400).json({ error: '密码长度不能超过20个字符' });
+    }
+    // 邀请码
+    if (invitationCode && invitationCode !== '666') {
+        return res.status(400).json({ error: '邀请码错误' });
     }
     try {
         const result = register(username, password);  // 调用注册函数

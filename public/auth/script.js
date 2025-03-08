@@ -61,13 +61,19 @@ function register() {
         return;
     }
 
+    const invitationCode = document.getElementById("invitationCode").value;
+    if (!invitationCode) {
+        noty("请输入邀请码！");
+        return;
+    }
+
 
     fetch("/auth/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password, invitationCode })
     })
         .then(response => response.json())
         .then(data => {
@@ -80,6 +86,9 @@ function register() {
             }
             else if (data.error === "EXISTING") {
                 noty("用户已存在");
+            }
+            else if (data.error === "邀请码错误") {
+                noty("邀请码错误");
             }
             else {
                 noty("注册失败");
