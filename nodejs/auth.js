@@ -11,6 +11,7 @@ const token = require('./token');
 
 const config = {
     secretKey: 'Sharkbee',  // 用于身份验证
+    invitationCode: '666',  // 邀请码
 };
 
 /*
@@ -39,7 +40,7 @@ router.post('/register', (req, res) => {
         return res.status(400).json({ error: '密码长度不能超过20个字符' });
     }
     // 邀请码
-    if (invitationCode && invitationCode !== '666') {
+    if (invitationCode && invitationCode !== config.invitationCode) {
         return res.status(400).json({ error: '邀请码错误' });
     }
     try {
