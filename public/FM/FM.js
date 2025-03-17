@@ -7,8 +7,8 @@ const audioSources = [
     // 佛山电台 https://www.radiofoshan.com.cn/
     { fm: "924", name: "FM92.4-南海广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_42_audio.m3u8", img: "./img/924.jpg" },
     { fm: "946", name: "FM94.6-佛山综合广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_46_audio.m3u8", img: "./img/946.jpg" },
-    { fm: "883", name: "FM88.3-高明广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_43_audio.m3u8", img: "./img/883.jpg" },
-    //{ fm: "901", name: "FM90.1-顺德广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_44_audio.m3u8", img: "./img/901.jpg" },
+    //{ fm: "883", name: "FM88.3-高明广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_43_audio.m3u8", img: "./img/883.jpg" },
+    { fm: "901", name: "FM90.1-顺德广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_44_audio.m3u8", img: "./img/901.jpg" },
     //{ fm: "906", name: "FM90.6-三水广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_45_audio.m3u8", img: "./img/906.jpg" },
     //{ fm: "985", name: "FM98.5-佛山音乐广播", url: "https://radiopull.radiofoshan.com.cn/live/1400820947_BSID_41_audio.m3u8", img: "./img/985.jpg" },
     
