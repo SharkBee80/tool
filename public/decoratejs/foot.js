@@ -48,6 +48,8 @@
             <a class='i'>|</a>
             <a target="_blank" href="/outside.html">外链</a>
             <a class='i'>|</a>
+            <a target="_blank" href="/auth">登录</a>
+            <a class='i'>|</a>
             <a target="_blank" href="https://github.com/SharkBee80/tool">GitHub</a>
             <br>
             <a>© SharkBee80.</a>
