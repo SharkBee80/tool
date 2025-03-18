@@ -89,13 +89,13 @@ h1 {
     /* 透明棋盘格背景定义 */
     --grid-background:
         linear-gradient(0deg,
-            #ddd 25%, transparent 25%, transparent 75%, #ddd 75%),
+            #fff 25%, transparent 25%, transparent 75%, #fff 75%),
         linear-gradient(90deg,
-            #ddd 25%, transparent 25%, transparent 75%, #ddd 75%);
+            #fff 25%, transparent 25%, transparent 75%, white 75%);
 
     background:
         var(--grid-background),
-        white;
+        #ddd;
     background-size: 16px 16px;
     background-position:
         0px 0px,
