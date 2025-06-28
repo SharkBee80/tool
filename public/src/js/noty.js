@@ -77,6 +77,8 @@ function noty(message, color, backgroundColor) {
     // 5 秒后开始消失动画（向上滑动）
     setTimeout(() => {
         notification.classList.add('fade-out');
+        notification.style.transform = ''
+        notification.style.opacity = ''
         setTimeout(() => {
             notification.remove();
             notifications.shift(); // 从队列中移除
